@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import GlobalStyle from 'theme/GlobalStyle';
+// import GlobalStyle from 'theme/GlobalStyle';
 
 const StyledH1 = styled.h1`
   color: red;
