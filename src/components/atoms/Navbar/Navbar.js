@@ -9,18 +9,29 @@ const StyledWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   padding: 20px 20px;
   background-color: ${({ theme }) => theme.main};
   box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.16);
 `;
 
+const StyledNav = styled.nav`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
+
+const StyledMenu = styled.img`
+  width: 57px;
+`;
+
 const Navbar = () => (
   <StyledWrapper>
-    <img src={logo} alt="logo" />
-    <img src={menuIcon} alt="menu" />
+    <StyledNav>
+      <img src={logo} alt="logo" />
+      <StyledMenu src={menuIcon} alt="menu" />
+    </StyledNav>
   </StyledWrapper>
 );
 

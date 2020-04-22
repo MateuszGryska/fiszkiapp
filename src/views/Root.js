@@ -1,12 +1,12 @@
 import React from 'react';
 // import styled from 'styled-components';
-import Navbar from 'components/atoms/Navbar/Navbar';
 import MainTemplate from 'templates/MainTemplate';
+import FlashcardsPage from './FlashcardsPage';
 
-const App = () => (
+const Root = () => (
   <MainTemplate>
-    <Navbar />
+    <FlashcardsPage />
   </MainTemplate>
 );
 
-export default App;
+export default Root;
