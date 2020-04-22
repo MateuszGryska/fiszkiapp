@@ -23,7 +23,7 @@ const StyledNav = styled.nav`
 `;
 
 const StyledMenu = styled.img`
-  width: 57px;
+  width: 47px;
 `;
 
 const Navbar = () => (

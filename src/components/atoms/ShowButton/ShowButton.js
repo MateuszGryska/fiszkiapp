@@ -4,7 +4,7 @@ const ShowButton = styled.button`
   background: none;
   border: none;
   color: ${({ theme }) => theme.showButton};
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.bold};
   font-style: italic;
   cursor: pointer;
 
