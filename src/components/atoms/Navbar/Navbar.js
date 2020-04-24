@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import menuIcon from 'assets/icons/menu-icon.svg';
+import menuIcon from 'assets/icons/menu.svg';
 import logo from 'assets/icons/logo.svg';
 
 const StyledWrapper = styled.div`
@@ -24,17 +25,29 @@ const StyledNav = styled.nav`
   width: 100%;
 `;
 
-const StyledMenu = styled.img`
+const StyledMenu = styled.button`
+  display: block;
   width: 47px;
+  height: 47px;
+  background-image: url(${menuIcon});
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-position: 50% 50%;
+  background-size: 100% 70%;
+  border: none;
+  cursor: pointer;
 `;
 
-const Navbar = () => (
+const Navbar = ({ handleOpen }) => (
   <StyledWrapper>
     <StyledNav>
       <img src={logo} alt="logo" />
-      <StyledMenu src={menuIcon} alt="menu" />
+      <StyledMenu onClick={() => handleOpen()} />
     </StyledNav>
   </StyledWrapper>
 );
 
+Navbar.propTypes = {
+  handleOpen: PropTypes.func.isRequired,
+};
 export default Navbar;

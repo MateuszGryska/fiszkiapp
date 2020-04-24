@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import backArrow from 'assets/icons/back-arrow.svg';
 import { NavLink } from 'react-router-dom';
@@ -18,6 +19,8 @@ const StyledWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transform: translate(${({ isVisible }) => (isVisible ? '0' : '100%')});
+  transition: transform 0.4s ease-in-out;
 `;
 
 const StyledButton = styled.button`
@@ -67,9 +70,9 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
-const Menubar = () => (
-  <StyledWrapper>
-    <StyledButton />
+const Menubar = ({ isVisible, handleClose }) => (
+  <StyledWrapper isVisible={isVisible}>
+    <StyledButton onClick={() => handleClose()} />
     <StyledLinkList>
       <li>
         <StyledNavLink exact to="/" activeclass="active">
@@ -89,5 +92,14 @@ const Menubar = () => (
     </StyledLinkList>
   </StyledWrapper>
 );
+
+Menubar.propTypes = {
+  isVisible: PropTypes.bool,
+  handleClose: PropTypes.func.isRequired,
+};
+
+Menubar.defaultProps = {
+  isVisible: false,
+};
 
 export default Menubar;

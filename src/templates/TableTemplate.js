@@ -20,7 +20,7 @@ const StyledInput = styled(Input)`
 const TableTemplate = () => (
   <UserPageTemplate>
     <StyledWrapper>
-      <Title>Table</Title>
+      <Title>Words list</Title>
       <StyledInput search placeholder="Search" />
       <Table />
     </StyledWrapper>
