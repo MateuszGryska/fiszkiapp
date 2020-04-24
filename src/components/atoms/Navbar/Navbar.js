@@ -9,9 +9,11 @@ const StyledWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  padding: 20px 20px;
+  right: 0;
+  padding: 20px 30px;
   background-color: ${({ theme }) => theme.main};
   box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.16);
+  z-index: 99;
 `;
 
 const StyledNav = styled.nav`

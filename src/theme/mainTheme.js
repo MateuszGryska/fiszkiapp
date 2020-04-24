@@ -2,6 +2,7 @@ export const theme = {
   main: 'rgb(104, 163, 86)',
   input: 'rgb(242, 242, 242)',
   showButton: 'rgb(86, 110, 163)',
+  greyButton: 'rgba(186,186,186,.84)',
   black: 'rgb(0, 0, 0)',
   white: 'rgb(255, 255, 255)',
   fontGrey: 'rgba(74, 63, 63, 0.84)',

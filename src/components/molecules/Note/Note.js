@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import ShowButton from 'components/atoms/ShowButton/ShowButton';
+import ActionButton from 'components/atoms/ActionButton/ActionButton';
 
 const StyledWrapper = styled.div`
   background: ${({ theme }) => theme.white};
@@ -19,14 +21,42 @@ const StyledTitle = styled.div`
   height: 50px;
   background-color: ${({ theme }) => theme.main};
   border-radius: 20px 20px 0 0;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: ${({ theme }) => theme.white};
   font-size: ${({ theme }) => theme.fontSize.m};
 `;
 
+const StyledParagraph = styled.p`
+  padding-top: 50px;
+  margin: 0;
+  font-size: ${({ theme }) => theme.fontSize.s};
+`;
+
+const StyledShowButton = styled(ShowButton)`
+  padding: 0;
+  margin-top: 20px;
+  font-size: ${({ theme }) => theme.fontSize.s};
+`;
+
+const StyledActionButtons = styled.div`
+  position: absolute;
+  bottom: 20px;
+  left: 30px;
+`;
 const Note = () => (
   <StyledWrapper>
     <StyledTitle>Title for note</StyledTitle>
+    <StyledParagraph>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vitae urna purus.
+      Praesent lectus velit…
+    </StyledParagraph>
+    <StyledShowButton>Show more</StyledShowButton>
+    <StyledActionButtons>
+      <ActionButton secondary>Edit</ActionButton>
+      <ActionButton>Remove</ActionButton>
+    </StyledActionButtons>
   </StyledWrapper>
 );
 

@@ -14,11 +14,12 @@ const GlobalStyle = createGlobalStyle`
   }
   
   body {
+    overflow-x: hidden;
+    overflow-y: scroll;
     font-size: 1.6rem;
     font-family: "Montserrat", sans-serif;
     padding: 0;
     margin: 0;
-    
   }
 `;
 
