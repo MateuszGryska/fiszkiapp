@@ -10,6 +10,7 @@ const ActionButton = styled.button`
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-right: 10px;
+  cursor: pointer;
 
   ${({ secondary }) =>
     secondary &&

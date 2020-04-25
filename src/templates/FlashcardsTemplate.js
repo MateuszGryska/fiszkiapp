@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Title from 'components/atoms/Title/Title';
 import styled from 'styled-components';
 import Button from 'components/atoms/Button/Button';
@@ -32,6 +34,7 @@ const StyledShowButton = styled(ShowButton)`
 class FlashcardsTemplate extends Component {
   state = {
     isSmallerWordVisible: false,
+    stateRandom: 0,
   };
 
   showSmallerWord = () => {
@@ -40,20 +43,49 @@ class FlashcardsTemplate extends Component {
     }));
   };
 
+  pickNewWord = (length) => {
+    const { stateRandom } = this.state;
+    let random = Math.floor(Math.random() * length + 0);
+    if (random === stateRandom) {
+      random = Math.floor(Math.random() * length + 0);
+    }
+    this.setState({
+      stateRandom: random,
+      isSmallerWordVisible: false,
+    });
+  };
+
   render() {
-    const { isSmallerWordVisible } = this.state;
+    const { isSmallerWordVisible, stateRandom } = this.state;
+    const { words } = this.props;
     return (
       <UserPageTemplate>
         <StyledWrapper>
           <Title>Flashcards</Title>
-          <StyledBiggerWord>First</StyledBiggerWord>
-          <StyledSmallerWord isVisible={isSmallerWordVisible}>Pierwszy</StyledSmallerWord>
+          <StyledBiggerWord>{words[stateRandom].english}</StyledBiggerWord>
+          <StyledSmallerWord isVisible={isSmallerWordVisible}>
+            {words[stateRandom].polish}
+          </StyledSmallerWord>
           <StyledShowButton onClick={this.showSmallerWord}>Show</StyledShowButton>
-          <Button>NEW WORD</Button>
+          <Button onClick={() => this.pickNewWord(words.length)}>NEW WORD</Button>
         </StyledWrapper>
       </UserPageTemplate>
     );
   }
 }
 
-export default FlashcardsTemplate;
+FlashcardsTemplate.propTypes = {
+  words: PropTypes.arrayOf(
+    PropTypes.shape({
+      polish: PropTypes.string.isRequired,
+      english: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+};
+
+const mapStateToProps = (state) => {
+  const { words } = state;
+  return { words };
+};
+
+export default connect(mapStateToProps)(FlashcardsTemplate);
