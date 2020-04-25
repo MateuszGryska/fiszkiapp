@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ShowButton from 'components/atoms/ShowButton/ShowButton';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
@@ -45,12 +46,12 @@ const StyledActionButtons = styled.div`
   bottom: 20px;
   left: 30px;
 `;
-const Note = () => (
+const Note = ({ title, content, created }) => (
   <StyledWrapper>
-    <StyledTitle>Title for note</StyledTitle>
+    <StyledTitle>{title}</StyledTitle>
     <StyledParagraph>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vitae urna purus.
-      Praesent lectus velit…
+      {content}
+      {created}
     </StyledParagraph>
     <StyledShowButton>Show more</StyledShowButton>
     <StyledActionButtons>
@@ -59,5 +60,11 @@ const Note = () => (
     </StyledActionButtons>
   </StyledWrapper>
 );
+
+Note.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  created: PropTypes.string.isRequired,
+};
 
 export default Note;
