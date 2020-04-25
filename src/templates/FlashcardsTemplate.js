@@ -34,7 +34,7 @@ const StyledShowButton = styled(ShowButton)`
 class FlashcardsTemplate extends Component {
   state = {
     isSmallerWordVisible: false,
-    stateRandom: 0,
+    flashcardPosition: 0,
   };
 
   showSmallerWord = () => {
@@ -44,27 +44,27 @@ class FlashcardsTemplate extends Component {
   };
 
   pickNewWord = (length) => {
-    const { stateRandom } = this.state;
+    const { flashcardPosition } = this.state;
     let random = Math.floor(Math.random() * length + 0);
-    if (random === stateRandom) {
+    if (random === flashcardPosition) {
       random = Math.floor(Math.random() * length + 0);
     }
     this.setState({
-      stateRandom: random,
+      flashcardPosition: random,
       isSmallerWordVisible: false,
     });
   };
 
   render() {
-    const { isSmallerWordVisible, stateRandom } = this.state;
+    const { isSmallerWordVisible, flashcardPosition } = this.state;
     const { words } = this.props;
     return (
       <UserPageTemplate>
         <StyledWrapper>
           <Title>Flashcards</Title>
-          <StyledBiggerWord>{words[stateRandom].english}</StyledBiggerWord>
+          <StyledBiggerWord>{words[flashcardPosition].english}</StyledBiggerWord>
           <StyledSmallerWord isVisible={isSmallerWordVisible}>
-            {words[stateRandom].polish}
+            {words[flashcardPosition].polish}
           </StyledSmallerWord>
           <StyledShowButton onClick={this.showSmallerWord}>Show</StyledShowButton>
           <Button onClick={() => this.pickNewWord(words.length)}>NEW WORD</Button>

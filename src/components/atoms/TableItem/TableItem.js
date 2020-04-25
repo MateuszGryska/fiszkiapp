@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import editIcon from 'assets/icons/edit-icon.svg';
 import deleteIcon from 'assets/icons/delete-icon.svg';
+import { removeItem as removeItemAction } from 'actions';
 
 const StyledActions = styled.td`
   display: flex;
@@ -31,22 +33,28 @@ const StyledButton = styled.button`
     `}
 `;
 
-const TableItem = ({ polish, english }) => (
+const TableItem = ({ polish, english, id, removeItem }) => (
   <>
     <tr>
       <td>{polish}</td>
       <td>{english}</td>
       <StyledActions>
         <StyledButton secondary />
-        <StyledButton />
+        <StyledButton onClick={() => removeItem('words', id)} />
       </StyledActions>
     </tr>
   </>
 );
 
 TableItem.propTypes = {
+  id: PropTypes.number.isRequired,
   polish: PropTypes.string.isRequired,
   english: PropTypes.string.isRequired,
+  removeItem: PropTypes.func.isRequired,
 };
 
-export default TableItem;
+const mapDispatchToProps = (dispatch) => ({
+  removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
+});
+
+export default connect(null, mapDispatchToProps)(TableItem);
