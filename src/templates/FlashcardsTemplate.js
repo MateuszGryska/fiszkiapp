@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Title from 'components/atoms/Title/Title';
 import styled from 'styled-components';
 import Button from 'components/atoms/Button/Button';
@@ -18,9 +18,10 @@ const StyledBiggerWord = styled.h1`
   font-size: ${({ theme }) => theme.fontSize.xl};
 `;
 
-const StyledSmallerWord = styled.h1`
+const StyledSmallerWord = styled.h2`
   font-size: ${({ theme }) => theme.fontSize.m};
   margin: 0;
+  opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
 `;
 
 const StyledShowButton = styled(ShowButton)`
@@ -28,16 +29,31 @@ const StyledShowButton = styled(ShowButton)`
   margin-bottom: 100px;
 `;
 
-const FlashcardsTemplate = () => (
-  <UserPageTemplate>
-    <StyledWrapper>
-      <Title>Flashcards</Title>
-      <StyledBiggerWord>First</StyledBiggerWord>
-      <StyledSmallerWord>Pierwszy</StyledSmallerWord>
-      <StyledShowButton>Show</StyledShowButton>
-      <Button>NEW WORD</Button>
-    </StyledWrapper>
-  </UserPageTemplate>
-);
+class FlashcardsTemplate extends Component {
+  state = {
+    isSmallerWordVisible: false,
+  };
+
+  showSmallerWord = () => {
+    this.setState((prevState) => ({
+      isSmallerWordVisible: !prevState.isSmallerWordVisible,
+    }));
+  };
+
+  render() {
+    const { isSmallerWordVisible } = this.state;
+    return (
+      <UserPageTemplate>
+        <StyledWrapper>
+          <Title>Flashcards</Title>
+          <StyledBiggerWord>First</StyledBiggerWord>
+          <StyledSmallerWord isVisible={isSmallerWordVisible}>Pierwszy</StyledSmallerWord>
+          <StyledShowButton onClick={this.showSmallerWord}>Show</StyledShowButton>
+          <Button>NEW WORD</Button>
+        </StyledWrapper>
+      </UserPageTemplate>
+    );
+  }
+}
 
 export default FlashcardsTemplate;
