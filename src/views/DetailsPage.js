@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DetailsTemplate from 'templates/DetailsTemplate';
+import withContext from 'hoc/withContext';
 
 class DetailsPage extends Component {
   state = {
@@ -38,8 +39,8 @@ DetailsTemplate.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    activeItem: state.notes.filter((item) => item.id === ownProps.match.params.id),
+    activeItem: state[ownProps.pageContext].filter((item) => item.id === ownProps.match.params.id),
   };
 };
 
-export default connect(mapStateToProps)(DetailsPage);
+export default withContext(connect(mapStateToProps)(DetailsPage));

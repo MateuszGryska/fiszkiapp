@@ -11,8 +11,8 @@ import DetailsPage from './DetailsPage';
 
 const Root = () => (
   <Provider store={store}>
-    <MainTemplate>
-      <BrowserRouter>
+    <BrowserRouter>
+      <MainTemplate>
         <Switch>
           <Route exact path={routes.home} render={() => <Redirect to="/flashcards" />} />
           <Route path={routes.flashcards} component={FlashcardsPage} />
@@ -22,8 +22,8 @@ const Root = () => (
           <Route path={routes.word} component={DetailsPage} />
         </Switch>
         <Route path={routes.note} component={DetailsPage} />
-      </BrowserRouter>
-    </MainTemplate>
+      </MainTemplate>
+    </BrowserRouter>
   </Provider>
 );
 

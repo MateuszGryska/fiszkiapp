@@ -24,6 +24,7 @@ const AddButton = styled.button`
   background-size: 100% 100%;
   border: none;
   cursor: pointer;
+  outline: none;
 `;
 
 class UserPageTemplate extends Component {
@@ -31,6 +32,7 @@ class UserPageTemplate extends Component {
     super(props);
     this.state = {
       isMenubarVisible: false,
+      isNewItemBarVisible: false,
     };
   }
 
@@ -40,17 +42,23 @@ class UserPageTemplate extends Component {
     }));
   };
 
+  toggleNewItemBarVisible = () => {
+    this.setState((prevState) => ({
+      isNewItemBarVisible: !prevState.isNewItemBarVisible,
+    }));
+  };
+
   render() {
     const { children } = this.props;
-    const { isMenubarVisible } = this.state;
+    const { isMenubarVisible, isNewItemBarVisible } = this.state;
 
     return (
       <StyledWrapper>
         <Navbar handleOpen={this.toggleMenuBarVisible} />
         <Menubar isVisible={isMenubarVisible} handleClose={this.toggleMenuBarVisible} />
         {children}
-        <AddButton />
-        <NewItemBar />
+        <AddButton onClick={this.toggleNewItemBarVisible} />
+        <NewItemBar isVisible={isNewItemBarVisible} handleClose={this.toggleNewItemBarVisible} />
       </StyledWrapper>
     );
   }

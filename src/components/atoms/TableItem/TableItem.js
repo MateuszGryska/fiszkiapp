@@ -49,7 +49,7 @@ const TableItem = ({ polish, english, id, removeItem }) => (
 );
 
 TableItem.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   polish: PropTypes.string.isRequired,
   english: PropTypes.string.isRequired,
   removeItem: PropTypes.func.isRequired,

@@ -15,7 +15,7 @@ const TablePage = ({ words }) => (
 TablePage.propTypes = {
   words: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
       polish: PropTypes.string.isRequired,
       english: PropTypes.string.isRequired,
     }),
