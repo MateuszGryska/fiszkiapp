@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import ShowButton from 'components/atoms/ShowButton/ShowButton';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
+import { removeItem as removeItemAction } from 'actions';
+
+const notes = 'notes';
 
 const StyledWrapper = styled.div`
   background: ${({ theme }) => theme.white};
@@ -31,40 +35,40 @@ const StyledTitle = styled.div`
 
 const StyledParagraph = styled.p`
   padding-top: 50px;
-  margin: 0;
-  font-size: ${({ theme }) => theme.fontSize.s};
-`;
-
-const StyledShowButton = styled(ShowButton)`
-  padding: 0;
-  margin-top: 20px;
+  margin-bottom: 20px;
   font-size: ${({ theme }) => theme.fontSize.s};
 `;
 
 const StyledActionButtons = styled.div`
   position: absolute;
+  display: flex;
+  flex-direction: row;
   bottom: 20px;
   left: 30px;
 `;
-const Note = ({ title, content, created }) => (
+const Note = ({ title, content, id, removeItem }) => (
   <StyledWrapper>
     <StyledTitle>{title}</StyledTitle>
-    <StyledParagraph>
-      {content}
-      {created}
-    </StyledParagraph>
-    <StyledShowButton>Show more</StyledShowButton>
+    <StyledParagraph>{content}</StyledParagraph>
+    <ShowButton secondary="true" to={`notes/${id}`}>
+      Show more
+    </ShowButton>
     <StyledActionButtons>
       <ActionButton secondary>Edit</ActionButton>
-      <ActionButton>Remove</ActionButton>
+      <ActionButton onClick={() => removeItem(notes, id)}>Remove</ActionButton>
     </StyledActionButtons>
   </StyledWrapper>
 );
 
 Note.propTypes = {
+  id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  created: PropTypes.string.isRequired,
+  removeItem: PropTypes.func.isRequired,
 };
 
-export default Note;
+const mapDispatchToProps = (dispatch) => ({
+  removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
+});
+
+export default connect(null, mapDispatchToProps)(Note);

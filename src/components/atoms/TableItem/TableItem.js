@@ -6,6 +6,8 @@ import editIcon from 'assets/icons/edit-icon.svg';
 import deleteIcon from 'assets/icons/delete-icon.svg';
 import { removeItem as removeItemAction } from 'actions';
 
+const words = 'words';
+
 const StyledActions = styled.td`
   display: flex;
   flex-direction: row;
@@ -40,7 +42,7 @@ const TableItem = ({ polish, english, id, removeItem }) => (
       <td>{english}</td>
       <StyledActions>
         <StyledButton secondary />
-        <StyledButton onClick={() => removeItem('words', id)} />
+        <StyledButton onClick={() => removeItem(words, id)} />
       </StyledActions>
     </tr>
   </>

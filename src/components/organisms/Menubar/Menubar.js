@@ -25,8 +25,8 @@ const StyledWrapper = styled.div`
 
 const StyledButton = styled.button`
   position: absolute;
-  top: 10px;
-  left: 15px;
+  top: 15px;
+  left: 30px;
   border: none;
   width: 20px;
   height: 30px;
@@ -70,27 +70,42 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
+const StyledBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 999;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.5;
+  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+`;
+
 const Menubar = ({ isVisible, handleClose }) => (
-  <StyledWrapper isVisible={isVisible}>
-    <StyledButton onClick={() => handleClose()} />
-    <StyledLinkList>
-      <li>
-        <StyledNavLink exact to="/" activeclass="active">
-          flashcards
-        </StyledNavLink>
-      </li>
-      <li>
-        <StyledNavLink to="/table" activeclass="active">
-          words list
-        </StyledNavLink>
-      </li>
-      <li>
-        <StyledNavLink to="/notes" activeclass="active">
-          notes
-        </StyledNavLink>
-      </li>
-    </StyledLinkList>
-  </StyledWrapper>
+  <>
+    <StyledWrapper isVisible={isVisible}>
+      <StyledButton onClick={() => handleClose()} />
+      <StyledLinkList>
+        <li>
+          <StyledNavLink exact to="/flashcards" activeclass="active">
+            flashcards
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/words" activeclass="active">
+            words list
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/notes" activeclass="active">
+            notes
+          </StyledNavLink>
+        </li>
+      </StyledLinkList>
+    </StyledWrapper>
+    <StyledBackground isVisible={isVisible} />
+  </>
 );
 
 Menubar.propTypes = {
