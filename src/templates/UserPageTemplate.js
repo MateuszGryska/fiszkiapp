@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Navbar from 'components/atoms/Navbar/Navbar';
 import PropTypes from 'prop-types';
 import Menubar from 'components/organisms/Menubar/Menubar';
+import NewItemBar from 'components/organisms/NewItemBar/NewItemBar';
 import addIcon from 'assets/icons/add-icon.svg';
 
 const StyledWrapper = styled.div`
@@ -49,6 +50,7 @@ class UserPageTemplate extends Component {
         <Menubar isVisible={isMenubarVisible} handleClose={this.toggleMenuBarVisible} />
         {children}
         <AddButton />
+        <NewItemBar />
       </StyledWrapper>
     );
   }
