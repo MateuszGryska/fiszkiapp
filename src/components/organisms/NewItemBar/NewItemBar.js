@@ -2,9 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import backArrow from 'assets/icons/back-arrow.svg';
 import Input from 'components/atoms/Input/Input';
+import { connect } from 'react-redux';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
 import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
+import { addItem as addItemAction } from 'actions';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -61,14 +63,19 @@ const StyledActionButton = styled(ActionButton)`
   margin-top: 20px;
 `;
 
-const NewItemBar = ({ handleClose, isVisible, pageContext }) => (
+const NewItemBar = ({ handleClose, isVisible, pageContext, addItem }) => (
   <StyledWrapper isVisible={isVisible}>
     <StyledButton onClick={() => handleClose()} />
     <StyledTitle>Add new {pageContext === 'notes' ? 'note' : 'word'}</StyledTitle>
     <Formik
-      initialValues={{ title: '', content: '' }}
+      initialValues={{ title: '', content: '', polish: '', english: '' }}
       onSubmit={(values) => {
-        console.log(values);
+        if (pageContext === 'words' || pageContext === 'flashcards') {
+          addItem('words', values);
+        } else {
+          addItem(pageContext, values);
+        }
+
         handleClose();
       }}
     >
@@ -96,7 +103,7 @@ const NewItemBar = ({ handleClose, isVisible, pageContext }) => (
             </>
           ) : null}
 
-          {pageContext === 'words' ? (
+          {pageContext === 'words' || pageContext === 'flashcards' ? (
             <>
               <StyledInput
                 type="text"
@@ -104,7 +111,7 @@ const NewItemBar = ({ handleClose, isVisible, pageContext }) => (
                 placeholder="polish"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.title}
+                value={values.polish}
               />
               <StyledInput
                 type="text"
@@ -112,7 +119,7 @@ const NewItemBar = ({ handleClose, isVisible, pageContext }) => (
                 placeholder="english"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.content}
+                value={values.english}
               />{' '}
             </>
           ) : null}
@@ -125,4 +132,8 @@ const NewItemBar = ({ handleClose, isVisible, pageContext }) => (
   </StyledWrapper>
 );
 
-export default withContext(NewItemBar);
+const mapDispatchToProps = (dispatch) => ({
+  addItem: (itemType, itemContent) => dispatch(addItemAction(itemType, itemContent)),
+});
+
+export default withContext(connect(null, mapDispatchToProps)(NewItemBar));

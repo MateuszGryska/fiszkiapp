@@ -41,10 +41,10 @@ const StyledContent = styled.p`
   font-weight: ${({ theme }) => theme.light};
   margin-bottom: 50px;
 `;
-const DetailsTemplate = ({ title, content, created }) => (
+const DetailsTemplate = ({ title, content, created, isVisible }) => (
   <UserPageTemplate>
     <>
-      <StyledWrapper>
+      <StyledWrapper isVisible={isVisible}>
         <StyledTitle>{title}</StyledTitle>
         <DataInfo>{created}</DataInfo>
         <StyledContent>{content}</StyledContent>

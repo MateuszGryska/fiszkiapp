@@ -11,20 +11,25 @@ class DetailsPage extends Component {
       content: '',
       created: '',
     },
+    isVisible: false,
   };
 
   componentDidMount() {
     if (this.props.activeItem) {
       const [activeItem] = this.props.activeItem;
-      this.setState({ activeItem });
+      this.setState({
+        activeItem,
+        isVisible: true,
+      });
     }
   }
 
   render() {
-    const { activeItem } = this.state;
+    const { activeItem, isVisible } = this.state;
 
     return (
       <DetailsTemplate
+        isVisible={isVisible}
         title={activeItem.title}
         content={activeItem.content}
         created={activeItem.created}
