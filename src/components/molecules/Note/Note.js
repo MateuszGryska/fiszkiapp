@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import EditItemBar from 'components/organisms/EditItemBar/EditItemBar';
 import styled from 'styled-components';
 import ShowButton from 'components/atoms/ShowButton/ShowButton';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
@@ -46,19 +47,45 @@ const StyledActionButtons = styled.div`
   bottom: 20px;
   left: 30px;
 `;
-const Note = ({ title, content, id, removeItem }) => (
-  <StyledWrapper>
-    <StyledTitle>{title}</StyledTitle>
-    <StyledParagraph>{content}</StyledParagraph>
-    <ShowButton secondary="true" to={`notes/${id}`}>
-      Show more
-    </ShowButton>
-    <StyledActionButtons>
-      <ActionButton secondary>Edit</ActionButton>
-      <ActionButton onClick={() => removeItem(notes, id)}>Remove</ActionButton>
-    </StyledActionButtons>
-  </StyledWrapper>
-);
+
+class Note extends Component {
+  state = {
+    isEditItemBarVisible: false,
+  };
+
+  toggleEditItemBarVisible = () => {
+    this.setState((prevState) => ({
+      isEditItemBarVisible: !prevState.isEditItemBarVisible,
+    }));
+  };
+
+  render() {
+    const { title, content, id, removeItem } = this.props;
+    const { isEditItemBarVisible } = this.state;
+
+    return (
+      <StyledWrapper>
+        <StyledTitle>{title}</StyledTitle>
+        <StyledParagraph>{content}</StyledParagraph>
+        <ShowButton secondary="true" to={`notes/${id}`}>
+          Show more
+        </ShowButton>
+        <StyledActionButtons>
+          <ActionButton secondary onClick={this.toggleEditItemBarVisible}>
+            Edit
+          </ActionButton>
+          <ActionButton onClick={() => removeItem(notes, id)}>Remove</ActionButton>
+        </StyledActionButtons>
+        <EditItemBar
+          title={title}
+          content={content}
+          isVisible={isEditItemBarVisible}
+          handleClose={this.toggleEditItemBarVisible}
+        />
+      </StyledWrapper>
+    );
+  }
+}
 
 Note.propTypes = {
   id: PropTypes.string.isRequired,

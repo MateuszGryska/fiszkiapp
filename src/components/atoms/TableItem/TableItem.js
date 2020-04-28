@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
+import EditItemBar from 'components/organisms/EditItemBar/EditItemBar';
 import editIcon from 'assets/icons/edit-icon.svg';
 import deleteIcon from 'assets/icons/delete-icon.svg';
 import { removeItem as removeItemAction } from 'actions';
@@ -35,18 +36,41 @@ const StyledButton = styled.button`
     `}
 `;
 
-const TableItem = ({ polish, english, id, removeItem }) => (
-  <>
-    <tr>
-      <td>{polish}</td>
-      <td>{english}</td>
-      <StyledActions>
-        <StyledButton secondary />
-        <StyledButton onClick={() => removeItem(words, id)} />
-      </StyledActions>
-    </tr>
-  </>
-);
+class TableItem extends Component {
+  state = {
+    isEditItemBarVisible: false,
+  };
+
+  toggleEditItemBarVisible = () => {
+    this.setState((prevState) => ({
+      isEditItemBarVisible: !prevState.isEditItemBarVisible,
+    }));
+  };
+
+  render() {
+    const { polish, english, id, removeItem } = this.props;
+    const { isEditItemBarVisible } = this.state;
+
+    return (
+      <>
+        <tr>
+          <td>{polish}</td>
+          <td>{english}</td>
+          <StyledActions>
+            <StyledButton secondary onClick={this.toggleEditItemBarVisible} />
+            <StyledButton onClick={() => removeItem(words, id)} />
+          </StyledActions>
+          <EditItemBar
+            polish={polish}
+            english={english}
+            isVisible={isEditItemBarVisible}
+            handleClose={this.toggleEditItemBarVisible}
+          />
+        </tr>
+      </>
+    );
+  }
+}
 
 TableItem.propTypes = {
   id: PropTypes.string.isRequired,
