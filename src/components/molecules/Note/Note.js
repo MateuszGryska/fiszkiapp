@@ -79,6 +79,7 @@ class Note extends Component {
         <EditItemBar
           title={title}
           content={content}
+          id={id}
           isVisible={isEditItemBarVisible}
           handleClose={this.toggleEditItemBarVisible}
         />

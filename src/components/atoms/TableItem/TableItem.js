@@ -60,12 +60,15 @@ class TableItem extends Component {
             <StyledButton secondary onClick={this.toggleEditItemBarVisible} />
             <StyledButton onClick={() => removeItem(words, id)} />
           </StyledActions>
-          <EditItemBar
-            polish={polish}
-            english={english}
-            isVisible={isEditItemBarVisible}
-            handleClose={this.toggleEditItemBarVisible}
-          />
+          <td>
+            <EditItemBar
+              id={id}
+              polish={polish}
+              english={english}
+              isVisible={isEditItemBarVisible}
+              handleClose={this.toggleEditItemBarVisible}
+            />
+          </td>
         </tr>
       </>
     );

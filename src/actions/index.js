@@ -22,3 +22,16 @@ export const addItem = (itemType, itemContent) => {
     },
   };
 };
+
+export const updateItem = (itemType, id, itemContent) => {
+  return {
+    type: 'UPDATE_ITEM',
+    payload: {
+      itemType,
+      item: {
+        id,
+        ...itemContent,
+      },
+    },
+  };
+};

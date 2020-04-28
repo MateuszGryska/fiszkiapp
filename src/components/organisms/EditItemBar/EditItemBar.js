@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import backArrow from 'assets/icons/back-arrow.svg';
 import Input from 'components/atoms/Input/Input';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
 import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
-// import { addItem as addItemAction } from 'actions';
+import { updateItem as editItemAction } from 'actions';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -63,17 +63,28 @@ const StyledActionButton = styled(ActionButton)`
   margin-top: 20px;
 `;
 
-const EditItemBar = ({ handleClose, isVisible, pageContext, polish, english, title, content }) => (
+const EditItemBar = ({
+  handleClose,
+  isVisible,
+  pageContext,
+  updateItem,
+  polish,
+  english,
+  title,
+  content,
+  id,
+  created,
+}) => (
   <StyledWrapper isVisible={isVisible}>
     <StyledButton onClick={() => handleClose()} />
     <StyledTitle>Edit {pageContext === 'notes' ? 'note' : 'word'}</StyledTitle>
     <Formik
-      initialValues={{ title, content, polish, english }}
+      initialValues={{ title, content, polish, english, created }}
       onSubmit={(values) => {
         if (pageContext === 'flashcards') {
-          console.log(values);
+          updateItem('words', id, values);
         } else {
-          console.log(values);
+          updateItem(pageContext, id, values);
         }
 
         handleClose();
@@ -132,8 +143,8 @@ const EditItemBar = ({ handleClose, isVisible, pageContext, polish, english, tit
   </StyledWrapper>
 );
 
-// const mapDispatchToProps = (dispatch) => ({
-//   addItem: (itemType, itemContent) => dispatch(addItemAction(itemType, itemContent)),
-// });
+const mapDispatchToProps = (dispatch) => ({
+  updateItem: (itemType, id, itemContent) => dispatch(editItemAction(itemType, id, itemContent)),
+});
 
-export default withContext(EditItemBar);
+export default withContext(connect(null, mapDispatchToProps)(EditItemBar));
