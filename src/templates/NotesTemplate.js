@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Title from 'components/atoms/Title/Title';
 import Input from 'components/atoms/Input/Input';
@@ -42,13 +43,13 @@ class NotesTemplate extends Component {
     this.onInputChange = this.onInputChange.bind(this);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.currentlyDisplayed !== this.props.notes) {
-      this.setState({
-        currentlyDisplayed: this.props.notes,
-      });
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevState.currentlyDisplayed !== this.props.notes) {
+  //     this.setState({
+  //       currentlyDisplayed: this.props.notes,
+  //     });
+  //   }
+  // }
 
   onInputChange(event) {
     const show = this.props.notes;
@@ -78,4 +79,7 @@ class NotesTemplate extends Component {
   }
 }
 
+NotesTemplate.propTypes = {
+  notes: PropTypes.node.isRequired,
+};
 export default NotesTemplate;

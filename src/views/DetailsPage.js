@@ -13,7 +13,7 @@ class DetailsPage extends Component {
     },
     isVisible: false,
   };
-
+  /*eslint-disable */
   componentDidMount() {
     if (this.props.activeItem) {
       const [activeItem] = this.props.activeItem;
@@ -23,6 +23,13 @@ class DetailsPage extends Component {
       });
     }
   }
+  /* eslint-enable */
+
+  toggleVisible = () => {
+    this.setState((prevState) => ({
+      isVisible: !prevState.isVisible,
+    }));
+  };
 
   render() {
     const { activeItem, isVisible } = this.state;
@@ -30,6 +37,7 @@ class DetailsPage extends Component {
     return (
       <DetailsTemplate
         isVisible={isVisible}
+        handleClose={this.toggleVisible}
         title={activeItem.title}
         content={activeItem.content}
         created={activeItem.created}
@@ -39,7 +47,17 @@ class DetailsPage extends Component {
 }
 
 DetailsTemplate.propTypes = {
-  activeItem: PropTypes.func.isRequired,
+  activeItem: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+      created: PropTypes.string.isRequired,
+    }),
+  ),
+};
+
+DetailsTemplate.defaultProps = {
+  activeItem: [],
 };
 
 const mapStateToProps = (state, ownProps) => {

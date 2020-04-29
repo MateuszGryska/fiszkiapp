@@ -41,7 +41,7 @@ const StyledContent = styled.p`
   font-weight: ${({ theme }) => theme.light};
   margin-bottom: 50px;
 `;
-const DetailsTemplate = ({ title, content, created, isVisible }) => (
+const DetailsTemplate = ({ title, content, created, isVisible, handleClose }) => (
   <UserPageTemplate>
     <>
       <StyledWrapper isVisible={isVisible}>
@@ -52,7 +52,7 @@ const DetailsTemplate = ({ title, content, created, isVisible }) => (
           Close
         </ActionButton>
       </StyledWrapper>
-      <StyledBackground />
+      <StyledBackground onClick={() => handleClose()} />
     </>
   </UserPageTemplate>
 );
@@ -61,6 +61,8 @@ DetailsTemplate.propTypes = {
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   created: PropTypes.string.isRequired,
+  isVisible: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
 };
 
 export default DetailsTemplate;

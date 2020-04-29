@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import backArrow from 'assets/icons/back-arrow.svg';
 import Input from 'components/atoms/Input/Input';
@@ -157,6 +158,19 @@ const EditItemBar = ({
     <StyledBackground isVisible={isVisible} onClick={() => handleClose()} />
   </>
 );
+
+EditItemBar.propTypes = {
+  polish: PropTypes.string.isRequired,
+  english: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  created: PropTypes.string.isRequired,
+  isVisible: PropTypes.bool.isRequired,
+  pageContext: PropTypes.string.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  updateItem: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => ({
   updateItem: (itemType, id, itemContent) => dispatch(editItemAction(itemType, id, itemContent)),

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import backArrow from 'assets/icons/back-arrow.svg';
 import Input from 'components/atoms/Input/Input';
@@ -146,6 +147,13 @@ const NewItemBar = ({ handleClose, isVisible, pageContext, addItem }) => (
     <StyledBackground isVisible={isVisible} onClick={() => handleClose()} />
   </>
 );
+
+NewItemBar.propTypes = {
+  isVisible: PropTypes.bool.isRequired,
+  addItem: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  pageContext: PropTypes.string.isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => ({
   addItem: (itemType, itemContent) => dispatch(addItemAction(itemType, itemContent)),
