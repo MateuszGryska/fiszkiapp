@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import Title from 'components/atoms/Title/Title';
 import Input from 'components/atoms/Input/Input';
+import TableItem from 'components/atoms/TableItem/TableItem';
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.div`
@@ -58,27 +58,55 @@ const StyledTable = styled.table`
   }
 `;
 
-const TableTemplate = ({ children }) => (
-  <UserPageTemplate>
-    <StyledWrapper>
-      <Title>Words list</Title>
-      <StyledInput search placeholder="Search" />
-      <StyledTable>
-        <thead>
-          <tr>
-            <th>Polish</th>
-            <th>English</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>{children}</tbody>
-      </StyledTable>
-    </StyledWrapper>
-  </UserPageTemplate>
-);
+class TableTemplate extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      search: '',
+      currentlyDisplayed: this.props.words,
+    };
+    this.onInputChange = this.onInputChange.bind(this);
+  }
 
-TableTemplate.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+  onInputChange(event) {
+    const show = this.props.words;
+    const newShow = show.filter(
+      (word) =>
+        word.polish.includes(event.target.value.toLowerCase()) ||
+        word.english.includes(event.target.value.toLowerCase()),
+    );
+    this.setState({
+      search: event.target.value,
+      currentlyDisplayed: newShow,
+    });
+  }
+
+  render() {
+    const { currentlyDisplayed, search } = this.state;
+
+    return (
+      <UserPageTemplate>
+        <StyledWrapper>
+          <Title>Words list</Title>
+          <StyledInput search placeholder="Search" value={search} onChange={this.onInputChange} />
+          <StyledTable>
+            <thead>
+              <tr>
+                <th>Polish</th>
+                <th>English</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentlyDisplayed.map(({ polish, english, id }) => (
+                <TableItem id={id} key={id} polish={polish} english={english} />
+              ))}
+            </tbody>
+          </StyledTable>
+        </StyledWrapper>
+      </UserPageTemplate>
+    );
+  }
+}
 
 export default TableTemplate;

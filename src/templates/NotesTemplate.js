@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import Title from 'components/atoms/Title/Title';
 import Input from 'components/atoms/Input/Input';
+import Note from 'components/molecules/Note/Note';
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.div`
@@ -32,18 +32,42 @@ const StyledInput = styled(Input)`
   margin-top: 20px;
 `;
 
-const NotesTemplate = ({ children }) => (
-  <UserPageTemplate>
-    <StyledWrapper>
-      <Title>Notes</Title>
-      <StyledInput search placeholder="Search" />
-      <StyledGrid>{children}</StyledGrid>
-    </StyledWrapper>
-  </UserPageTemplate>
-);
+class NotesTemplate extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      search: '',
+      currentlyDisplayed: this.props.notes,
+    };
+    this.onInputChange = this.onInputChange.bind(this);
+  }
 
-NotesTemplate.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+  onInputChange(event) {
+    const show = this.props.notes;
+    const newShow = show.filter((note) => note.title.includes(event.target.value.toLowerCase()));
+    this.setState({
+      search: event.target.value,
+      currentlyDisplayed: newShow,
+    });
+  }
+
+  render() {
+    // const { children } = this.props;
+    const { currentlyDisplayed, search } = this.state;
+    return (
+      <UserPageTemplate>
+        <StyledWrapper>
+          <Title>Notes</Title>
+          <StyledInput search placeholder="Search" value={search} onChange={this.onInputChange} />
+          <StyledGrid>
+            {currentlyDisplayed.map(({ title, content, created, id }) => (
+              <Note id={id} key={id} title={title} content={content} created={created} />
+            ))}
+          </StyledGrid>
+        </StyledWrapper>
+      </UserPageTemplate>
+    );
+  }
+}
 
 export default NotesTemplate;
