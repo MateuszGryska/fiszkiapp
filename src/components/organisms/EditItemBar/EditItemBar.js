@@ -63,6 +63,18 @@ const StyledActionButton = styled(ActionButton)`
   margin-top: 20px;
 `;
 
+const StyledBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 999;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.5;
+  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+`;
+
 const EditItemBar = ({
   handleClose,
   isVisible,
@@ -75,72 +87,75 @@ const EditItemBar = ({
   id,
   created,
 }) => (
-  <StyledWrapper isVisible={isVisible}>
-    <StyledButton onClick={() => handleClose()} />
-    <StyledTitle>Edit {pageContext === 'notes' ? 'note' : 'word'}</StyledTitle>
-    <Formik
-      initialValues={{ title, content, polish, english, created }}
-      onSubmit={(values) => {
-        if (pageContext === 'flashcards') {
-          updateItem('words', id, values);
-        } else {
-          updateItem(pageContext, id, values);
-        }
+  <>
+    <StyledWrapper isVisible={isVisible}>
+      <StyledButton onClick={() => handleClose()} />
+      <StyledTitle>Edit {pageContext === 'notes' ? 'note' : 'word'}</StyledTitle>
+      <Formik
+        initialValues={{ title, content, polish, english, created }}
+        onSubmit={(values) => {
+          if (pageContext === 'flashcards') {
+            updateItem('words', id, values);
+          } else {
+            updateItem(pageContext, id, values);
+          }
 
-        handleClose();
-      }}
-    >
-      {({ values, handleChange, handleBlur }) => (
-        <StyledForm>
-          {pageContext === 'notes' ? (
-            <>
-              <StyledInput
-                type="text"
-                name="title"
-                placeholder="title"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.title}
-              />
-              <StyledTextArea
-                as="textarea"
-                type="text"
-                name="content"
-                placeholder="content"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.content}
-              />{' '}
-            </>
-          ) : null}
+          handleClose();
+        }}
+      >
+        {({ values, handleChange, handleBlur }) => (
+          <StyledForm>
+            {pageContext === 'notes' ? (
+              <>
+                <StyledInput
+                  type="text"
+                  name="title"
+                  placeholder="title"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.title}
+                />
+                <StyledTextArea
+                  as="textarea"
+                  type="text"
+                  name="content"
+                  placeholder="content"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.content}
+                />{' '}
+              </>
+            ) : null}
 
-          {pageContext === 'words' || pageContext === 'flashcards' ? (
-            <>
-              <StyledInput
-                type="text"
-                name="polish"
-                placeholder="polish"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.polish}
-              />
-              <StyledInput
-                type="text"
-                name="english"
-                placeholder="english"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.english}
-              />{' '}
-            </>
-          ) : null}
-          <StyledActionButton secondary type="submit">
-            update
-          </StyledActionButton>
-        </StyledForm>
-      )}
-    </Formik>
-  </StyledWrapper>
+            {pageContext === 'words' || pageContext === 'flashcards' ? (
+              <>
+                <StyledInput
+                  type="text"
+                  name="polish"
+                  placeholder="polish"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.polish}
+                />
+                <StyledInput
+                  type="text"
+                  name="english"
+                  placeholder="english"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.english}
+                />{' '}
+              </>
+            ) : null}
+            <StyledActionButton secondary type="submit">
+              update
+            </StyledActionButton>
+          </StyledForm>
+        )}
+      </Formik>
+    </StyledWrapper>
+    <StyledBackground isVisible={isVisible} onClick={() => handleClose()} />
+  </>
 );
 
 const mapDispatchToProps = (dispatch) => ({

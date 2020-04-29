@@ -42,6 +42,14 @@ class NotesTemplate extends Component {
     this.onInputChange = this.onInputChange.bind(this);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.currentlyDisplayed !== this.props.notes) {
+      this.setState({
+        currentlyDisplayed: this.props.notes,
+      });
+    }
+  }
+
   onInputChange(event) {
     const show = this.props.notes;
     const newShow = show.filter((note) => note.title.includes(event.target.value.toLowerCase()));

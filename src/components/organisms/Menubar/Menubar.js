@@ -104,7 +104,7 @@ const Menubar = ({ isVisible, handleClose }) => (
         </li>
       </StyledLinkList>
     </StyledWrapper>
-    <StyledBackground isVisible={isVisible} />
+    <StyledBackground isVisible={isVisible} onClick={() => handleClose()} />
   </>
 );
 

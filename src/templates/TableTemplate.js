@@ -68,6 +68,14 @@ class TableTemplate extends Component {
     this.onInputChange = this.onInputChange.bind(this);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.currentlyDisplayed !== this.props.words) {
+      this.setState({
+        currentlyDisplayed: this.props.words,
+      });
+    }
+  }
+
   onInputChange(event) {
     const show = this.props.words;
     const newShow = show.filter(
