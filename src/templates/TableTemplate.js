@@ -61,31 +61,35 @@ const StyledTable = styled.table`
 class TableTemplate extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       search: '',
+      words: this.props.words,
       currentlyDisplayed: this.props.words,
     };
     this.onInputChange = this.onInputChange.bind(this);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.currentlyDisplayed !== this.props.words) {
-      this.setState({
-        currentlyDisplayed: this.props.words,
-      });
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.words !== nextProps.words) {
+      return {
+        words: nextProps.words,
+        currentlyDisplayed: nextProps.words,
+      };
     }
+    return null;
   }
 
   onInputChange(event) {
-    const show = this.props.words;
-    const newShow = show.filter(
+    const wordList = this.props.words;
+    const filteredWordList = wordList.filter(
       (word) =>
         word.polish.includes(event.target.value.toLowerCase()) ||
         word.english.includes(event.target.value.toLowerCase()),
     );
     this.setState({
       search: event.target.value,
-      currentlyDisplayed: newShow,
+      currentlyDisplayed: filteredWordList,
     });
   }
 

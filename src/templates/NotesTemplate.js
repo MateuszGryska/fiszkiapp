@@ -36,33 +36,39 @@ const StyledInput = styled(Input)`
 class NotesTemplate extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       search: '',
+      notes: this.props.notes,
       currentlyDisplayed: this.props.notes,
     };
     this.onInputChange = this.onInputChange.bind(this);
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevState.currentlyDisplayed !== this.props.notes) {
-  //     this.setState({
-  //       currentlyDisplayed: this.props.notes,
-  //     });
-  //   }
-  // }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.notes !== nextProps.notes) {
+      return {
+        notes: nextProps.notes,
+        currentlyDisplayed: nextProps.notes,
+      };
+    }
+    return null;
+  }
 
   onInputChange(event) {
-    const show = this.props.notes;
-    const newShow = show.filter((note) => note.title.includes(event.target.value.toLowerCase()));
+    const notesList = this.props.notes;
+    const filteredNotesList = notesList.filter((note) =>
+      note.title.includes(event.target.value.toLowerCase()),
+    );
     this.setState({
       search: event.target.value,
-      currentlyDisplayed: newShow,
+      currentlyDisplayed: filteredNotesList,
     });
   }
 
   render() {
-    // const { children } = this.props;
     const { currentlyDisplayed, search } = this.state;
+
     return (
       <UserPageTemplate>
         <StyledWrapper>

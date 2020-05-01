@@ -83,13 +83,13 @@ const NewItemBar = ({ handleClose, isVisible, pageContext, addItem }) => (
       <StyledTitle>Add new {pageContext === 'notes' ? 'note' : 'word'}</StyledTitle>
       <Formik
         initialValues={{ title: '', content: '', polish: '', english: '' }}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           if (pageContext === 'flashcards') {
             addItem('words', values);
           } else {
             addItem(pageContext, values);
           }
-
+          resetForm();
           handleClose();
         }}
       >

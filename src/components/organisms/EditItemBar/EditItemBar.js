@@ -160,16 +160,24 @@ const EditItemBar = ({
 );
 
 EditItemBar.propTypes = {
-  polish: PropTypes.string.isRequired,
-  english: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  polish: PropTypes.string,
+  english: PropTypes.string,
+  title: PropTypes.string,
+  content: PropTypes.string,
   id: PropTypes.string.isRequired,
-  created: PropTypes.string.isRequired,
+  created: PropTypes.string,
   isVisible: PropTypes.bool.isRequired,
   pageContext: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
   updateItem: PropTypes.func.isRequired,
+};
+
+EditItemBar.defaultProps = {
+  polish: '',
+  english: '',
+  title: '',
+  content: '',
+  created: '',
 };
 
 const mapDispatchToProps = (dispatch) => ({
