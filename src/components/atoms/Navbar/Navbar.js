@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import menuIcon from 'assets/icons/menu.svg';
 import logo from 'assets/icons/logo.svg';
@@ -17,6 +18,14 @@ const StyledWrapper = styled.div`
   z-index: 99;
 `;
 
+const StyledLogo = styled(Link)`
+  width: 250px;
+  height: 45px;
+  background-image: url(${logo});
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  cursor: pointer;
+`;
 const StyledNav = styled.nav`
   display: flex;
   flex-direction: row;
@@ -41,7 +50,7 @@ const StyledMenu = styled.button`
 const Navbar = ({ handleOpen }) => (
   <StyledWrapper>
     <StyledNav>
-      <img src={logo} alt="logo" />
+      <StyledLogo to="/" />
       <StyledMenu onClick={() => handleOpen()} />
     </StyledNav>
   </StyledWrapper>

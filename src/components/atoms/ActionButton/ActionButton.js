@@ -1,8 +1,13 @@
 import styled, { css } from 'styled-components';
 
 const ActionButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 120px;
   height: 30px;
+  text-decoration: none;
+  color: black;
   border: none;
   font-size: 1.3rem;
   background: ${({ theme }) => theme.greyButton};
@@ -10,6 +15,7 @@ const ActionButton = styled.button`
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-right: 10px;
+  cursor: pointer;
 
   ${({ secondary }) =>
     secondary &&

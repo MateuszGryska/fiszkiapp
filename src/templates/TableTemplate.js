@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import Title from 'components/atoms/Title/Title';
 import Input from 'components/atoms/Input/Input';
+import TableItem from 'components/atoms/TableItem/TableItem';
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.div`
@@ -58,27 +58,67 @@ const StyledTable = styled.table`
   }
 `;
 
-const TableTemplate = ({ children }) => (
-  <UserPageTemplate>
-    <StyledWrapper>
-      <Title>Words list</Title>
-      <StyledInput search placeholder="Search" />
-      <StyledTable>
-        <thead>
-          <tr>
-            <th>Polish</th>
-            <th>English</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>{children}</tbody>
-      </StyledTable>
-    </StyledWrapper>
-  </UserPageTemplate>
-);
+class TableTemplate extends Component {
+  constructor(props) {
+    super(props);
 
-TableTemplate.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+    this.state = {
+      search: '',
+      words: this.props.words,
+      currentlyDisplayed: this.props.words,
+    };
+    this.onInputChange = this.onInputChange.bind(this);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.words !== nextProps.words) {
+      return {
+        words: nextProps.words,
+        currentlyDisplayed: nextProps.words,
+      };
+    }
+    return null;
+  }
+
+  onInputChange(event) {
+    const wordList = this.props.words;
+    const filteredWordList = wordList.filter(
+      (word) =>
+        word.polish.toLowerCase().includes(event.target.value.toLowerCase()) ||
+        word.english.toLowerCase().includes(event.target.value.toLowerCase()),
+    );
+    this.setState({
+      search: event.target.value,
+      currentlyDisplayed: filteredWordList,
+    });
+  }
+
+  render() {
+    const { currentlyDisplayed, search } = this.state;
+
+    return (
+      <UserPageTemplate>
+        <StyledWrapper>
+          <Title>Words list</Title>
+          <StyledInput search placeholder="Search" value={search} onChange={this.onInputChange} />
+          <StyledTable>
+            <thead>
+              <tr>
+                <th>Polish</th>
+                <th>English</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentlyDisplayed.map(({ polish, english, id }) => (
+                <TableItem id={id} key={id} polish={polish} english={english} />
+              ))}
+            </tbody>
+          </StyledTable>
+        </StyledWrapper>
+      </UserPageTemplate>
+    );
+  }
+}
 
 export default TableTemplate;

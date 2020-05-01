@@ -1,8 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import Title from 'components/atoms/Title/Title';
 import Input from 'components/atoms/Input/Input';
+import Note from 'components/molecules/Note/Note';
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.div`
@@ -32,18 +33,59 @@ const StyledInput = styled(Input)`
   margin-top: 20px;
 `;
 
-const NotesTemplate = ({ children }) => (
-  <UserPageTemplate>
-    <StyledWrapper>
-      <Title>Notes</Title>
-      <StyledInput search placeholder="Search" />
-      <StyledGrid>{children}</StyledGrid>
-    </StyledWrapper>
-  </UserPageTemplate>
-);
+class NotesTemplate extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      search: '',
+      notes: this.props.notes,
+      currentlyDisplayed: this.props.notes,
+    };
+    this.onInputChange = this.onInputChange.bind(this);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.notes !== nextProps.notes) {
+      return {
+        notes: nextProps.notes,
+        currentlyDisplayed: nextProps.notes,
+      };
+    }
+    return null;
+  }
+
+  onInputChange(event) {
+    const notesList = this.props.notes;
+    const filteredNotesList = notesList.filter((note) =>
+      note.title.toLowerCase().includes(event.target.value.toLowerCase()),
+    );
+    this.setState({
+      search: event.target.value,
+      currentlyDisplayed: filteredNotesList,
+    });
+  }
+
+  render() {
+    const { currentlyDisplayed, search } = this.state;
+
+    return (
+      <UserPageTemplate>
+        <StyledWrapper>
+          <Title>Notes</Title>
+          <StyledInput search placeholder="Search" value={search} onChange={this.onInputChange} />
+          <StyledGrid>
+            {currentlyDisplayed.map(({ title, content, created, id }) => (
+              <Note id={id} key={id} title={title} content={content} created={created} />
+            ))}
+          </StyledGrid>
+        </StyledWrapper>
+      </UserPageTemplate>
+    );
+  }
+}
 
 NotesTemplate.propTypes = {
-  children: PropTypes.node.isRequired,
+  notes: PropTypes.node.isRequired,
 };
-
 export default NotesTemplate;

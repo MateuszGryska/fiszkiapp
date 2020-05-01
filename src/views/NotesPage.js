@@ -2,20 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import NotesTemplate from 'templates/NotesTemplate';
-import Note from 'components/molecules/Note/Note';
+// import Note from 'components/molecules/Note/Note';
 
-const NotesPage = ({ notes }) => (
-  <NotesTemplate>
-    {notes.map(({ title, content, created, id }) => (
-      <Note id={id} title={title} content={content} created={created} />
-    ))}
-  </NotesTemplate>
-);
+const NotesPage = ({ notes }) => <NotesTemplate notes={notes} />;
 
 NotesPage.propTypes = {
   notes: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
       created: PropTypes.string.isRequired,
