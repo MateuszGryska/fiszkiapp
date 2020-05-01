@@ -17,7 +17,8 @@ const StyledWrapper = styled.div`
   right: 0;
   background-color: ${({ theme }) => theme.white};
   border-left: 2px ${({ theme }) => theme.main};
-  box-shadow: -10px 3px 20px 0px rgba(0, 0, 0, 0.16);
+  box-shadow: ${({ isVisible }) =>
+    isVisible ? '-10px 3px 20px 0px rgba(0, 0, 0, 0.16);' : 'none'};
   padding: 20px 30px;
   z-index: 1000;
 
