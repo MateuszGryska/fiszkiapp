@@ -79,6 +79,9 @@ class NotesTemplate extends Component {
               <Note id={id} key={id} title={title} content={content} created={created} />
             ))}
           </StyledGrid>
+          {currentlyDisplayed.length === 0 ? (
+            <h1>You don&#39;t have any notes yet! Add new one!</h1>
+          ) : null}
         </StyledWrapper>
       </UserPageTemplate>
     );
@@ -86,6 +89,10 @@ class NotesTemplate extends Component {
 }
 
 NotesTemplate.propTypes = {
-  notes: PropTypes.node.isRequired,
+  notes: PropTypes.arrayOf(PropTypes.object),
+};
+
+NotesTemplate.defaultProps = {
+  notes: [],
 };
 export default NotesTemplate;

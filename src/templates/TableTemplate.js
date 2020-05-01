@@ -109,12 +109,16 @@ class TableTemplate extends Component {
                 <th>Actions</th>
               </tr>
             </thead>
+
             <tbody>
               {currentlyDisplayed.map(({ polish, english, id }) => (
                 <TableItem id={id} key={id} polish={polish} english={english} />
               ))}
             </tbody>
           </StyledTable>
+          {currentlyDisplayed.length === 0 ? (
+            <h1>You don&#39;t have any words yet! Add new one!</h1>
+          ) : null}
         </StyledWrapper>
       </UserPageTemplate>
     );

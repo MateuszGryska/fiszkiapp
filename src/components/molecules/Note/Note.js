@@ -11,7 +11,7 @@ const notes = 'notes';
 
 const StyledWrapper = styled.div`
   background: ${({ theme }) => theme.white};
-  min-height: 350px;
+  min-height: 250px;
   min-width: 400px;
   box-shadow: 0px 15px 20px 0 rgba(0, 0, 0, 0.16);
   padding: 20px 30px;
