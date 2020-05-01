@@ -84,8 +84,8 @@ class TableTemplate extends Component {
     const wordList = this.props.words;
     const filteredWordList = wordList.filter(
       (word) =>
-        word.polish.includes(event.target.value.toLowerCase()) ||
-        word.english.includes(event.target.value.toLowerCase()),
+        word.polish.toLowerCase().includes(event.target.value.toLowerCase()) ||
+        word.english.toLowerCase().includes(event.target.value.toLowerCase()),
     );
     this.setState({
       search: event.target.value,

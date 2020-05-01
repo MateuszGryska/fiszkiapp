@@ -58,7 +58,7 @@ class NotesTemplate extends Component {
   onInputChange(event) {
     const notesList = this.props.notes;
     const filteredNotesList = notesList.filter((note) =>
-      note.title.includes(event.target.value.toLowerCase()),
+      note.title.toLowerCase().includes(event.target.value.toLowerCase()),
     );
     this.setState({
       search: event.target.value,
