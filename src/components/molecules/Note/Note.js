@@ -62,11 +62,12 @@ class Note extends Component {
   render() {
     const { title, content, id, removeItem } = this.props;
     const { isEditItemBarVisible } = this.state;
+    const MAX_LENGTH = 70;
 
     return (
       <StyledWrapper>
         <StyledTitle>{title}</StyledTitle>
-        <StyledParagraph>{content}</StyledParagraph>
+        <StyledParagraph>{`${content.substring(0, MAX_LENGTH)}...`}</StyledParagraph>
         <ShowButton secondary="true" to={`notes/${id}`}>
           Show more
         </ShowButton>
