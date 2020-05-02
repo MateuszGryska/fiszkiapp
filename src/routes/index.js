@@ -6,4 +6,5 @@ export const routes = {
   word: '/words/:id',
   flashcards: '/flashcards',
   login: '/login',
+  register: '/register',
 };
