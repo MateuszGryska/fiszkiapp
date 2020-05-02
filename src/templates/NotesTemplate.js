@@ -14,6 +14,11 @@ const StyledWrapper = styled.div`
   align-items: center;
 `;
 
+const StyledInfo = styled.h1`
+  width: 60vw;
+  text-align: center;
+`;
+
 const StyledGrid = styled.div`
   padding-top: 50px;
   display: grid;
@@ -79,6 +84,9 @@ class NotesTemplate extends Component {
               <Note id={id} key={id} title={title} content={content} created={created} />
             ))}
           </StyledGrid>
+          {currentlyDisplayed.length === 0 ? (
+            <StyledInfo>You don&#39;t have any notes yet! Add new one!</StyledInfo>
+          ) : null}
         </StyledWrapper>
       </UserPageTemplate>
     );
@@ -86,6 +94,10 @@ class NotesTemplate extends Component {
 }
 
 NotesTemplate.propTypes = {
-  notes: PropTypes.node.isRequired,
+  notes: PropTypes.arrayOf(PropTypes.object),
+};
+
+NotesTemplate.defaultProps = {
+  notes: [],
 };
 export default NotesTemplate;

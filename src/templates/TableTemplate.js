@@ -17,6 +17,11 @@ const StyledInput = styled(Input)`
   margin-top: 20px;
 `;
 
+const StyledInfo = styled.h1`
+  width: 60vw;
+  text-align: center;
+`;
+
 const StyledTable = styled.table`
   border-collapse: collapse;
   position: relative;
@@ -109,12 +114,16 @@ class TableTemplate extends Component {
                 <th>Actions</th>
               </tr>
             </thead>
+
             <tbody>
               {currentlyDisplayed.map(({ polish, english, id }) => (
                 <TableItem id={id} key={id} polish={polish} english={english} />
               ))}
             </tbody>
           </StyledTable>
+          {currentlyDisplayed.length === 0 ? (
+            <StyledInfo>You don&#39;t have any words yet! Add new one!</StyledInfo>
+          ) : null}
         </StyledWrapper>
       </UserPageTemplate>
     );

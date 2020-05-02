@@ -28,13 +28,13 @@ const StyledWrapper = styled.div`
 
 const StyledButton = styled.button`
   position: absolute;
-  top: 15px;
+  bottom: 30px;
   left: 30px;
   border: none;
-  width: 20px;
-  height: 30px;
+  width: 30px;
+  height: 40px;
   background-image: url(${backArrow});
-  background-size: 20px;
+  background-size: 30px;
   background-repeat: no-repeat;
   cursor: pointer;
 `;

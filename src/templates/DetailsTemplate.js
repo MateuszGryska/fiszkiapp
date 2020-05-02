@@ -27,6 +27,7 @@ const StyledBackground = styled.div`
   height: 100vh;
   background-color: black;
   opacity: 0.5;
+  cursor: default;
 `;
 
 const StyledTitle = styled.h1`
@@ -41,7 +42,7 @@ const StyledContent = styled.p`
   font-weight: ${({ theme }) => theme.light};
   margin-bottom: 50px;
 `;
-const DetailsTemplate = ({ title, content, created, isVisible, handleClose }) => (
+const DetailsTemplate = ({ title, content, created, isVisible }) => (
   <UserPageTemplate>
     <>
       <StyledWrapper isVisible={isVisible}>
@@ -52,7 +53,7 @@ const DetailsTemplate = ({ title, content, created, isVisible, handleClose }) =>
           Close
         </ActionButton>
       </StyledWrapper>
-      <StyledBackground onClick={() => handleClose()} />
+      <StyledBackground as={Link} to="/notes" />
     </>
   </UserPageTemplate>
 );
@@ -62,7 +63,6 @@ DetailsTemplate.propTypes = {
   content: PropTypes.string.isRequired,
   created: PropTypes.string.isRequired,
   isVisible: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
 };
 
 export default DetailsTemplate;

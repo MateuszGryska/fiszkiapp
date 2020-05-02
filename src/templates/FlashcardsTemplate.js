@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Title from 'components/atoms/Title/Title';
 import styled from 'styled-components';
 import Button from 'components/atoms/Button/Button';
-import ShowButton from 'components/atoms/ShowButton/ShowButton';
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.div`
@@ -26,9 +25,20 @@ const StyledSmallerWord = styled.h2`
   opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
 `;
 
-const StyledShowButton = styled(ShowButton)`
+const StyledShowButton = styled.button`
   margin-top: 0;
   margin-bottom: 100px;
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.showButton};
+  font-weight: ${({ theme }) => theme.bold};
+  text-decoration: none;
+  font-style: italic;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 class FlashcardsTemplate extends Component {
