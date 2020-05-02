@@ -14,6 +14,11 @@ const StyledWrapper = styled.div`
   align-items: center;
 `;
 
+const StyledInfo = styled.h1`
+  width: 60vw;
+  text-align: center;
+`;
+
 const StyledGrid = styled.div`
   padding-top: 50px;
   display: grid;
@@ -80,7 +85,7 @@ class NotesTemplate extends Component {
             ))}
           </StyledGrid>
           {currentlyDisplayed.length === 0 ? (
-            <h1>You don&#39;t have any notes yet! Add new one!</h1>
+            <StyledInfo>You don&#39;t have any notes yet! Add new one!</StyledInfo>
           ) : null}
         </StyledWrapper>
       </UserPageTemplate>
