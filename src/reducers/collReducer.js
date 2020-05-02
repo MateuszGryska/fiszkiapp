@@ -33,7 +33,7 @@ const initialState = {
   ],
 };
 
-const rootReducer = (state = initialState, action) => {
+const collReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_ITEM':
       return {
@@ -61,4 +61,4 @@ const rootReducer = (state = initialState, action) => {
   }
 };
 
-export default rootReducer;
+export default collReducer;

@@ -72,9 +72,11 @@ class FlashcardsTemplate extends Component {
       <UserPageTemplate>
         <StyledWrapper>
           <Title>Flashcards</Title>
-          <StyledBiggerWord>{words[flashcardPosition].english}</StyledBiggerWord>
+          <StyledBiggerWord>
+            {words.length > 0 ? words[flashcardPosition].english : 'No words, add new ones!'}
+          </StyledBiggerWord>
           <StyledSmallerWord isVisible={isSmallerWordVisible}>
-            {words[flashcardPosition].polish}
+            {words.length > 0 ? words[flashcardPosition].polish : 'Brak słówek, dodaj nowe!'}
           </StyledSmallerWord>
           <StyledShowButton onClick={this.showSmallerWord}>Show</StyledShowButton>
           <Button onClick={() => this.pickNewWord(words.length)}>NEW WORD</Button>

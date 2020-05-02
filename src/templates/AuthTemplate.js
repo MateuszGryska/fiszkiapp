@@ -103,9 +103,9 @@ const LoginTemplate = ({ login }) => (
         )}
       </Formik>
       {login ? (
-        <StyledLink to="/register">I WANT NEW ACCOUNT!</StyledLink>
+        <StyledLink to="/register">I WANT NEW ACCOUNT</StyledLink>
       ) : (
-        <StyledLink to="/login">I ALREADY HAVE A ACCOUNT</StyledLink>
+        <StyledLink to="/login">I ALREADY HAVE AN ACCOUNT</StyledLink>
       )}
     </StyledLoginSection>
   </StyledWrapper>
