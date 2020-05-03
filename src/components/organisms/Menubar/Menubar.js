@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import backArrow from 'assets/icons/back-arrow.svg';
 import { NavLink } from 'react-router-dom';
+import AccountDetails from 'components/molecules/AccountDetails/AccountDetails';
+import { signOut as signOutAction } from 'actions';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -84,10 +87,12 @@ const StyledBackground = styled.div`
   display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
 `;
 
-const Menubar = ({ isVisible, handleClose }) => (
+const Menubar = ({ isVisible, handleClose, profileData, signOut }) => (
   <>
     <StyledWrapper isVisible={isVisible}>
+      <AccountDetails profileData={profileData} signOut={signOut} />
       <StyledButton onClick={() => handleClose()} />
+
       <StyledLinkList>
         <li>
           <StyledNavLink exact to="/flashcards" activeclass="active">
@@ -119,4 +124,8 @@ Menubar.defaultProps = {
   isVisible: false,
 };
 
-export default Menubar;
+const mapDispatchToProps = (dispatch) => ({
+  signOut: () => dispatch(signOutAction()),
+});
+
+export default connect(null, mapDispatchToProps)(Menubar);

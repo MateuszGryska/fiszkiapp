@@ -3,7 +3,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: 'AIzaSyC9mHBIYg2B_yzVCY9WFeGrIfV4PR-qn-s',
   authDomain: 'fiszki-95d38.firebaseapp.com',
   databaseURL: 'https://fiszki-95d38.firebaseio.com',

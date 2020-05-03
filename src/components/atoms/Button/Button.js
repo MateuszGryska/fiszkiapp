@@ -1,10 +1,12 @@
-import styled from 'styled-components';
+import React from 'react';
+import styled, { css } from 'styled-components';
 
-const Button = styled.button`
+const StyledWrapper = styled.button`
   height: 50px;
   width: 270px;
   border-radius: 20px;
   border: none;
+  margin-top: 30px;
   background: ${({ theme }) => theme.white};
   color: ${({ theme }) => theme.black};
   font-size: ${({ theme }) => theme.fontSize.s};
@@ -20,6 +22,18 @@ const Button = styled.button`
     color: #fff;
     transform: translateY(-7px);
   }
+
+  ${({ loginButton }) =>
+    loginButton &&
+    css`
+      margin-top: 125px;
+    `}
 `;
+
+const Button = ({ children, loading, loginButton }) => (
+  <StyledWrapper loginButton={loginButton ? 'loginButton' : null}>
+    {loading || children}
+  </StyledWrapper>
+);
 
 export default Button;
