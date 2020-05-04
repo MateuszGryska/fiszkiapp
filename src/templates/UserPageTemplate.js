@@ -50,14 +50,18 @@ class UserPageTemplate extends Component {
   };
 
   render() {
-    const { children, loggedIn, profileData } = this.props;
+    const { children, loggedIn, profileData, emailVerified } = this.props;
     const { isMenubarVisible, isNewItemBarVisible } = this.state;
 
     return (
       <StyledWrapper>
         {loggedIn.uid ? (
           <>
-            <Navbar loggedIn={loggedIn} handleOpen={this.toggleMenuBarVisible} />
+            <Navbar
+              loggedIn={loggedIn}
+              emailVerified={emailVerified}
+              handleOpen={this.toggleMenuBarVisible}
+            />
             <Menubar
               loggedIn={loggedIn}
               profileData={profileData}
@@ -87,6 +91,7 @@ UserPageTemplate.propTypes = {
 const mapStateToProps = ({ firebase }) => ({
   profileData: firebase.profile,
   loggedIn: firebase.auth,
+  emailVerified: firebase.auth.emailVerified,
 });
 
 export default connect(mapStateToProps)(UserPageTemplate);

@@ -7,4 +7,6 @@ export const routes = {
   flashcards: '/flashcards',
   login: '/login',
   register: '/register',
+  account: '/account',
+  reset: '/reset-password',
 };

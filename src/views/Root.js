@@ -9,9 +9,12 @@ import TablePage from './TablePage';
 import DetailsPage from './DetailsPage';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
+import MyAccountPage from './MyAccountPage';
+import RecoverPasswordPage from './RecoverPasswordPage';
 
 const Root = ({ loggedIn }) => {
   let routesWhenLoggedIn;
+
   if (loggedIn) {
     routesWhenLoggedIn = (
       <>
@@ -19,6 +22,7 @@ const Root = ({ loggedIn }) => {
           <Route exact path={routes.home} render={() => <Redirect to="/words" />} />
           <Route path={routes.flashcards} component={FlashcardsPage} />
           <Route path={routes.notes} component={NotesPage} />
+          <Route path={routes.account} component={MyAccountPage} />
           <Route path={routes.note} component={DetailsPage} />
           <Route exact path={routes.words} component={TablePage} />
           <Route path={routes.word} component={DetailsPage} />
@@ -33,6 +37,7 @@ const Root = ({ loggedIn }) => {
         <Route exact path={routes.home} render={() => <Redirect to="/login" />} />
         <Route path={routes.login} component={LoginPage} />
         <Route path={routes.register} component={RegisterPage} />
+        <Route path={routes.reset} component={RecoverPasswordPage} />
         <Redirect to={routes.login} />
       </Switch>
     );

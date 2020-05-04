@@ -3,11 +3,17 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Button from 'components/atoms/Button/Button';
+import Message from 'components/atoms/Message/Message';
 import { Formik, Form } from 'formik';
 import Input from 'components/atoms/Input/Input';
 import background from 'assets/img/bg.png';
 import logoIcon from 'assets/icons/logo.svg';
-import { signUp as signUpAction, signIn as signInAction, clean as cleanAction } from 'actions';
+import {
+  signUp as signUpAction,
+  signIn as signInAction,
+  recoveryPassword as recoveryPasswordAction,
+  clean as cleanAction,
+} from 'actions';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -62,24 +68,24 @@ const StyledInput = styled(Input)`
   margin-top: 20px;
 `;
 
-const StyledButton = styled(Button)`
-  /* margin-top: ${({ loginPage }) => (loginPage ? '155px' : '30px')}; */
-  padding-top: 50px;
-`;
-
 const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.black};
   margin: 0px 30px 10px 30px;
 `;
 
-const StyledError = styled.p`
-  height: 10px;
-  color: red;
-  font-weight: ${({ theme }) => theme.light};
-  font-size: 1rem;
-`;
-
-const AuthTemplate = ({ loginPage, registerPage, signUp, signIn, cleanUp, loading, error }) => {
+const AuthTemplate = ({
+  loginPage,
+  registerPage,
+  recoverPage,
+  signUp,
+  signIn,
+  sendRecoveryMail,
+  cleanUp,
+  loading,
+  error,
+  recoverLoading,
+  recoverError,
+}) => {
   useEffect(() => {
     return () => {
       cleanUp();
@@ -90,13 +96,19 @@ const AuthTemplate = ({ loginPage, registerPage, signUp, signIn, cleanUp, loadin
     <StyledWrapper>
       <StyledLogo />
       <StyledLoginSection>
-        <StyledTitle>{loginPage ? 'Sign in:' : 'Create new account:'}</StyledTitle>
+        <StyledTitle>
+          {loginPage ? 'Sign in:' : null}
+          {registerPage ? 'Create new account:' : null}
+          {recoverPage ? 'Type in your e-mail:' : null}
+        </StyledTitle>
         <Formik
           initialValues={{ email: '', password: '', firstName: '', lastName: '' }}
           onSubmit={async (values) => {
             if (loginPage) {
               await signIn(values);
-            } else {
+            } else if (recoverPage) {
+              await sendRecoveryMail(values);
+            } else if (registerPage) {
               await signUp(values);
             }
           }}
@@ -120,6 +132,18 @@ const AuthTemplate = ({ loginPage, registerPage, signUp, signIn, cleanUp, loadin
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.password}
+                  />
+                </>
+              ) : null}
+              {recoverPage ? (
+                <>
+                  <StyledInput
+                    type="email"
+                    name="email"
+                    placeholder="email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
                   />
                 </>
               ) : null}
@@ -161,33 +185,50 @@ const AuthTemplate = ({ loginPage, registerPage, signUp, signIn, cleanUp, loadin
               ) : null}
               {loginPage ? (
                 <>
-                  <StyledButton
+                  <Button
                     loginButton={loginPage ? 'loginButton' : null}
-                    loginPage={loginPage ? 'loginPage' : false}
                     loading={loading ? 'LOGGING IN...' : null}
                     type="submit"
                   >
                     SIGN IN
-                  </StyledButton>
+                  </Button>
                 </>
-              ) : (
+              ) : null}
+              {registerPage ? (
                 <>
-                  <StyledButton
+                  <Button
                     loginButton={null}
-                    loginPage={false}
                     loading={loading ? 'SIGNING UP...' : null}
                     type="submit"
                   >
                     SIGN UP
-                  </StyledButton>
+                  </Button>
                 </>
-              )}
-              <StyledError>{error}</StyledError>
+              ) : null}
+              {recoverPage ? (
+                <>
+                  <Button
+                    loginButton={loginPage ? 'loginButton' : null}
+                    recoverButton={recoverPage ? 'recoverPage' : null}
+                    loading={recoverLoading ? 'SENDING...' : null}
+                    type="submit"
+                  >
+                    SEND RESET MAIL
+                  </Button>
+                </>
+              ) : null}
+              <Message error>{recoverPage ? recoverError : error}</Message>
+              {recoverPage && recoverError === false ? (
+                <Message>Recover email sent successfully!</Message>
+              ) : null}
             </StyledForm>
           )}
         </Formik>
         {loginPage ? (
-          <StyledLink to="/register">I WANT NEW ACCOUNT</StyledLink>
+          <>
+            <StyledLink to="/register">I WANT NEW ACCOUNT</StyledLink>
+            <StyledLink to="/reset-password">RESET PASSWORD</StyledLink>
+          </>
         ) : (
           <StyledLink to="/login">I ALREADY HAVE AN ACCOUNT</StyledLink>
         )}
@@ -199,11 +240,14 @@ const AuthTemplate = ({ loginPage, registerPage, signUp, signIn, cleanUp, loadin
 const mapStateToProps = ({ auth }) => ({
   loading: auth.loading,
   error: auth.error,
+  recoverLoading: auth.recoveryPassword.loading,
+  recoverError: auth.recoveryPassword.error,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   signIn: (email, password) => dispatch(signInAction(email, password)),
   signUp: (email, password) => dispatch(signUpAction(email, password)),
+  sendRecoveryMail: (email) => dispatch(recoveryPasswordAction(email)),
   cleanUp: () => dispatch(cleanAction()),
 });
 

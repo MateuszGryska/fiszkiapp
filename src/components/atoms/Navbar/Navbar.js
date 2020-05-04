@@ -47,13 +47,33 @@ const StyledMenu = styled.button`
   cursor: pointer;
 `;
 
-const Navbar = ({ handleOpen }) => (
-  <StyledWrapper>
-    <StyledNav>
-      <StyledLogo to="/" />
-      <StyledMenu onClick={() => handleOpen()} />
-    </StyledNav>
-  </StyledWrapper>
+const StyledVerifiedInfo = styled.div`
+  position: fixed;
+  top: 80px;
+  left: 0;
+  height: 30px;
+  width: 100vw;
+  background: red;
+  color: white;
+  margin: 0;
+  padding: 0px;
+  display: ${({ emailVerified }) => (emailVerified ? 'none' : 'flex')};
+  justify-content: center;
+  align-items: center;
+`;
+
+const Navbar = ({ handleOpen, emailVerified }) => (
+  <>
+    <StyledWrapper>
+      <StyledNav>
+        <StyledLogo to="/" />
+        <StyledMenu onClick={() => handleOpen()} />
+      </StyledNav>
+    </StyledWrapper>
+    <StyledVerifiedInfo emailVerified={emailVerified}>
+      Your account is not verified! Check your email!
+    </StyledVerifiedInfo>
+  </>
 );
 
 Navbar.propTypes = {

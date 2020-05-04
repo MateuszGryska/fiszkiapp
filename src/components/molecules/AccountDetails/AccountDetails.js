@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import userIcon from 'assets/icons/user.svg';
+import { Link } from 'react-router-dom';
 
 const StyledWrapper = styled.div`
   width: 320px;
@@ -12,7 +13,7 @@ const StyledWrapper = styled.div`
   align-items: center;
   position: absolute;
   top: 50px;
-  left: 40px;
+  left: 50px;
 `;
 
 const StyledAccountsDetails = styled.div`
@@ -40,7 +41,9 @@ const StyledHello = styled.p`
   color: ${({ theme }) => theme.main};
 `;
 
-const StyledButton = styled.button`
+const StyledButton = styled(Link)`
+  text-decoration: none;
+  color: ${({ theme }) => theme.black};
   border: none;
   background: none;
   padding: 0;
@@ -79,7 +82,7 @@ const AccountDetails = ({ profileData, signOut }) => (
         <StyledHello>Hello</StyledHello> {profileData.firstName}!
       </StyledTitle>
       <StyledButtons>
-        <StyledButton>My account</StyledButton>
+        <StyledButton to="/account">My account</StyledButton>
         <StyledButton onClick={() => signOut()}>Log Out</StyledButton>
       </StyledButtons>
     </StyledAccountsDetails>

@@ -28,10 +28,19 @@ const StyledWrapper = styled.button`
     css`
       margin-top: 125px;
     `}
+  ${({ recoverButton }) =>
+    recoverButton &&
+    css`
+      margin-top: 160px;
+    `}
 `;
 
-const Button = ({ children, loading, loginButton }) => (
-  <StyledWrapper loginButton={loginButton ? 'loginButton' : null}>
+const Button = ({ children, loading, loginButton, recoverButton, ...rest }) => (
+  <StyledWrapper
+    loginButton={loginButton ? 'loginButton' : null}
+    recoverButton={recoverButton ? 'recoverButton' : null}
+    {...rest}
+  >
     {loading || children}
   </StyledWrapper>
 );
