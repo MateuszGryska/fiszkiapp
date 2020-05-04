@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Button from 'components/atoms/Button/Button';
 import Message from 'components/atoms/Message/Message';
+import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
 import Input from 'components/atoms/Input/Input';
 import background from 'assets/img/bg.png';
@@ -11,7 +12,7 @@ import logoIcon from 'assets/icons/logo.svg';
 import {
   signUp as signUpAction,
   signIn as signInAction,
-  recoveryPassword as recoveryPasswordAction,
+  recoveryPassword as recoverPasswordAction,
   clean as cleanAction,
 } from 'actions';
 
@@ -74,12 +75,10 @@ const StyledLink = styled(Link)`
 `;
 
 const AuthTemplate = ({
-  loginPage,
-  registerPage,
-  recoverPage,
+  pageContext,
   signUp,
   signIn,
-  sendRecoveryMail,
+  sendRecoverMail,
   cleanUp,
   loading,
   error,
@@ -97,25 +96,25 @@ const AuthTemplate = ({
       <StyledLogo />
       <StyledLoginSection>
         <StyledTitle>
-          {loginPage ? 'Sign in:' : null}
-          {registerPage ? 'Create new account:' : null}
-          {recoverPage ? 'Type in your e-mail:' : null}
+          {pageContext === 'login' ? 'Sign in:' : null}
+          {pageContext === 'register' ? 'Create new account:' : null}
+          {pageContext === 'reset-password' ? 'Type in your e-mail:' : null}
         </StyledTitle>
         <Formik
           initialValues={{ email: '', password: '', firstName: '', lastName: '' }}
           onSubmit={async (values) => {
-            if (loginPage) {
+            if (pageContext === 'login') {
               await signIn(values);
-            } else if (recoverPage) {
-              await sendRecoveryMail(values);
-            } else if (registerPage) {
+            } else if (pageContext === 'reset-password') {
+              await sendRecoverMail(values);
+            } else if (pageContext === 'register') {
               await signUp(values);
             }
           }}
         >
           {({ values, handleChange, handleBlur }) => (
             <StyledForm>
-              {loginPage ? (
+              {pageContext === 'login' ? (
                 <>
                   <StyledInput
                     type="email"
@@ -135,7 +134,7 @@ const AuthTemplate = ({
                   />
                 </>
               ) : null}
-              {recoverPage ? (
+              {pageContext === 'reset-password' ? (
                 <>
                   <StyledInput
                     type="email"
@@ -147,7 +146,7 @@ const AuthTemplate = ({
                   />
                 </>
               ) : null}
-              {registerPage ? (
+              {pageContext === 'register' ? (
                 <>
                   <StyledInput
                     type="email"
@@ -183,10 +182,10 @@ const AuthTemplate = ({
                   />
                 </>
               ) : null}
-              {loginPage ? (
+              {pageContext === 'login' ? (
                 <>
                   <Button
-                    loginButton={loginPage ? 'loginButton' : null}
+                    loginButton={pageContext === 'login' ? 'loginButton' : null}
                     loading={loading ? 'LOGGING IN...' : null}
                     type="submit"
                   >
@@ -194,7 +193,7 @@ const AuthTemplate = ({
                   </Button>
                 </>
               ) : null}
-              {registerPage ? (
+              {pageContext === 'register' ? (
                 <>
                   <Button
                     loginButton={null}
@@ -205,11 +204,11 @@ const AuthTemplate = ({
                   </Button>
                 </>
               ) : null}
-              {recoverPage ? (
+              {pageContext === 'reset-password' ? (
                 <>
                   <Button
-                    loginButton={loginPage ? 'loginButton' : null}
-                    recoverButton={recoverPage ? 'recoverPage' : null}
+                    loginButton={pageContext === 'login' ? 'loginButton' : null}
+                    recoverButton={pageContext === 'reset-password' ? 'recoverPage' : null}
                     loading={recoverLoading ? 'SENDING...' : null}
                     type="submit"
                   >
@@ -217,14 +216,14 @@ const AuthTemplate = ({
                   </Button>
                 </>
               ) : null}
-              <Message error>{recoverPage ? recoverError : error}</Message>
-              {recoverPage && recoverError === false ? (
+              <Message error>{pageContext === 'reset-password' ? recoverError : error}</Message>
+              {pageContext === 'reset-password' && recoverError === false ? (
                 <Message>Recover email sent successfully!</Message>
               ) : null}
             </StyledForm>
           )}
         </Formik>
-        {loginPage ? (
+        {pageContext === 'login' ? (
           <>
             <StyledLink to="/register">I WANT NEW ACCOUNT</StyledLink>
             <StyledLink to="/reset-password">RESET PASSWORD</StyledLink>
@@ -247,8 +246,8 @@ const mapStateToProps = ({ auth }) => ({
 const mapDispatchToProps = (dispatch) => ({
   signIn: (email, password) => dispatch(signInAction(email, password)),
   signUp: (email, password) => dispatch(signUpAction(email, password)),
-  sendRecoveryMail: (email) => dispatch(recoveryPasswordAction(email)),
+  sendRecoverMail: (email) => dispatch(recoverPasswordAction(email)),
   cleanUp: () => dispatch(cleanAction()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthTemplate);
+export default withContext(connect(mapStateToProps, mapDispatchToProps)(AuthTemplate));

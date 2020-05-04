@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from 'components/atoms/Button/Button';
@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Title from 'components/atoms/Title/Title';
 import { verifyEmail as verifyEmailAction, clean as cleanAction } from 'actions';
 import Message from 'components/atoms/Message/Message';
+import EditProfileBar from 'components/organisms/EditProfileBar/EditProfileBar';
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.div`
@@ -37,6 +38,8 @@ const MyAccountTemplate = ({ profileData, loggedIn, sendVerifyEmail, loading, er
       cleanUp();
     };
   }, [cleanUp]);
+
+  const [isEditProfileVisible, setVisible] = useState(false);
 
   return (
     <UserPageTemplate>
@@ -74,6 +77,7 @@ const MyAccountTemplate = ({ profileData, loggedIn, sendVerifyEmail, loading, er
             )}
           </StyledDetail>
         </StyledDetailsList>
+        <Button onClick={() => setVisible(true)}>EDIT PROFILE</Button>
         {!loggedIn.emailVerified ? (
           <>
             <Button onClick={() => sendVerifyEmail()} loading={loading ? 'SENDING...' : null}>
@@ -83,6 +87,7 @@ const MyAccountTemplate = ({ profileData, loggedIn, sendVerifyEmail, loading, er
             {error === false ? <Message>Verify email sent successfully!</Message> : null}
           </>
         ) : null}
+        <EditProfileBar isVisible={isEditProfileVisible} handleClose={() => setVisible()} />
       </StyledWrapper>
     </UserPageTemplate>
   );

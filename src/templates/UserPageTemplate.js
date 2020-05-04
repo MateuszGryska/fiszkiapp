@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import withContext from 'hoc/withContext';
 import styled from 'styled-components';
 import Navbar from 'components/atoms/Navbar/Navbar';
 import PropTypes from 'prop-types';
@@ -26,6 +27,7 @@ const AddButton = styled.button`
   border: none;
   cursor: pointer;
   outline: none;
+  display: ${({ isButtonVisible }) => (isButtonVisible ? 'none' : 'block')};
 `;
 
 class UserPageTemplate extends Component {
@@ -50,7 +52,7 @@ class UserPageTemplate extends Component {
   };
 
   render() {
-    const { children, loggedIn, profileData, emailVerified } = this.props;
+    const { children, loggedIn, profileData, emailVerified, pageContext } = this.props;
     const { isMenubarVisible, isNewItemBarVisible } = this.state;
 
     return (
@@ -69,7 +71,11 @@ class UserPageTemplate extends Component {
               handleClose={this.toggleMenuBarVisible}
             />
             {children}
-            <AddButton loggedIn={loggedIn} onClick={this.toggleNewItemBarVisible} />
+            <AddButton
+              loggedIn={loggedIn}
+              isButtonVisible={pageContext === 'account'}
+              onClick={this.toggleNewItemBarVisible}
+            />
             <NewItemBar
               loggedIn={loggedIn}
               isVisible={isNewItemBarVisible}
@@ -94,4 +100,4 @@ const mapStateToProps = ({ firebase }) => ({
   emailVerified: firebase.auth.emailVerified,
 });
 
-export default connect(mapStateToProps)(UserPageTemplate);
+export default withContext(connect(mapStateToProps)(UserPageTemplate));

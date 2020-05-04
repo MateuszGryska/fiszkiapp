@@ -19,7 +19,7 @@ const StyledWrapper = styled.div`
 `;
 
 const StyledLogo = styled(Link)`
-  width: 250px;
+  width: 150px;
   height: 45px;
   background-image: url(${logo});
   background-size: 100% 100%;
