@@ -18,8 +18,8 @@ const StyledWrapper = styled.button`
 
   &:hover {
     background: ${({ theme }) => theme.main};
-    box-shadow: 0px 15px 20px rgba(46, 80, 229, 0.4);
-    color: #fff;
+    box-shadow: 0px 15px 20px ${({ theme }) => theme.main};
+    color: ${({ theme }) => theme.white};
     transform: translateY(-7px);
   }
 
@@ -28,6 +28,15 @@ const StyledWrapper = styled.button`
     css`
       margin-top: 125px;
     `}
+
+    ${({ deleteButton }) =>
+      deleteButton &&
+      css`
+        &:hover {
+          background: ${({ theme }) => theme.red};
+          box-shadow: 0px 15px 20px rgb(255, 77, 77);
+        }
+      `}
   ${({ recoverButton }) =>
     recoverButton &&
     css`
@@ -35,10 +44,11 @@ const StyledWrapper = styled.button`
     `}
 `;
 
-const Button = ({ children, loading, loginButton, recoverButton, ...rest }) => (
+const Button = ({ children, loading, loginButton, recoverButton, deleteButton, ...rest }) => (
   <StyledWrapper
     loginButton={loginButton ? 'loginButton' : null}
     recoverButton={recoverButton ? 'recoverButton' : null}
+    deleteButton={deleteButton ? 'deleteButton' : null}
     {...rest}
   >
     {loading || children}

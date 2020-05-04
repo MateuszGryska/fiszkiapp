@@ -6,6 +6,7 @@ export const theme = {
   black: 'rgb(0, 0, 0)',
   white: 'rgb(255, 255, 255)',
   fontGrey: 'rgba(74, 63, 63, 0.84)',
+  red: 'red',
   light: 300,
   bold: 600,
   fontSize: {

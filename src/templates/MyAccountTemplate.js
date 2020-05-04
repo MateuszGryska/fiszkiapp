@@ -20,7 +20,7 @@ const StyledDetailsList = styled.ul`
   list-style: none;
   align-self: flex-start;
   width: 100%;
-  font-size: ${({ theme }) => theme.fontSize.l};
+  font-size: ${({ theme }) => theme.fontSize.m};
 `;
 
 const StyledDetail = styled.li`
@@ -78,6 +78,7 @@ const MyAccountTemplate = ({ profileData, loggedIn, sendVerifyEmail, loading, er
           </StyledDetail>
         </StyledDetailsList>
         <Button onClick={() => setVisible(true)}>EDIT PROFILE</Button>
+        <Button deleteButton>DELETE ACCOUNT</Button>
         {!loggedIn.emailVerified ? (
           <>
             <Button onClick={() => sendVerifyEmail()} loading={loading ? 'SENDING...' : null}>
