@@ -15,14 +15,14 @@ export const addItem = (itemType, data) => async (dispatch, getState, { getFireb
       ...data,
     };
     if (!prevItems.data()) {
-      firestore
+      await firestore
         .collection(itemType)
         .doc(userId)
         .set({
           [itemType]: [newItem],
         });
     } else {
-      firestore
+      await firestore
         .collection(itemType)
         .doc(userId)
         .update({
@@ -31,7 +31,9 @@ export const addItem = (itemType, data) => async (dispatch, getState, { getFireb
     }
 
     dispatch({ type: itemTypes.ADD_ITEM_SUCCESS });
+    return true;
   } catch (err) {
     dispatch({ type: itemTypes.ADD_ITEM_FAIL, payload: err.message });
+    return false;
   }
 };

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import styled from 'styled-components';
 import Title from 'components/atoms/Title/Title';
 import Input from 'components/atoms/Input/Input';
@@ -100,6 +102,7 @@ class TableTemplate extends Component {
 
   render() {
     const { currentlyDisplayed, search } = this.state;
+    const { loading } = this.props;
 
     return (
       <UserPageTemplate>
@@ -122,12 +125,28 @@ class TableTemplate extends Component {
             </tbody>
           </StyledTable>
           {currentlyDisplayed.length === 0 ? (
-            <StyledInfo>You don&#39;t have any words yet! Add new one!</StyledInfo>
+            <StyledInfo>
+              {loading ? 'Loading...' : `You don't have any words yet! Add new one!`}
+            </StyledInfo>
           ) : null}
         </StyledWrapper>
       </UserPageTemplate>
     );
   }
 }
+
+TableTemplate.propTypes = {
+  words: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      polish: PropTypes.string.isRequired,
+      english: PropTypes.string.isRequired,
+    }),
+  ),
+};
+
+TableTemplate.defaultProps = {
+  words: [],
+};
 
 export default TableTemplate;

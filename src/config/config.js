@@ -3,7 +3,7 @@ import store from 'store';
 import firebase from './Firebase';
 
 // react-redux-firebase config
-const rrfConfig = {
+export const rrfConfig = {
   userProfile: 'users',
   useFirestoreForProfile: true, // Firestore for Profile instead of Realtime DB
 };

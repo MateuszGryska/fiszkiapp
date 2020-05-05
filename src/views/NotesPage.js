@@ -1,29 +1,42 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { connect, useSelector } from 'react-redux';
+// import PropTypes from 'prop-types';
 import NotesTemplate from 'templates/NotesTemplate';
-// import Note from 'components/molecules/Note/Note';
+import { useFirestoreConnect } from 'react-redux-firebase';
 
-const NotesPage = ({ notes }) => <NotesTemplate notes={notes} />;
+const NotesPage = ({ userId, requested, requesting }) => {
+  useFirestoreConnect([
+    { collection: 'notes', doc: userId }, // or `todos/${props.todoId}`
+  ]);
+  const notes = useSelector(({ firestore: { data } }) => data.notes && data.notes[userId]);
 
-NotesPage.propTypes = {
-  notes: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      content: PropTypes.string.isRequired,
-      created: PropTypes.string.isRequired,
-    }),
-  ),
+  let notesList = [];
+
+  if (requested[`notes/${userId}`]) {
+    notesList = notes.notes;
+  }
+
+  return <NotesTemplate notes={notesList} loading={requesting[`notes/${userId}`]} />;
 };
 
-NotesPage.defaultProps = {
-  notes: [],
-};
+// NotesPage.propTypes = {
+//   notes: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       id: PropTypes.string.isRequired,
+//       title: PropTypes.string.isRequired,
+//       content: PropTypes.string.isRequired,
+//       created: PropTypes.string.isRequired,
+//     }),
+//   ),
+// };
 
-const mapStateToProps = (state) => {
-  const { notes } = state;
-  return { notes };
-};
+// NotesPage.defaultProps = {
+//   notes: [],
+// };
 
+const mapStateToProps = ({ firebase, firestore }) => ({
+  userId: firebase.auth.uid,
+  requesting: firestore.status.requesting,
+  requested: firestore.status.requested,
+});
 export default connect(mapStateToProps)(NotesPage);

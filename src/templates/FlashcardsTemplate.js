@@ -67,19 +67,24 @@ class FlashcardsTemplate extends Component {
 
   render() {
     const { isSmallerWordVisible, flashcardPosition } = this.state;
-    const { words } = this.props;
+    const wordsList = this.props.words[this.props.userId].words;
+
     return (
       <UserPageTemplate>
         <StyledWrapper>
           <Title>Flashcards</Title>
           <StyledBiggerWord>
-            {words.length > 0 ? words[flashcardPosition].english : 'No words, add new ones!'}
+            {wordsList.length > 0
+              ? wordsList[flashcardPosition].english
+              : 'No words, add new ones!'}
           </StyledBiggerWord>
           <StyledSmallerWord isVisible={isSmallerWordVisible}>
-            {words.length > 0 ? words[flashcardPosition].polish : 'Brak słówek, dodaj nowe!'}
+            {wordsList.length > 0
+              ? wordsList[flashcardPosition].polish
+              : 'Brak słówek, dodaj nowe!'}
           </StyledSmallerWord>
           <StyledShowButton onClick={this.showSmallerWord}>Show</StyledShowButton>
-          <Button onClick={() => this.pickNewWord(words.length)}>NEW WORD</Button>
+          <Button onClick={() => this.pickNewWord(wordsList.length)}>NEW WORD</Button>
         </StyledWrapper>
       </UserPageTemplate>
     );
@@ -95,9 +100,9 @@ FlashcardsTemplate.propTypes = {
   ).isRequired,
 };
 
-const mapStateToProps = (state) => {
-  const { words } = state;
-  return { words };
-};
+const mapStateToProps = ({ firebase, firestore }) => ({
+  userId: firebase.auth.uid,
+  words: firestore.data.words,
+});
 
 export default connect(mapStateToProps)(FlashcardsTemplate);
