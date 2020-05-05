@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import backArrow from 'assets/icons/back-arrow.svg';
 import Input from 'components/atoms/Input/Input';
+import Message from 'components/atoms/Message/Message';
 import { connect } from 'react-redux';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
 import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
-import { updateItem as editItemAction } from 'actions';
+import { editProfile as editProfileAction, clean as cleanAction } from 'actions';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -71,12 +72,20 @@ const StyledBackground = styled.div`
   display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
 `;
 
-const EditProfileBar = ({ isVisible, handleClose }) => {
+const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error, cleanUp }) => {
   const [isEditProfileVisible, setVisible] = useState(false);
 
   useEffect(() => {
     setVisible(isVisible);
   }, [isVisible]);
+
+  useEffect(() => {
+    return () => {
+      cleanUp();
+    };
+  }, [cleanUp]);
+
+  if (!firebase.profile.isLoaded) return null;
 
   return (
     <>
@@ -89,9 +98,14 @@ const EditProfileBar = ({ isVisible, handleClose }) => {
         />
         <StyledTitle>Edit profile</StyledTitle>
         <Formik
-          initialValues={{ firstName: '', lastName: '', email: '', password: '' }}
-          onSubmit={(values) => {
-            console.log(values);
+          initialValues={{
+            firstName: firebase.profile.firstName,
+            lastName: firebase.profile.lastName,
+            email: firebase.auth.email,
+            password: '',
+          }}
+          onSubmit={async (values) => {
+            await updateProfile(values);
 
             setVisible(false);
             handleClose(false);
@@ -134,6 +148,8 @@ const EditProfileBar = ({ isVisible, handleClose }) => {
               <StyledActionButton secondary type="submit">
                 update
               </StyledActionButton>
+              <Message error>{error}</Message>
+              {error === false ? <Message>Profile was updated!</Message> : null}
             </StyledForm>
           )}
         </Formik>
@@ -150,11 +166,22 @@ const EditProfileBar = ({ isVisible, handleClose }) => {
 };
 
 EditProfileBar.propTypes = {
-  isVisible: PropTypes.bool.isRequired,
+  isVisible: PropTypes.bool,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  updateItem: (itemType, id, itemContent) => dispatch(editItemAction(itemType, id, itemContent)),
+EditProfileBar.defaultProps = {
+  isVisible: false,
+};
+
+const mapStateToProps = ({ firebase, auth }) => ({
+  firebase,
+  error: auth.profileEdit.error,
 });
 
-export default withContext(connect(null, mapDispatchToProps)(EditProfileBar));
+const mapDispatchToProps = (dispatch) => ({
+  updateProfile: (email, firstName, lastName, password) =>
+    dispatch(editProfileAction(email, firstName, lastName, password)),
+  cleanUp: () => dispatch(cleanAction()),
+});
+
+export default withContext(connect(mapStateToProps, mapDispatchToProps)(EditProfileBar));

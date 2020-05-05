@@ -83,3 +83,47 @@ export const recoveryPassword = (data) => async (dispatch, getState, { getFireba
     dispatch({ type: authTypes.RECOVERY_FAIL, payload: err.message });
   }
 };
+
+// edit profile
+export const editProfile = (data) => async (dispatch, getState, { getFirebase }) => {
+  const firebase = getFirebase();
+  const firestore = getFirebase().firestore();
+  const user = firebase.auth().currentUser;
+  const { uid: userId, email: userEmail } = getState().firebase.auth;
+  dispatch({ type: authTypes.PROFILE_EDIT_START });
+
+  try {
+    if (userEmail !== data.email) {
+      await user.updateEmail(data.email);
+    }
+
+    await firestore.collection('users').doc(userId).set({
+      firstName: data.firstName,
+      lastName: data.lastName,
+    });
+
+    if (data.password.length > 0) {
+      await user.updatePassword(data.password);
+    }
+
+    dispatch({ type: authTypes.PROFILE_EDIT_SUCCESS });
+  } catch (err) {
+    dispatch({ type: authTypes.PROFILE_EDIT_FAIL, payload: err.message });
+  }
+};
+
+// delete user
+export const deleteUser = () => async (dispatch, getState, { getFirebase }) => {
+  const firebase = getFirebase();
+  const firestore = getFirebase().firestore();
+  const user = firebase.auth().currentUser;
+  const { uid: userId } = getState().firebase.auth;
+  dispatch({ type: authTypes.DELETE_USER_START });
+
+  try {
+    await firestore.collection('users').doc(userId).delete();
+    await user.delete();
+  } catch (err) {
+    dispatch({ type: authTypes.DELETE_USER_FAIL, payload: err.message });
+  }
+};

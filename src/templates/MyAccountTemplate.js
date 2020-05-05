@@ -4,9 +4,14 @@ import { connect } from 'react-redux';
 import Button from 'components/atoms/Button/Button';
 import styled from 'styled-components';
 import Title from 'components/atoms/Title/Title';
-import { verifyEmail as verifyEmailAction, clean as cleanAction } from 'actions';
+import {
+  verifyEmail as verifyEmailAction,
+  clean as cleanAction,
+  deleteUser as deleteAction,
+} from 'actions';
 import Message from 'components/atoms/Message/Message';
 import EditProfileBar from 'components/organisms/EditProfileBar/EditProfileBar';
+import WarningModal from 'components/molecules/WarningModal/WarningModal';
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.div`
@@ -32,14 +37,24 @@ const StyledVerify = styled.p`
   color: ${({ yes }) => (yes ? 'green' : 'red')};
 `;
 
-const MyAccountTemplate = ({ profileData, loggedIn, sendVerifyEmail, loading, error, cleanUp }) => {
+const MyAccountTemplate = ({
+  profileData,
+  loggedIn,
+  sendVerifyEmail,
+  loading,
+  error,
+  cleanUp,
+  deleteError,
+  deleteUser,
+}) => {
   useEffect(() => {
     return () => {
       cleanUp();
     };
   }, [cleanUp]);
 
-  const [isEditProfileVisible, setVisible] = useState(false);
+  const [isEditProfileVisible, setEditProfileVisible] = useState(false);
+  const [isDeleteWarningVisible, setDeleteWarningVisible] = useState(false);
 
   return (
     <UserPageTemplate>
@@ -77,8 +92,10 @@ const MyAccountTemplate = ({ profileData, loggedIn, sendVerifyEmail, loading, er
             )}
           </StyledDetail>
         </StyledDetailsList>
-        <Button onClick={() => setVisible(true)}>EDIT PROFILE</Button>
-        <Button deleteButton>DELETE ACCOUNT</Button>
+        <Button onClick={() => setEditProfileVisible(true)}>EDIT PROFILE</Button>
+        <Button deleteButton onClick={() => setDeleteWarningVisible(true)}>
+          DELETE ACCOUNT
+        </Button>
         {!loggedIn.emailVerified ? (
           <>
             <Button onClick={() => sendVerifyEmail()} loading={loading ? 'SENDING...' : null}>
@@ -88,7 +105,17 @@ const MyAccountTemplate = ({ profileData, loggedIn, sendVerifyEmail, loading, er
             {error === false ? <Message>Verify email sent successfully!</Message> : null}
           </>
         ) : null}
-        <EditProfileBar isVisible={isEditProfileVisible} handleClose={() => setVisible()} />
+        <EditProfileBar
+          isVisible={isEditProfileVisible}
+          handleClose={() => setEditProfileVisible()}
+        />
+        <WarningModal
+          isVisible={isDeleteWarningVisible}
+          handleClose={() => setDeleteWarningVisible()}
+          error={deleteError}
+          deleteAction={deleteUser}
+          cleanUp={cleanUp}
+        />
       </StyledWrapper>
     </UserPageTemplate>
   );
@@ -99,11 +126,13 @@ const mapStateToProps = ({ firebase, auth }) => ({
   loggedIn: firebase.auth,
   loading: auth.verifyEmail.loading,
   error: auth.verifyEmail.error,
+  deleteError: auth.deleteUser.error,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   sendVerifyEmail: () => dispatch(verifyEmailAction()),
   cleanUp: () => dispatch(cleanAction()),
+  deleteUser: () => dispatch(deleteAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyAccountTemplate);

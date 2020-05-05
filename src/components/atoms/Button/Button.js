@@ -34,7 +34,7 @@ const StyledWrapper = styled.button`
       css`
         &:hover {
           background: ${({ theme }) => theme.red};
-          box-shadow: 0px 15px 20px rgb(255, 77, 77);
+          box-shadow: 0px 15px 20px rgb(255, 51, 51);
         }
       `}
   ${({ recoverButton }) =>
