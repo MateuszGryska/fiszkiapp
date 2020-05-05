@@ -158,7 +158,7 @@ NewItemBar.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addItem: (itemType, itemContent) => dispatch(addItemAction(itemType, itemContent)),
+  addItem: (itemType, data) => dispatch(addItemAction(itemType, data)),
 });
 
 export default withContext(connect(null, mapDispatchToProps)(NewItemBar));

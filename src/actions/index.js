@@ -8,4 +8,5 @@ export {
   editProfile,
   deleteUser,
 } from './authActions';
-export { addItem, removeItem, updateItem } from './dataActions';
+export { removeItem, updateItem } from './dataActions';
+export { addItem } from './itemsActions';

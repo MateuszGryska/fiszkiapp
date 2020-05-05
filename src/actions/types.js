@@ -16,3 +16,9 @@ export const authTypes = {
   DELETE_USER_START: 'DELETE_USER_START',
   DELETE_USER_FAIL: 'DELETE_USER_FAIL',
 };
+
+export const itemTypes = {
+  ADD_ITEM_START: 'ADD_ITEM_START',
+  ADD_ITEM_SUCCESS: 'ADD_ITEM_SUCCESS',
+  ADD_ITEM_FAIL: 'ADD_ITEM_FAIL',
+};
