@@ -143,6 +143,7 @@ TableTemplate.propTypes = {
       english: PropTypes.string.isRequired,
     }),
   ),
+  loading: PropTypes.bool.isRequired,
 };
 
 TableTemplate.defaultProps = {

@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import Root from 'views/Root';
 import { rrfProps } from 'config/config';
 import { ReactReduxFirebaseProvider, isLoaded } from 'react-redux-firebase';

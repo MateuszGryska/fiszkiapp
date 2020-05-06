@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import EditItemBar from 'components/organisms/EditItemBar/EditItemBar';
@@ -48,46 +48,34 @@ const StyledActionButtons = styled.div`
   left: 30px;
 `;
 
-class Note extends Component {
-  state = {
-    isEditItemBarVisible: false,
-  };
+const Note = ({ title, content, id, deleteItem }) => {
+  const [isEditItemBarVisible, setEditItemBarVisible] = useState(false);
 
-  toggleEditItemBarVisible = () => {
-    this.setState((prevState) => ({
-      isEditItemBarVisible: !prevState.isEditItemBarVisible,
-    }));
-  };
+  const MAX_LENGTH = 70;
 
-  render() {
-    const { title, content, id, deleteItem } = this.props;
-    const { isEditItemBarVisible } = this.state;
-    const MAX_LENGTH = 70;
-
-    return (
-      <StyledWrapper>
-        <StyledTitle>{title}</StyledTitle>
-        <StyledParagraph>{`${content.substring(0, MAX_LENGTH)}...`}</StyledParagraph>
-        <ShowButton secondary="true" to={`notes/${id}`}>
-          Show more
-        </ShowButton>
-        <StyledActionButtons>
-          <ActionButton secondary onClick={this.toggleEditItemBarVisible}>
-            Edit
-          </ActionButton>
-          <ActionButton onClick={() => deleteItem(notes, id)}>Remove</ActionButton>
-        </StyledActionButtons>
-        <EditItemBar
-          title={title}
-          content={content}
-          id={id}
-          isVisible={isEditItemBarVisible}
-          handleClose={this.toggleEditItemBarVisible}
-        />
-      </StyledWrapper>
-    );
-  }
-}
+  return (
+    <StyledWrapper>
+      <StyledTitle>{title}</StyledTitle>
+      <StyledParagraph>{`${content.substring(0, MAX_LENGTH)}...`}</StyledParagraph>
+      <ShowButton secondary="true" to={`notes/${id}`}>
+        Show more
+      </ShowButton>
+      <StyledActionButtons>
+        <ActionButton secondary onClick={() => setEditItemBarVisible(true)}>
+          Edit
+        </ActionButton>
+        <ActionButton onClick={() => deleteItem(notes, id)}>Remove</ActionButton>
+      </StyledActionButtons>
+      <EditItemBar
+        title={title}
+        content={content}
+        id={id}
+        isVisible={isEditItemBarVisible}
+        handleClose={() => setEditItemBarVisible(false)}
+      />
+    </StyledWrapper>
+  );
+};
 
 Note.propTypes = {
   id: PropTypes.string.isRequired,

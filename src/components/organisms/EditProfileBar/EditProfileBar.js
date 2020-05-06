@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import backArrow from 'assets/icons/back-arrow.svg';
+import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
+import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
+import BarsTitle from 'components/atoms/BarsTitle/BarsTitle';
 import Input from 'components/atoms/Input/Input';
 import Message from 'components/atoms/Message/Message';
 import { connect } from 'react-redux';
@@ -26,24 +28,6 @@ const StyledWrapper = styled.div`
   transition: transform 0.4s ease-in-out;
 `;
 
-const StyledButton = styled.button`
-  position: absolute;
-  bottom: 30px;
-  left: 30px;
-  border: none;
-  width: 30px;
-  height: 40px;
-  background-color: transparent;
-  background-image: url(${backArrow});
-  background-size: 30px;
-  background-repeat: no-repeat;
-  cursor: pointer;
-`;
-
-const StyledTitle = styled.h1`
-  color: ${({ theme }) => theme.fontGrey};
-`;
-
 const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
@@ -58,18 +42,6 @@ const StyledInput = styled(Input)`
 
 const StyledActionButton = styled(ActionButton)`
   margin-top: 20px;
-`;
-
-const StyledBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  z-index: 999;
-  height: 100vh;
-  background-color: black;
-  opacity: 0.5;
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
 `;
 
 const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error, cleanUp }) => {
@@ -90,13 +62,13 @@ const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error
   return (
     <>
       <StyledWrapper isVisible={isEditProfileVisible}>
-        <StyledButton
+        <ReturnButton
           onClick={() => {
             setVisible(false);
             handleClose(false);
           }}
         />
-        <StyledTitle>Edit profile</StyledTitle>
+        <BarsTitle>Edit profile</BarsTitle>
         <Formik
           initialValues={{
             firstName: firebase.profile.firstName,
@@ -154,7 +126,7 @@ const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error
           )}
         </Formik>
       </StyledWrapper>
-      <StyledBackground
+      <DarkerBackground
         isVisible={isEditProfileVisible}
         onClick={() => {
           setVisible(false);

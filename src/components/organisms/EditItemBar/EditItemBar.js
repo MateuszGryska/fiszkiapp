@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import backArrow from 'assets/icons/back-arrow.svg';
+import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
+import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
+import BarsTitle from 'components/atoms/BarsTitle/BarsTitle';
 import Input from 'components/atoms/Input/Input';
 import { connect } from 'react-redux';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
@@ -26,24 +28,6 @@ const StyledWrapper = styled.div`
   transition: transform 0.4s ease-in-out;
 `;
 
-const StyledButton = styled.button`
-  position: absolute;
-  bottom: 30px;
-  left: 30px;
-  border: none;
-  width: 30px;
-  height: 40px;
-  background-color: transparent;
-  background-image: url(${backArrow});
-  background-size: 30px;
-  background-repeat: no-repeat;
-  cursor: pointer;
-`;
-
-const StyledTitle = styled.h1`
-  color: ${({ theme }) => theme.fontGrey};
-`;
-
 const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
@@ -66,18 +50,6 @@ const StyledActionButton = styled(ActionButton)`
   margin-top: 20px;
 `;
 
-const StyledBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  z-index: 999;
-  height: 100vh;
-  background-color: black;
-  opacity: 0.5;
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
-`;
-
 const EditItemBar = ({
   handleClose,
   isVisible,
@@ -92,8 +64,8 @@ const EditItemBar = ({
 }) => (
   <>
     <StyledWrapper isVisible={isVisible}>
-      <StyledButton onClick={() => handleClose()} />
-      <StyledTitle>Edit {pageContext === 'notes' ? 'note' : 'word'}</StyledTitle>
+      <ReturnButton onClick={() => handleClose()} />
+      <BarsTitle>Edit {pageContext === 'notes' ? 'note' : 'word'}</BarsTitle>
       <Formik
         initialValues={{ title, content, polish, english, created }}
         onSubmit={async (values) => {
@@ -104,8 +76,6 @@ const EditItemBar = ({
             await updateItem(pageContext, id, values);
             handleClose();
           }
-
-          // handleClose();
         }}
       >
         {({ values, handleChange, handleBlur }) => (
@@ -159,7 +129,7 @@ const EditItemBar = ({
         )}
       </Formik>
     </StyledWrapper>
-    <StyledBackground isVisible={isVisible} onClick={() => handleClose()} />
+    <DarkerBackground isVisible={isVisible} onClick={() => handleClose()} />
   </>
 );
 

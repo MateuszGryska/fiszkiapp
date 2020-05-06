@@ -85,7 +85,6 @@ const FlashcardsTemplate = ({ userId, requested }) => {
 
 const mapStateToProps = ({ firebase, firestore }) => ({
   userId: firebase.auth.uid,
-  words: firestore.data.words,
   requesting: firestore.status.requesting,
   requested: firestore.status.requested,
 });
