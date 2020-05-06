@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import withContext from 'hoc/withContext';
 import styled from 'styled-components';
 import Navbar from 'components/atoms/Navbar/Navbar';
 import PropTypes from 'prop-types';
@@ -25,6 +27,7 @@ const AddButton = styled.button`
   border: none;
   cursor: pointer;
   outline: none;
+  display: ${({ isButtonVisible }) => (isButtonVisible ? 'none' : 'block')};
 `;
 
 class UserPageTemplate extends Component {
@@ -49,16 +52,39 @@ class UserPageTemplate extends Component {
   };
 
   render() {
-    const { children } = this.props;
+    const { children, loggedIn, profileData, emailVerified, pageContext } = this.props;
     const { isMenubarVisible, isNewItemBarVisible } = this.state;
 
     return (
       <StyledWrapper>
-        <Navbar handleOpen={this.toggleMenuBarVisible} />
-        <Menubar isVisible={isMenubarVisible} handleClose={this.toggleMenuBarVisible} />
-        {children}
-        <AddButton onClick={this.toggleNewItemBarVisible} />
-        <NewItemBar isVisible={isNewItemBarVisible} handleClose={this.toggleNewItemBarVisible} />
+        {loggedIn.uid ? (
+          <>
+            <Navbar
+              loggedIn={loggedIn}
+              emailVerified={emailVerified}
+              handleOpen={this.toggleMenuBarVisible}
+            />
+            <Menubar
+              loggedIn={loggedIn}
+              profileData={profileData}
+              isVisible={isMenubarVisible}
+              handleClose={this.toggleMenuBarVisible}
+            />
+            {children}
+            <AddButton
+              loggedIn={loggedIn}
+              isButtonVisible={pageContext === 'account'}
+              onClick={this.toggleNewItemBarVisible}
+            />
+            <NewItemBar
+              loggedIn={loggedIn}
+              isVisible={isNewItemBarVisible}
+              handleClose={this.toggleNewItemBarVisible}
+            />
+          </>
+        ) : (
+          <h1>you must log in</h1>
+        )}
       </StyledWrapper>
     );
   }
@@ -68,4 +94,10 @@ UserPageTemplate.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-export default UserPageTemplate;
+const mapStateToProps = ({ firebase }) => ({
+  profileData: firebase.profile,
+  loggedIn: firebase.auth,
+  emailVerified: firebase.auth.emailVerified,
+});
+
+export default withContext(connect(mapStateToProps)(UserPageTemplate));

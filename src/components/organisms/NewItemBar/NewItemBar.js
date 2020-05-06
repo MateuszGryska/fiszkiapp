@@ -16,7 +16,7 @@ const StyledWrapper = styled.div`
   top: 0;
   right: 0;
   background-color: ${({ theme }) => theme.white};
-  border-left: 2px ${({ theme }) => theme.main};
+  border-left: 8px solid ${({ theme }) => theme.main};
   box-shadow: ${({ isVisible }) =>
     isVisible ? '-10px 3px 20px 0px rgba(0, 0, 0, 0.16);' : 'none'};
   padding: 20px 30px;
@@ -33,6 +33,7 @@ const StyledButton = styled.button`
   border: none;
   width: 30px;
   height: 40px;
+  background-color: transparent;
   background-image: url(${backArrow});
   background-size: 30px;
   background-repeat: no-repeat;
@@ -157,7 +158,7 @@ NewItemBar.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addItem: (itemType, itemContent) => dispatch(addItemAction(itemType, itemContent)),
+  addItem: (itemType, data) => dispatch(addItemAction(itemType, data)),
 });
 
 export default withContext(connect(null, mapDispatchToProps)(NewItemBar));

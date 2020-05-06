@@ -73,6 +73,7 @@ class NotesTemplate extends Component {
 
   render() {
     const { currentlyDisplayed, search } = this.state;
+    const { loading } = this.props;
 
     return (
       <UserPageTemplate>
@@ -85,7 +86,9 @@ class NotesTemplate extends Component {
             ))}
           </StyledGrid>
           {currentlyDisplayed.length === 0 ? (
-            <StyledInfo>You don&#39;t have any notes yet! Add new one!</StyledInfo>
+            <StyledInfo>
+              {loading ? 'Loading...' : `You don't have any notes yet! Add new one!`}
+            </StyledInfo>
           ) : null}
         </StyledWrapper>
       </UserPageTemplate>

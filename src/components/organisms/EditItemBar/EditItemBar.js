@@ -16,7 +16,7 @@ const StyledWrapper = styled.div`
   top: 0;
   right: 0;
   background-color: ${({ theme }) => theme.white};
-  border-left: 2px ${({ theme }) => theme.main};
+  border-left: 8px solid ${({ theme }) => theme.main};
   box-shadow: ${({ isVisible }) =>
     isVisible ? '-10px 3px 20px 0px rgba(0, 0, 0, 0.16);' : 'none'};
   padding: 20px 30px;
@@ -33,6 +33,7 @@ const StyledButton = styled.button`
   border: none;
   width: 30px;
   height: 40px;
+  background-color: transparent;
   background-image: url(${backArrow});
   background-size: 30px;
   background-repeat: no-repeat;
@@ -95,14 +96,16 @@ const EditItemBar = ({
       <StyledTitle>Edit {pageContext === 'notes' ? 'note' : 'word'}</StyledTitle>
       <Formik
         initialValues={{ title, content, polish, english, created }}
-        onSubmit={(values) => {
+        onSubmit={async (values) => {
           if (pageContext === 'flashcards') {
-            updateItem('words', id, values);
+            await updateItem('words', id, values);
+            handleClose();
           } else {
-            updateItem(pageContext, id, values);
+            await updateItem(pageContext, id, values);
+            handleClose();
           }
 
-          handleClose();
+          // handleClose();
         }}
       >
         {({ values, handleChange, handleBlur }) => (

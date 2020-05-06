@@ -5,7 +5,7 @@ import EditItemBar from 'components/organisms/EditItemBar/EditItemBar';
 import styled from 'styled-components';
 import ShowButton from 'components/atoms/ShowButton/ShowButton';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
-import { removeItem as removeItemAction } from 'actions';
+import { deleteItem as deleteItemAction } from 'actions';
 
 const notes = 'notes';
 
@@ -60,7 +60,7 @@ class Note extends Component {
   };
 
   render() {
-    const { title, content, id, removeItem } = this.props;
+    const { title, content, id, deleteItem } = this.props;
     const { isEditItemBarVisible } = this.state;
     const MAX_LENGTH = 70;
 
@@ -75,7 +75,7 @@ class Note extends Component {
           <ActionButton secondary onClick={this.toggleEditItemBarVisible}>
             Edit
           </ActionButton>
-          <ActionButton onClick={() => removeItem(notes, id)}>Remove</ActionButton>
+          <ActionButton onClick={() => deleteItem(notes, id)}>Remove</ActionButton>
         </StyledActionButtons>
         <EditItemBar
           title={title}
@@ -93,11 +93,11 @@ Note.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  removeItem: PropTypes.func.isRequired,
+  deleteItem: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
+  deleteItem: (itemType, id) => dispatch(deleteItemAction(itemType, id)),
 });
 
 export default connect(null, mapDispatchToProps)(Note);

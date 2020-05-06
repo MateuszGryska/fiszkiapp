@@ -20,7 +20,15 @@ class MainTemplate extends Component {
   }
 
   setCurrentPage = (prevState = '') => {
-    const pageTypes = ['notes', 'words', 'flashcards'];
+    const pageTypes = [
+      'notes',
+      'words',
+      'flashcards',
+      'login',
+      'register',
+      'account',
+      'reset-password',
+    ];
     const {
       location: { pathname },
     } = this.props;

@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components';
 import EditItemBar from 'components/organisms/EditItemBar/EditItemBar';
 import editIcon from 'assets/icons/edit-icon.svg';
 import deleteIcon from 'assets/icons/delete-icon.svg';
-import { removeItem as removeItemAction } from 'actions';
+import { deleteItem as deleteItemAction } from 'actions';
 
 const words = 'words';
 
@@ -48,7 +48,7 @@ class TableItem extends Component {
   };
 
   render() {
-    const { polish, english, id, removeItem } = this.props;
+    const { polish, english, id, deleteItem } = this.props;
     const { isEditItemBarVisible } = this.state;
 
     return (
@@ -58,7 +58,7 @@ class TableItem extends Component {
           <td>{english}</td>
           <StyledActions>
             <StyledButton secondary onClick={this.toggleEditItemBarVisible} />
-            <StyledButton onClick={() => removeItem(words, id)} />
+            <StyledButton onClick={() => deleteItem(words, id)} />
           </StyledActions>
           <td>
             <EditItemBar
@@ -79,11 +79,11 @@ TableItem.propTypes = {
   id: PropTypes.string.isRequired,
   polish: PropTypes.string.isRequired,
   english: PropTypes.string.isRequired,
-  removeItem: PropTypes.func.isRequired,
+  deleteItem: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
+  deleteItem: (itemType, id) => dispatch(deleteItemAction(itemType, id)),
 });
 
 export default connect(null, mapDispatchToProps)(TableItem);

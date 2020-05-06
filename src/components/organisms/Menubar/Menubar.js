@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import backArrow from 'assets/icons/back-arrow.svg';
 import { NavLink } from 'react-router-dom';
+import AccountDetails from 'components/molecules/AccountDetails/AccountDetails';
+import { signOut as signOutAction } from 'actions';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -11,7 +14,7 @@ const StyledWrapper = styled.div`
   top: 0;
   right: 0;
   background-color: ${({ theme }) => theme.white};
-  border-left: 2px ${({ theme }) => theme.main};
+  border-left: 8px solid ${({ theme }) => theme.main};
   box-shadow: ${({ isVisible }) =>
     isVisible ? '-10px 3px 20px 0px rgba(0, 0, 0, 0.16);' : 'none'};
   padding: 20px 30px;
@@ -31,6 +34,7 @@ const StyledButton = styled.button`
   border: none;
   width: 30px;
   height: 40px;
+  background-color: transparent;
   background-image: url(${backArrow});
   background-size: 30px;
   background-repeat: no-repeat;
@@ -83,10 +87,12 @@ const StyledBackground = styled.div`
   display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
 `;
 
-const Menubar = ({ isVisible, handleClose }) => (
+const Menubar = ({ isVisible, handleClose, profileData, signOut }) => (
   <>
     <StyledWrapper isVisible={isVisible}>
+      <AccountDetails profileData={profileData} signOut={signOut} />
       <StyledButton onClick={() => handleClose()} />
+
       <StyledLinkList>
         <li>
           <StyledNavLink exact to="/flashcards" activeclass="active">
@@ -118,4 +124,8 @@ Menubar.defaultProps = {
   isVisible: false,
 };
 
-export default Menubar;
+const mapDispatchToProps = (dispatch) => ({
+  signOut: () => dispatch(signOutAction()),
+});
+
+export default connect(null, mapDispatchToProps)(Menubar);
