@@ -122,6 +122,8 @@ export const deleteUser = () => async (dispatch, getState, { getFirebase }) => {
 
   try {
     await firestore.collection('users').doc(userId).delete();
+    await firestore.collection('words').doc(userId).delete();
+    await firestore.collection('notes').doc(userId).delete();
     await user.delete();
   } catch (err) {
     dispatch({ type: authTypes.DELETE_USER_FAIL, payload: err.message });

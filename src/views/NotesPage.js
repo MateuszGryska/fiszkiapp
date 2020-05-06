@@ -12,7 +12,11 @@ const NotesPage = ({ userId, requested, requesting }) => {
 
   let notesList = [];
 
-  if (requested[`notes/${userId}`]) {
+  if (!notes) {
+    notesList = [];
+  } else if (notes.notes.length === 0) {
+    notesList = [];
+  } else if (requested[`notes/${userId}`]) {
     notesList = notes.notes;
   }
 

@@ -10,13 +10,16 @@ const TablePage = ({ userId, requested, requesting }) => {
   ]);
   const words = useSelector(({ firestore: { data } }) => data.words && data.words[userId]);
 
-  let wordList = [];
-
-  if (requested[`words/${userId}`]) {
-    wordList = words.words;
+  let wordsList = [];
+  if (!words) {
+    wordsList = [];
+  } else if (words.words.length === 0) {
+    wordsList = [];
+  } else if (requested[`words/${userId}`]) {
+    wordsList = words.words;
   }
 
-  return <TableTemplate words={wordList} loading={requesting[`words/${userId}`]} />;
+  return <TableTemplate words={wordsList} loading={requesting[`words/${userId}`]} />;
 };
 
 // TablePage.propTypes = {

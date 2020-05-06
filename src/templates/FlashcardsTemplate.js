@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { connect, useSelector } from 'react-redux';
 import Title from 'components/atoms/Title/Title';
 import styled from 'styled-components';
 import Button from 'components/atoms/Button/Button';
+import { useFirestoreConnect } from 'react-redux-firebase';
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.div`
@@ -41,69 +41,53 @@ const StyledShowButton = styled.button`
   }
 `;
 
-class FlashcardsTemplate extends Component {
-  state = {
-    isSmallerWordVisible: false,
-    flashcardPosition: 0,
-  };
+const FlashcardsTemplate = ({ userId, requested }) => {
+  const [isSmallerWordVisible, setSmallerWordVisible] = useState(false);
+  const [flashcardPosition, setFlashcardPosition] = useState(0);
+  useFirestoreConnect([{ collection: 'words', doc: userId }]);
+  const words = useSelector(({ firestore: { data } }) => data.words && data.words[userId]);
 
-  showSmallerWord = () => {
-    this.setState((prevState) => ({
-      isSmallerWordVisible: !prevState.isSmallerWordVisible,
-    }));
-  };
-
-  pickNewWord = (length) => {
-    const { flashcardPosition } = this.state;
-    let random = Math.floor(Math.random() * length + 0);
-    if (random === flashcardPosition) {
-      random = Math.floor(Math.random() * length + 0);
-    }
-    this.setState({
-      flashcardPosition: random,
-      isSmallerWordVisible: false,
-    });
-  };
-
-  render() {
-    const { isSmallerWordVisible, flashcardPosition } = this.state;
-
-    const wordsList = this.props.words[this.props.userId].words;
-
-    return (
-      <UserPageTemplate>
-        <StyledWrapper>
-          <Title>Flashcards</Title>
-          <StyledBiggerWord>
-            {wordsList.length > 0
-              ? wordsList[flashcardPosition].english
-              : 'No words, add new ones!'}
-          </StyledBiggerWord>
-          <StyledSmallerWord isVisible={isSmallerWordVisible}>
-            {wordsList.length > 0
-              ? wordsList[flashcardPosition].polish
-              : 'Brak słówek, dodaj nowe!'}
-          </StyledSmallerWord>
-          <StyledShowButton onClick={this.showSmallerWord}>Show</StyledShowButton>
-          <Button onClick={() => this.pickNewWord(wordsList.length)}>NEW WORD</Button>
-        </StyledWrapper>
-      </UserPageTemplate>
-    );
+  let wordsList = [];
+  if (!words) {
+    wordsList = [];
+  } else if (words.words.length === 0) {
+    wordsList = [];
+  } else if (requested[`words/${userId}`]) {
+    wordsList = words.words;
   }
-}
 
-FlashcardsTemplate.propTypes = {
-  words: PropTypes.arrayOf(
-    PropTypes.shape({
-      polish: PropTypes.string.isRequired,
-      english: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  const pickNewWord = (length) => {
+    let random = Math.floor(Math.random() * length);
+    if (random === { flashcardPosition }) {
+      random = Math.floor(Math.random() * length);
+    }
+
+    setFlashcardPosition(random);
+    setSmallerWordVisible(false);
+  };
+
+  return (
+    <UserPageTemplate>
+      <StyledWrapper>
+        <Title>Flashcards</Title>
+        <StyledBiggerWord>
+          {wordsList.length > 0 ? wordsList[flashcardPosition].english : 'No words, add new ones!'}
+        </StyledBiggerWord>
+        <StyledSmallerWord isVisible={isSmallerWordVisible}>
+          {wordsList.length > 0 ? wordsList[flashcardPosition].polish : 'Brak słówek, dodaj nowe!'}
+        </StyledSmallerWord>
+        <StyledShowButton onClick={() => setSmallerWordVisible(true)}>Show</StyledShowButton>
+        <Button onClick={() => pickNewWord(wordsList.length)}>NEW WORD</Button>
+      </StyledWrapper>
+    </UserPageTemplate>
+  );
 };
 
 const mapStateToProps = ({ firebase, firestore }) => ({
   userId: firebase.auth.uid,
   words: firestore.data.words,
+  requesting: firestore.status.requesting,
+  requested: firestore.status.requested,
 });
 
 export default connect(mapStateToProps)(FlashcardsTemplate);
