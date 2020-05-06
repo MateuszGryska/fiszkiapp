@@ -83,7 +83,9 @@ const AccountDetails = ({ profileData, signOut }) => (
       </StyledTitle>
       <StyledButtons>
         <StyledButton to="/account">My account</StyledButton>
-        <StyledButton onClick={() => signOut()}>Log Out</StyledButton>
+        <StyledButton to="/" onClick={() => signOut()}>
+          Log Out
+        </StyledButton>
       </StyledButtons>
     </StyledAccountsDetails>
   </StyledWrapper>

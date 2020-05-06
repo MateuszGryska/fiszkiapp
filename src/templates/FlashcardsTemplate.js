@@ -67,6 +67,7 @@ class FlashcardsTemplate extends Component {
 
   render() {
     const { isSmallerWordVisible, flashcardPosition } = this.state;
+
     const wordsList = this.props.words[this.props.userId].words;
 
     return (

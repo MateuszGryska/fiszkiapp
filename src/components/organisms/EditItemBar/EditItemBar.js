@@ -96,14 +96,16 @@ const EditItemBar = ({
       <StyledTitle>Edit {pageContext === 'notes' ? 'note' : 'word'}</StyledTitle>
       <Formik
         initialValues={{ title, content, polish, english, created }}
-        onSubmit={(values) => {
+        onSubmit={async (values) => {
           if (pageContext === 'flashcards') {
-            updateItem('words', id, values);
+            await updateItem('words', id, values);
+            handleClose();
           } else {
-            updateItem(pageContext, id, values);
+            await updateItem(pageContext, id, values);
+            handleClose();
           }
 
-          handleClose();
+          // handleClose();
         }}
       >
         {({ values, handleChange, handleBlur }) => (
