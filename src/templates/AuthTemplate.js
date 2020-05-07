@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import * as Yup from 'yup';
 import Button from 'components/atoms/Button/Button';
 import Message from 'components/atoms/Message/Message';
 import withContext from 'hoc/withContext';
@@ -63,6 +64,7 @@ const StyledForm = styled(Form)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 const StyledInput = styled(Input)`
@@ -73,6 +75,26 @@ const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.black};
   margin: 0px 30px 10px 30px;
 `;
+
+const StyledMessage = styled(Message)`
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const LoginSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email.').required('The email is required.'),
+  password: Yup.string().required('The passoword is required.').min(8, 'Too short.'),
+  firstName: Yup.string()
+    .required('Your first name is required.')
+    .min(2, 'Too short.')
+    .max(25, 'Too long.'),
+  lastName: Yup.string()
+    .required('Your last name is required.')
+    .min(2, 'Too short.')
+    .max(25, 'Too long.'),
+});
 
 const AuthTemplate = ({
   pageContext,
@@ -101,8 +123,9 @@ const AuthTemplate = ({
           {pageContext === 'reset-password' ? 'Type in your e-mail:' : null}
         </StyledTitle>
         <Formik
+          validationSchema={LoginSchema}
           initialValues={{ email: '', password: '', firstName: '', lastName: '' }}
-          onSubmit={async (values) => {
+          onSubmit={async (values, { setSubmitting }) => {
             if (pageContext === 'login') {
               await signIn(values);
             } else if (pageContext === 'reset-password') {
@@ -110,9 +133,10 @@ const AuthTemplate = ({
             } else if (pageContext === 'register') {
               await signUp(values);
             }
+            setSubmitting(false);
           }}
         >
-          {({ values, handleChange, handleBlur }) => (
+          {({ values, handleChange, handleBlur, errors, touched, isValid }) => (
             <StyledForm>
               {pageContext === 'login' ? (
                 <>
@@ -124,6 +148,7 @@ const AuthTemplate = ({
                     onBlur={handleBlur}
                     value={values.email}
                   />
+
                   <StyledInput
                     type="password"
                     name="password"
@@ -185,6 +210,7 @@ const AuthTemplate = ({
               {pageContext === 'login' ? (
                 <>
                   <Button
+                    disabled={!isValid}
                     loginButton={pageContext === 'login' ? 'loginButton' : null}
                     loading={loading ? 'LOGGING IN...' : null}
                     type="submit"
@@ -196,6 +222,7 @@ const AuthTemplate = ({
               {pageContext === 'register' ? (
                 <>
                   <Button
+                    disabled={!isValid}
                     loginButton={null}
                     loading={loading ? 'SIGNING UP...' : null}
                     type="submit"
@@ -207,6 +234,7 @@ const AuthTemplate = ({
               {pageContext === 'reset-password' ? (
                 <>
                   <Button
+                    disabled={!isValid}
                     loginButton={pageContext === 'login' ? 'loginButton' : null}
                     recoverButton={pageContext === 'reset-password' ? 'recoverPage' : null}
                     loading={recoverLoading ? 'SENDING...' : null}
@@ -219,6 +247,9 @@ const AuthTemplate = ({
               <Message error>{pageContext === 'reset-password' ? recoverError : error}</Message>
               {pageContext === 'reset-password' && recoverError === false ? (
                 <Message>Recover email sent successfully!</Message>
+              ) : null}
+              {errors.email && touched.email ? (
+                <StyledMessage error>{errors.email}</StyledMessage>
               ) : null}
             </StyledForm>
           )}
