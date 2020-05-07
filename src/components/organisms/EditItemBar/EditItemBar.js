@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import * as Yup from 'yup';
 import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
 import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
 import BarsTitle from 'components/atoms/BarsTitle/BarsTitle';
@@ -50,6 +51,25 @@ const StyledActionButton = styled(ActionButton)`
   margin-top: 20px;
 `;
 
+const wordSchema = Yup.object().shape({
+  polish: Yup.string()
+    .min(2, 'Too short.')
+    .max(25, 'Too long.')
+    .required('The polish word is required.'),
+  english: Yup.string()
+    .min(2, 'Too short.')
+    .max(25, 'Too long.')
+    .required('The english word is required.'),
+});
+
+const noteSchema = Yup.object().shape({
+  title: Yup.string().min(2, 'Too short.').max(25, 'Too long.').required('The title is required.'),
+  content: Yup.string()
+    .min(2, 'Too short.')
+    .max(300, 'Too long.')
+    .required('The content is required.'),
+});
+
 const EditItemBar = ({
   handleClose,
   isVisible,
@@ -67,6 +87,15 @@ const EditItemBar = ({
       <ReturnButton onClick={() => handleClose(false)} />
       <BarsTitle>Edit {pageContext === 'notes' ? 'note' : 'word'}</BarsTitle>
       <Formik
+        validationSchema={() => {
+          if (pageContext === 'words' || pageContext === 'flashcards') {
+            return wordSchema;
+          }
+          if (pageContext === 'notes') {
+            return noteSchema;
+          }
+          return null;
+        }}
         initialValues={{ title, content, polish, english, created }}
         onSubmit={async (values) => {
           if (pageContext === 'flashcards') {
@@ -78,7 +107,7 @@ const EditItemBar = ({
           }
         }}
       >
-        {({ values, handleChange, handleBlur }) => (
+        {({ values, handleChange, handleBlur, isValid }) => (
           <StyledForm>
             {pageContext === 'notes' ? (
               <>
@@ -122,7 +151,7 @@ const EditItemBar = ({
                 />{' '}
               </>
             ) : null}
-            <StyledActionButton secondary type="submit">
+            <StyledActionButton secondary disabled={!isValid} type="submit">
               update
             </StyledActionButton>
           </StyledForm>

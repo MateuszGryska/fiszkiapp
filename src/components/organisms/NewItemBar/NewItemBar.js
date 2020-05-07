@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import * as Yup from 'yup';
 import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
 import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
 import BarsTitle from 'components/atoms/BarsTitle/BarsTitle';
@@ -50,12 +51,40 @@ const StyledActionButton = styled(ActionButton)`
   margin-top: 20px;
 `;
 
+const wordSchema = Yup.object().shape({
+  polish: Yup.string()
+    .min(2, 'Too short.')
+    .max(25, 'Too long.')
+    .required('The polish word is required.'),
+  english: Yup.string()
+    .min(2, 'Too short.')
+    .max(25, 'Too long.')
+    .required('The english word is required.'),
+});
+
+const noteSchema = Yup.object().shape({
+  title: Yup.string().min(2, 'Too short.').max(25, 'Too long.').required('The title is required.'),
+  content: Yup.string()
+    .min(2, 'Too short.')
+    .max(300, 'Too long.')
+    .required('The content is required.'),
+});
+
 const NewItemBar = ({ handleClose, isVisible, pageContext, addItem }) => (
   <>
     <StyledWrapper isVisible={isVisible}>
       <ReturnButton onClick={() => handleClose()} />
       <BarsTitle>Add new {pageContext === 'notes' ? 'note' : 'word'}</BarsTitle>
       <Formik
+        validationSchema={() => {
+          if (pageContext === 'words' || pageContext === 'flashcards') {
+            return wordSchema;
+          }
+          if (pageContext === 'notes') {
+            return noteSchema;
+          }
+          return null;
+        }}
         initialValues={{ title: '', content: '', polish: '', english: '' }}
         onSubmit={(values, { resetForm }) => {
           if (pageContext === 'flashcards') {
@@ -67,7 +96,7 @@ const NewItemBar = ({ handleClose, isVisible, pageContext, addItem }) => (
           handleClose();
         }}
       >
-        {({ values, handleChange, handleBlur }) => (
+        {({ values, handleChange, handleBlur, isValid }) => (
           <StyledForm>
             {pageContext === 'notes' ? (
               <>
@@ -111,7 +140,7 @@ const NewItemBar = ({ handleClose, isVisible, pageContext, addItem }) => (
                 />{' '}
               </>
             ) : null}
-            <StyledActionButton secondary type="submit">
+            <StyledActionButton secondary disabled={!isValid} type="submit">
               add
             </StyledActionButton>
           </StyledForm>

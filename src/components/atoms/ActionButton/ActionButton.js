@@ -17,6 +17,12 @@ const ActionButton = styled.button`
   margin-right: 10px;
   cursor: pointer;
 
+  &:disabled {
+    background-color: ${({ theme }) => theme.fontGrey};
+    color: ${({ theme }) => theme.white};
+    cursor: not-allowed;
+  }
+
   ${({ secondary }) =>
     secondary &&
     css`

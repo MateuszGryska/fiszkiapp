@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import * as Yup from 'yup';
 import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
 import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
 import BarsTitle from 'components/atoms/BarsTitle/BarsTitle';
@@ -44,6 +45,13 @@ const StyledActionButton = styled(ActionButton)`
   margin-top: 20px;
 `;
 
+const editProfileSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email.'),
+  password: Yup.string().min(8, 'Too short.'),
+  firstName: Yup.string().min(2, 'Too short.').max(25, 'Too long.'),
+  lastName: Yup.string().min(2, 'Too short.').max(25, 'Too long.'),
+});
+
 const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error, cleanUp }) => {
   const [isEditProfileVisible, setVisible] = useState(false);
 
@@ -70,6 +78,7 @@ const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error
         />
         <BarsTitle>Edit profile</BarsTitle>
         <Formik
+          validationSchema={editProfileSchema}
           initialValues={{
             firstName: firebase.profile.firstName,
             lastName: firebase.profile.lastName,
@@ -83,7 +92,7 @@ const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error
             handleClose(false);
           }}
         >
-          {({ values, handleChange, handleBlur }) => (
+          {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
             <StyledForm>
               <StyledInput
                 type="text"
@@ -117,11 +126,12 @@ const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error
                 onBlur={handleBlur}
                 value={values.password}
               />
-              <StyledActionButton secondary type="submit">
+              <StyledActionButton secondary disabled={!isValid} type="submit">
                 update
               </StyledActionButton>
               <Message error>{error}</Message>
               {error === false ? <Message>Profile was updated!</Message> : null}
+              {errors.email && touched.email ? <Message error>{errors.email}</Message> : null}
             </StyledForm>
           )}
         </Formik>
