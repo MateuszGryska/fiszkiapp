@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import EditItemBar from 'components/organisms/EditItemBar/EditItemBar';
+import WarningModal from 'components/molecules/WarningModal/WarningModal';
 import styled from 'styled-components';
 import ShowButton from 'components/atoms/ShowButton/ShowButton';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
-import { deleteItem as deleteItemAction } from 'actions';
+import { deleteItem as deleteItemAction, clean as cleanAction } from 'actions';
 
 const notes = 'notes';
 
@@ -48,9 +49,9 @@ const StyledActionButtons = styled.div`
   left: 30px;
 `;
 
-const Note = ({ title, content, id, deleteItem }) => {
+const Note = ({ title, content, id, deleteItem, deleteError, cleanUp }) => {
   const [isEditItemBarVisible, setEditItemBarVisible] = useState(false);
-
+  const [isDeleteWarningVisible, setDeleteWarningVisible] = useState(false);
   const MAX_LENGTH = 70;
 
   return (
@@ -64,7 +65,7 @@ const Note = ({ title, content, id, deleteItem }) => {
         <ActionButton secondary onClick={() => setEditItemBarVisible(true)}>
           Edit
         </ActionButton>
-        <ActionButton onClick={() => deleteItem(notes, id)}>Remove</ActionButton>
+        <ActionButton onClick={() => setDeleteWarningVisible(true)}>Remove</ActionButton>
       </StyledActionButtons>
       <EditItemBar
         title={title}
@@ -72,6 +73,15 @@ const Note = ({ title, content, id, deleteItem }) => {
         id={id}
         isVisible={isEditItemBarVisible}
         handleClose={() => setEditItemBarVisible(false)}
+      />
+      <WarningModal
+        item
+        isVisible={isDeleteWarningVisible}
+        handleClose={() => setDeleteWarningVisible()}
+        id={id}
+        deleteAction={() => deleteItem(notes, id)}
+        error={deleteError}
+        cleanUp={cleanUp}
       />
     </StyledWrapper>
   );
@@ -84,8 +94,13 @@ Note.propTypes = {
   deleteItem: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  deleteItem: (itemType, id) => dispatch(deleteItemAction(itemType, id)),
+const mapStateToProps = ({ auth }) => ({
+  deleteError: auth.deleteUser.error,
 });
 
-export default connect(null, mapDispatchToProps)(Note);
+const mapDispatchToProps = (dispatch) => ({
+  deleteItem: (itemType, id) => dispatch(deleteItemAction(itemType, id)),
+  cleanUp: () => dispatch(cleanAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Note);

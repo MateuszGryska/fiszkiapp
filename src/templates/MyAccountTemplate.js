@@ -24,6 +24,8 @@ const StyledWrapper = styled.div`
 const StyledDetailsList = styled.ul`
   list-style: none;
   align-self: flex-start;
+  padding: 0;
+  margin: 0;
   width: 100%;
   font-size: ${({ theme }) => theme.fontSize.m};
 `;

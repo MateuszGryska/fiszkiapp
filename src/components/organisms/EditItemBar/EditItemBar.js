@@ -64,17 +64,17 @@ const EditItemBar = ({
 }) => (
   <>
     <StyledWrapper isVisible={isVisible}>
-      <ReturnButton onClick={() => handleClose()} />
+      <ReturnButton onClick={() => handleClose(false)} />
       <BarsTitle>Edit {pageContext === 'notes' ? 'note' : 'word'}</BarsTitle>
       <Formik
         initialValues={{ title, content, polish, english, created }}
         onSubmit={async (values) => {
           if (pageContext === 'flashcards') {
             await updateItem('words', id, values);
-            handleClose();
+            handleClose(false);
           } else {
             await updateItem(pageContext, id, values);
-            handleClose();
+            handleClose(false);
           }
         }}
       >
@@ -129,7 +129,7 @@ const EditItemBar = ({
         )}
       </Formik>
     </StyledWrapper>
-    <DarkerBackground isVisible={isVisible} onClick={() => handleClose()} />
+    <DarkerBackground isVisible={isVisible} onClick={() => handleClose(false)} />
   </>
 );
 

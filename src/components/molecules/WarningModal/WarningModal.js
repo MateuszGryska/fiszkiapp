@@ -2,17 +2,16 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import SadPhoto from 'assets/img/delete-profile-photo.jpg';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
+import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
 import Message from 'components/atoms/Message/Message';
 
 const StyledWrapper = styled.div`
   position: fixed;
-  left: calc((100% - var(--width)) / 2);
-  right: calc((100% - var(--width)) / 2);
-  top: calc((100% - var(--height)) / 2);
-  bottom: calc((100% - var(--height)) / 2);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 400px;
-  min-width: 400px;
-  height: 400px;
+  height: ${({ item }) => (item ? '200px' : '400px')};
   padding: 20px 30px;
   background-color: white;
   border-radius: 20px;
@@ -30,18 +29,6 @@ const StyledInfo = styled.p`
   padding: 0;
 `;
 
-const StyledBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  z-index: 999;
-  height: 100vh;
-  background-color: black;
-  opacity: 0.5;
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
-`;
-
 const StyledImg = styled.img`
   width: 300px;
   margin-top: 30px;
@@ -55,7 +42,7 @@ const StyledButtons = styled.div`
   align-items: center;
 `;
 
-const WarningModal = ({ isVisible, handleClose, error, deleteAction, cleanUp }) => {
+const WarningModal = ({ isVisible, handleClose, error, deleteAction, cleanUp, item }) => {
   useEffect(() => {
     return () => {
       cleanUp();
@@ -64,9 +51,9 @@ const WarningModal = ({ isVisible, handleClose, error, deleteAction, cleanUp }) 
 
   return (
     <>
-      <StyledWrapper isVisible={isVisible}>
-        <StyledInfo>Oh no! Are you sure?</StyledInfo>
-        <StyledImg src={SadPhoto} alt="sad child" />
+      <StyledWrapper isVisible={isVisible} item={item}>
+        <StyledInfo>{!item ? 'Oh no! Are you sure?' : 'Are you sure?'}</StyledInfo>
+        {!item ? <StyledImg src={SadPhoto} alt="sad child" /> : null}
         <StyledButtons>
           <ActionButton secondary onClick={() => deleteAction()}>
             DO IT!
@@ -76,7 +63,7 @@ const WarningModal = ({ isVisible, handleClose, error, deleteAction, cleanUp }) 
         {error ? <Message error>{error}</Message> : null}
         {error === false ? <Message>Delete user successfully!</Message> : null}
       </StyledWrapper>
-      <StyledBackground isVisible={isVisible} />
+      <DarkerBackground isVisible={isVisible} onClick={() => handleClose(false)} />
     </>
   );
 };
