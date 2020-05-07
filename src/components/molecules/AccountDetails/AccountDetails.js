@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import userIcon from 'assets/icons/user.svg';
 import { Link } from 'react-router-dom';
@@ -90,5 +91,10 @@ const AccountDetails = ({ profileData, signOut }) => (
     </StyledAccountsDetails>
   </StyledWrapper>
 );
+
+AccountDetails.propTypes = {
+  profileData: PropTypes.objectOf(PropTypes.string).isRequired,
+  signOut: PropTypes.func.isRequired,
+};
 
 export default AccountDetails;

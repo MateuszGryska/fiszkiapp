@@ -78,6 +78,8 @@ TableItem.propTypes = {
   polish: PropTypes.string.isRequired,
   english: PropTypes.string.isRequired,
   deleteItem: PropTypes.func.isRequired,
+  deleteError: PropTypes.node.isRequired,
+  cleanUp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ auth }) => ({

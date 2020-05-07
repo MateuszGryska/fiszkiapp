@@ -93,6 +93,8 @@ const Menubar = ({ isVisible, handleClose, profileData, signOut }) => (
 Menubar.propTypes = {
   isVisible: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
+  profileData: PropTypes.node.isRequired,
+  signOut: PropTypes.func.isRequired,
 };
 
 Menubar.defaultProps = {

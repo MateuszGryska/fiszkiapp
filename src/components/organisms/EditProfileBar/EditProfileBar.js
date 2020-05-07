@@ -52,7 +52,15 @@ const editProfileSchema = Yup.object().shape({
   lastName: Yup.string().min(2, 'Too short.').max(25, 'Too long.'),
 });
 
-const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error, cleanUp }) => {
+const EditProfileBar = ({
+  isVisible,
+  handleClose,
+  profile,
+  auth,
+  updateProfile,
+  error,
+  cleanUp,
+}) => {
   const [isEditProfileVisible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -65,7 +73,7 @@ const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error
     };
   }, [cleanUp]);
 
-  if (!firebase.profile.isLoaded) return null;
+  if (!profile.isLoaded) return null;
 
   return (
     <>
@@ -80,9 +88,9 @@ const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error
         <Formik
           validationSchema={editProfileSchema}
           initialValues={{
-            firstName: firebase.profile.firstName,
-            lastName: firebase.profile.lastName,
-            email: firebase.auth.email,
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+            email: auth.email,
             password: '',
           }}
           onSubmit={async (values) => {
@@ -149,14 +157,22 @@ const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error
 
 EditProfileBar.propTypes = {
   isVisible: PropTypes.bool,
+  cleanUp: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  profile: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+  auth: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+  updateProfile: PropTypes.func.isRequired,
+  error: PropTypes.node,
 };
 
 EditProfileBar.defaultProps = {
   isVisible: false,
+  error: null,
 };
 
 const mapStateToProps = ({ firebase, auth }) => ({
-  firebase,
+  profile: firebase.profile,
+  auth: firebase.auth,
   error: auth.profileEdit.error,
 });
 

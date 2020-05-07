@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import SadPhoto from 'assets/img/delete-profile-photo.jpg';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
 import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
@@ -68,4 +69,12 @@ const WarningModal = ({ isVisible, handleClose, error, deleteAction, cleanUp, it
   );
 };
 
+WarningModal.propTypes = {
+  isVisible: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  deleteAction: PropTypes.func.isRequired,
+  item: PropTypes.bool.isRequired,
+  cleanUp: PropTypes.func.isRequired,
+  error: PropTypes.node.isRequired,
+};
 export default WarningModal;

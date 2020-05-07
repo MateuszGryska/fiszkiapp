@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import Title from 'components/atoms/Title/Title';
 import styled from 'styled-components';
@@ -81,6 +82,11 @@ const FlashcardsTemplate = ({ userId, requested }) => {
       </StyledWrapper>
     </UserPageTemplate>
   );
+};
+
+FlashcardsTemplate.propTypes = {
+  userId: PropTypes.string.isRequired,
+  requested: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
 };
 
 const mapStateToProps = ({ firebase, firestore }) => ({

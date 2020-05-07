@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 const StyledWrapper = styled.button`
@@ -76,5 +77,22 @@ const Button = ({
     {loading || children}
   </StyledWrapper>
 );
+
+Button.propTypes = {
+  children: PropTypes.node.isRequired,
+  disabled: PropTypes.bool,
+  loading: PropTypes.bool,
+  loginButton: PropTypes.string,
+  deleteButton: PropTypes.string,
+  recoverButton: PropTypes.string,
+};
+
+Button.defaultProps = {
+  loginButton: null,
+  deleteButton: null,
+  recoverButton: null,
+  loading: null,
+  disabled: false,
+};
 
 export default Button;

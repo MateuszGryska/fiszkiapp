@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -279,6 +280,23 @@ const AuthTemplate = ({
       </StyledLoginSection>
     </StyledWrapper>
   );
+};
+
+AuthTemplate.propTypes = {
+  pageContext: PropTypes.oneOf(['login', 'register', 'reset-password']).isRequired,
+  signUp: PropTypes.func.isRequired,
+  signIn: PropTypes.func.isRequired,
+  sendRecoverMail: PropTypes.func.isRequired,
+  cleanUp: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  recoverError: PropTypes.node,
+  recoverLoading: PropTypes.bool.isRequired,
+  error: PropTypes.node,
+};
+
+AuthTemplate.defaultProps = {
+  recoverError: null,
+  error: null,
 };
 
 const mapStateToProps = ({ auth }) => ({

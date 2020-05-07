@@ -92,6 +92,12 @@ Note.propTypes = {
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   deleteItem: PropTypes.func.isRequired,
+  deleteError: PropTypes.string,
+  cleanUp: PropTypes.func.isRequired,
+};
+
+Note.defaultProps = {
+  deleteError: null,
 };
 
 const mapStateToProps = ({ auth }) => ({
