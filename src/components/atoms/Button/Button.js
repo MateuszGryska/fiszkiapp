@@ -55,19 +55,6 @@ const StyledWrapper = styled.button`
     css`
       margin-top: 160px;
     `}
-    /* ${({ disabled }) =>
-      disabled &&
-      css`
-        background: ${({ theme }) => theme.fontGrey};
-        transition: none;
-        cursor: not-allowed;
-        color: black;
-        &:hover {
-          background: ${({ theme }) => theme.fontGrey};
-          box-shadow: none;
-          transform: translateY(0px);
-        }
-      `} */
 `;
 
 const Button = ({

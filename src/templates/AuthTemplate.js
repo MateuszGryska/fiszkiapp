@@ -86,14 +86,17 @@ const StyledMessage = styled(Message)`
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email.').required('The email is required.'),
   password: Yup.string().required('The passoword is required.').min(8, 'Too short.'),
-  firstName: Yup.string()
-    .required('Your first name is required.')
-    .min(2, 'Too short.')
-    .max(25, 'Too long.'),
-  lastName: Yup.string()
-    .required('Your last name is required.')
-    .min(2, 'Too short.')
-    .max(25, 'Too long.'),
+});
+
+const registerSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email.').required('The email is required.'),
+  password: Yup.string().required('The passoword is required.').min(8, 'Too short.'),
+  firstName: Yup.string().min(2, 'Too short.').max(25, 'Too long.'),
+  lastName: Yup.string().min(2, 'Too short.').max(25, 'Too long.'),
+});
+
+const resetSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email.').required('The email is required.'),
 });
 
 const AuthTemplate = ({
@@ -123,7 +126,18 @@ const AuthTemplate = ({
           {pageContext === 'reset-password' ? 'Type in your e-mail:' : null}
         </StyledTitle>
         <Formik
-          validationSchema={LoginSchema}
+          validationSchema={() => {
+            if (pageContext === 'login') {
+              return LoginSchema;
+            }
+            if (pageContext === 'register') {
+              return registerSchema;
+            }
+            if (pageContext === 'reset-password') {
+              return resetSchema;
+            }
+            return null;
+          }}
           initialValues={{ email: '', password: '', firstName: '', lastName: '' }}
           onSubmit={async (values, { setSubmitting }) => {
             if (pageContext === 'login') {
@@ -235,7 +249,7 @@ const AuthTemplate = ({
                 <>
                   <Button
                     disabled={!isValid}
-                    loginButton={pageContext === 'login' ? 'loginButton' : null}
+                    loginButton={null}
                     recoverButton={pageContext === 'reset-password' ? 'recoverPage' : null}
                     loading={recoverLoading ? 'SENDING...' : null}
                     type="submit"
