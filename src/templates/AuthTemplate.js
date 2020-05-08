@@ -52,6 +52,10 @@ const StyledLoginSection = styled.div`
   align-items: center;
   border: none;
   border-radius: 20px;
+
+  @media (max-width: 480px) {
+    width: 90vw;
+  }
 `;
 
 const StyledTitle = styled.h1`
@@ -70,6 +74,9 @@ const StyledForm = styled(Form)`
 
 const StyledInput = styled(Input)`
   margin-top: 20px;
+  @media (max-width: 480px) {
+    width: 80vw;
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -283,7 +290,14 @@ const AuthTemplate = ({
 };
 
 AuthTemplate.propTypes = {
-  pageContext: PropTypes.oneOf(['login', 'register', 'reset-password']).isRequired,
+  pageContext: PropTypes.oneOf([
+    'login',
+    'register',
+    'reset-password',
+    'notes',
+    'words',
+    'flashcards',
+  ]).isRequired,
   signUp: PropTypes.func.isRequired,
   signIn: PropTypes.func.isRequired,
   sendRecoverMail: PropTypes.func.isRequired,

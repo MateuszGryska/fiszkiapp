@@ -70,11 +70,17 @@ const WarningModal = ({ isVisible, handleClose, error, deleteAction, cleanUp, it
 };
 
 WarningModal.propTypes = {
-  isVisible: PropTypes.bool.isRequired,
+  isVisible: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
   deleteAction: PropTypes.func.isRequired,
-  item: PropTypes.bool.isRequired,
+  item: PropTypes.bool,
   cleanUp: PropTypes.func.isRequired,
-  error: PropTypes.node.isRequired,
+  error: PropTypes.string,
+};
+
+WarningModal.defaultProps = {
+  error: null,
+  item: false,
+  isVisible: false,
 };
 export default WarningModal;

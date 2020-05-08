@@ -26,6 +26,11 @@ const StyledWrapper = styled.div`
   align-items: center;
   transform: translate(${({ isVisible }) => (isVisible ? '0' : '100%')});
   transition: transform 0.4s ease-in-out;
+
+  @media (max-width: 480px) {
+    width: 100vw;
+    padding: 0;
+  }
 `;
 
 const StyledLinkList = styled.ul`
@@ -34,6 +39,8 @@ const StyledLinkList = styled.ul`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0;
+  padding: 0;
 
   li {
     margin-top: 20px;
@@ -59,6 +66,10 @@ const StyledNavLink = styled(NavLink)`
   }
   &.active {
     border-bottom: 2px solid ${({ theme }) => theme.main};
+  }
+
+  @media (max-width: 480px) {
+    font-size: ${({ theme }) => theme.fontSize.l};
   }
 `;
 
@@ -93,7 +104,7 @@ const Menubar = ({ isVisible, handleClose, profileData, signOut }) => (
 Menubar.propTypes = {
   isVisible: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
-  profileData: PropTypes.node.isRequired,
+  profileData: PropTypes.shape({}).isRequired,
   signOut: PropTypes.func.isRequired,
 };
 

@@ -8,7 +8,7 @@ import { useFirestoreConnect } from 'react-redux-firebase';
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.div`
-  padding: 50px 150px 25px 70px;
+  padding: 50px 150px 25px 150px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -91,7 +91,6 @@ FlashcardsTemplate.propTypes = {
 
 const mapStateToProps = ({ firebase, firestore }) => ({
   userId: firebase.auth.uid,
-  requesting: firestore.status.requesting,
   requested: firestore.status.requested,
 });
 

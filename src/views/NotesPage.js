@@ -23,8 +23,8 @@ const NotesPage = ({ userId, requested, requesting }) => {
 
 NotesPage.propTypes = {
   userId: PropTypes.string.isRequired,
-  requested: PropTypes.element.isRequired,
-  requesting: PropTypes.element.isRequired,
+  requested: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+  requesting: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
 };
 
 const mapStateToProps = ({ firebase, firestore }) => ({

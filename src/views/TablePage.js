@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect, useSelector } from 'react-redux';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import TableTemplate from 'templates/TableTemplate';
 import { useFirestoreConnect } from 'react-redux-firebase';
 
@@ -22,19 +22,11 @@ const TablePage = ({ userId, requested, requesting }) => {
   return <TableTemplate words={wordsList} loading={requesting[`words/${userId}`]} />;
 };
 
-// TablePage.propTypes = {
-//   words: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       id: PropTypes.string.isRequired,
-//       polish: PropTypes.string.isRequired,
-//       english: PropTypes.string.isRequired,
-//     }),
-//   ),
-// };
-
-// TablePage.defaultProps = {
-//   words: [],
-// };
+TablePage.propTypes = {
+  userId: PropTypes.string.isRequired,
+  requested: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+  requesting: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+};
 
 const mapStateToProps = ({ firebase, firestore }) => ({
   userId: firebase.auth.uid,

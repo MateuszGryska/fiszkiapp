@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import DetailsTemplate from 'templates/DetailsTemplate';
 import withContext from 'hoc/withContext';
@@ -29,23 +29,18 @@ const DetailsPage = ({ userId, requested, match }) => {
   return null;
 };
 
-// DetailsTemplate.propTypes = {
-//   activeItem: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       title: PropTypes.string.isRequired,
-//       content: PropTypes.string.isRequired,
-//       created: PropTypes.string.isRequired,
-//     }),
-//   ),
-// };
-
-// DetailsTemplate.defaultProps = {
-//   activeItem: [],
-// };
+DetailsPage.propTypes = {
+  userId: PropTypes.string.isRequired,
+  requested: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+};
 
 const mapStateToProps = ({ firebase, firestore }) => ({
   userId: firebase.auth.uid,
-  requesting: firestore.status.requesting,
   requested: firestore.status.requested,
 });
 

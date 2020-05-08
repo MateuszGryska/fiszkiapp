@@ -27,6 +27,10 @@ const StyledWrapper = styled.div`
   z-index: 1000;
   transform: translate(${({ isVisible }) => (isVisible ? '0' : '100%')});
   transition: transform 0.4s ease-in-out;
+
+  @media (max-width: 480px) {
+    width: 100vw;
+  }
 `;
 
 const StyledForm = styled(Form)`
@@ -39,6 +43,10 @@ const StyledForm = styled(Form)`
 const StyledInput = styled(Input)`
   margin-top: 10px;
   width: 370px;
+
+  @media (max-width: 480px) {
+    width: 90vw;
+  }
 `;
 
 const StyledActionButton = styled(ActionButton)`

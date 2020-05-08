@@ -15,6 +15,10 @@ const StyledWrapper = styled.div`
   position: absolute;
   top: 50px;
   left: 50px;
+
+  @media (max-width: 480px) {
+    width: 360px;
+  }
 `;
 
 const StyledAccountsDetails = styled.div`
@@ -31,10 +35,15 @@ const StyledUserIcon = styled.div`
   background-position: 50% 50%;
   background-size: 100% 100%;
 `;
+
 const StyledTitle = styled.div`
   padding: 0;
   margin: 0;
   font-size: ${({ theme }) => theme.fontSize.l};
+
+  @media (max-width: 480px) {
+    font-size: ${({ theme }) => theme.fontSize.l};
+  }
 `;
 
 const StyledHello = styled.p`
@@ -67,6 +76,10 @@ const StyledButton = styled(Link)`
   &.active {
     border-bottom: 2px solid ${({ theme }) => theme.main};
   }
+
+  @media (max-width: 480px) {
+    font-size: ${({ theme }) => theme.fontSize.m};
+  }
 `;
 
 const StyledButtons = styled.div`
@@ -93,7 +106,7 @@ const AccountDetails = ({ profileData, signOut }) => (
 );
 
 AccountDetails.propTypes = {
-  profileData: PropTypes.objectOf(PropTypes.string).isRequired,
+  profileData: PropTypes.shape({}).isRequired,
   signOut: PropTypes.func.isRequired,
 };
 

@@ -24,9 +24,12 @@ const StyledWrapper = styled.div`
     isVisible ? '-10px 3px 20px 0px rgba(0, 0, 0, 0.16);' : 'none'};
   padding: 20px 30px;
   z-index: 1000;
-
   transform: translate(${({ isVisible }) => (isVisible ? '0' : '100%')});
   transition: transform 0.4s ease-in-out;
+
+  @media (max-width: 480px) {
+    width: 100vw;
+  }
 `;
 
 const StyledForm = styled(Form)`
@@ -39,12 +42,20 @@ const StyledForm = styled(Form)`
 const StyledInput = styled(Input)`
   margin-top: 10px;
   width: 370px;
+
+  @media (max-width: 480px) {
+    width: 90vw;
+  }
 `;
 
 const StyledTextArea = styled(Input)`
   margin-top: 10px;
   width: 370px;
   height: 30vh;
+
+  @media (max-width: 480px) {
+    width: 90vw;
+  }
 `;
 
 const StyledActionButton = styled(ActionButton)`
@@ -169,13 +180,23 @@ EditItemBar.propTypes = {
   content: PropTypes.string,
   id: PropTypes.string.isRequired,
   created: PropTypes.string,
-  isVisible: PropTypes.bool.isRequired,
-  pageContext: PropTypes.string.isRequired,
+  isVisible: PropTypes.bool,
+  pageContext: PropTypes.oneOf([
+    'notes',
+    'words',
+    'flashcards',
+    'login',
+    'register',
+    'account',
+    'reset-password',
+  ]),
   handleClose: PropTypes.func.isRequired,
   updateItem: PropTypes.func.isRequired,
 };
 
 EditItemBar.defaultProps = {
+  pageContext: 'words',
+  isVisible: false,
   polish: '',
   english: '',
   title: '',

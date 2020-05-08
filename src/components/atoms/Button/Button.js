@@ -81,9 +81,9 @@ const Button = ({
 Button.propTypes = {
   children: PropTypes.node.isRequired,
   disabled: PropTypes.bool,
-  loading: PropTypes.bool,
+  loading: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   loginButton: PropTypes.string,
-  deleteButton: PropTypes.string,
+  deleteButton: PropTypes.bool,
   recoverButton: PropTypes.string,
 };
 
