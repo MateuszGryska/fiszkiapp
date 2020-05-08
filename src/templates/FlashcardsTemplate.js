@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import Title from 'components/atoms/Title/Title';
 import styled from 'styled-components';
@@ -7,7 +8,7 @@ import { useFirestoreConnect } from 'react-redux-firebase';
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.div`
-  padding: 50px 150px 25px 70px;
+  padding: 50px 150px 25px 150px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -83,10 +84,13 @@ const FlashcardsTemplate = ({ userId, requested }) => {
   );
 };
 
+FlashcardsTemplate.propTypes = {
+  userId: PropTypes.string.isRequired,
+  requested: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+};
+
 const mapStateToProps = ({ firebase, firestore }) => ({
   userId: firebase.auth.uid,
-  words: firestore.data.words,
-  requesting: firestore.status.requesting,
   requested: firestore.status.requested,
 });
 

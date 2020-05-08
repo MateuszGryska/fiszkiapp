@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import EditItemBar from 'components/organisms/EditItemBar/EditItemBar';
+import WarningModal from 'components/molecules/WarningModal/WarningModal';
 import styled from 'styled-components';
 import ShowButton from 'components/atoms/ShowButton/ShowButton';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
-import { deleteItem as deleteItemAction } from 'actions';
+import { deleteItem as deleteItemAction, clean as cleanAction } from 'actions';
 
 const notes = 'notes';
 
@@ -48,56 +49,64 @@ const StyledActionButtons = styled.div`
   left: 30px;
 `;
 
-class Note extends Component {
-  state = {
-    isEditItemBarVisible: false,
-  };
+const Note = ({ title, content, id, deleteItem, deleteError, cleanUp }) => {
+  const [isEditItemBarVisible, setEditItemBarVisible] = useState(false);
+  const [isDeleteWarningVisible, setDeleteWarningVisible] = useState(false);
+  const MAX_LENGTH = 70;
 
-  toggleEditItemBarVisible = () => {
-    this.setState((prevState) => ({
-      isEditItemBarVisible: !prevState.isEditItemBarVisible,
-    }));
-  };
-
-  render() {
-    const { title, content, id, deleteItem } = this.props;
-    const { isEditItemBarVisible } = this.state;
-    const MAX_LENGTH = 70;
-
-    return (
-      <StyledWrapper>
-        <StyledTitle>{title}</StyledTitle>
-        <StyledParagraph>{`${content.substring(0, MAX_LENGTH)}...`}</StyledParagraph>
-        <ShowButton secondary="true" to={`notes/${id}`}>
-          Show more
-        </ShowButton>
-        <StyledActionButtons>
-          <ActionButton secondary onClick={this.toggleEditItemBarVisible}>
-            Edit
-          </ActionButton>
-          <ActionButton onClick={() => deleteItem(notes, id)}>Remove</ActionButton>
-        </StyledActionButtons>
-        <EditItemBar
-          title={title}
-          content={content}
-          id={id}
-          isVisible={isEditItemBarVisible}
-          handleClose={this.toggleEditItemBarVisible}
-        />
-      </StyledWrapper>
-    );
-  }
-}
+  return (
+    <StyledWrapper>
+      <StyledTitle>{title}</StyledTitle>
+      <StyledParagraph>{`${content.substring(0, MAX_LENGTH)}...`}</StyledParagraph>
+      <ShowButton secondary="true" to={`notes/${id}`}>
+        Show more
+      </ShowButton>
+      <StyledActionButtons>
+        <ActionButton secondary onClick={() => setEditItemBarVisible(true)}>
+          Edit
+        </ActionButton>
+        <ActionButton onClick={() => setDeleteWarningVisible(true)}>Remove</ActionButton>
+      </StyledActionButtons>
+      <EditItemBar
+        title={title}
+        content={content}
+        id={id}
+        isVisible={isEditItemBarVisible}
+        handleClose={() => setEditItemBarVisible(false)}
+      />
+      <WarningModal
+        item
+        isVisible={isDeleteWarningVisible}
+        handleClose={() => setDeleteWarningVisible()}
+        id={id}
+        deleteAction={() => deleteItem(notes, id)}
+        error={deleteError}
+        cleanUp={cleanUp}
+      />
+    </StyledWrapper>
+  );
+};
 
 Note.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   deleteItem: PropTypes.func.isRequired,
+  deleteError: PropTypes.string,
+  cleanUp: PropTypes.func.isRequired,
 };
+
+Note.defaultProps = {
+  deleteError: null,
+};
+
+const mapStateToProps = ({ auth }) => ({
+  deleteError: auth.deleteUser.error,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   deleteItem: (itemType, id) => dispatch(deleteItemAction(itemType, id)),
+  cleanUp: () => dispatch(cleanAction()),
 });
 
-export default connect(null, mapDispatchToProps)(Note);
+export default connect(mapStateToProps, mapDispatchToProps)(Note);

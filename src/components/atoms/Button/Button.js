@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 const StyledWrapper = styled.button`
@@ -23,6 +24,19 @@ const StyledWrapper = styled.button`
     transform: translateY(-7px);
   }
 
+
+  &:disabled {
+    background: ${({ theme }) => theme.fontGrey};
+        transition: none;
+        cursor: not-allowed;
+        color: black;
+        &:hover {
+          background: ${({ theme }) => theme.fontGrey};
+          box-shadow: none;
+          transform: translateY(0px);
+        }
+  }
+
   ${({ loginButton }) =>
     loginButton &&
     css`
@@ -44,8 +58,17 @@ const StyledWrapper = styled.button`
     `}
 `;
 
-const Button = ({ children, loading, loginButton, recoverButton, deleteButton, ...rest }) => (
+const Button = ({
+  disabled,
+  children,
+  loading,
+  loginButton,
+  recoverButton,
+  deleteButton,
+  ...rest
+}) => (
   <StyledWrapper
+    disabled={disabled}
     loginButton={loginButton ? 'loginButton' : null}
     recoverButton={recoverButton ? 'recoverButton' : null}
     deleteButton={deleteButton ? 'deleteButton' : null}
@@ -54,5 +77,22 @@ const Button = ({ children, loading, loginButton, recoverButton, deleteButton, .
     {loading || children}
   </StyledWrapper>
 );
+
+Button.propTypes = {
+  children: PropTypes.node.isRequired,
+  disabled: PropTypes.bool,
+  loading: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  loginButton: PropTypes.string,
+  deleteButton: PropTypes.bool,
+  recoverButton: PropTypes.string,
+};
+
+Button.defaultProps = {
+  loginButton: null,
+  deleteButton: null,
+  recoverButton: null,
+  loading: null,
+  disabled: false,
+};
 
 export default Button;

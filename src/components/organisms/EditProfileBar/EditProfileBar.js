@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import backArrow from 'assets/icons/back-arrow.svg';
+import * as Yup from 'yup';
+import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
+import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
+import BarsTitle from 'components/atoms/BarsTitle/BarsTitle';
 import Input from 'components/atoms/Input/Input';
 import Message from 'components/atoms/Message/Message';
 import { connect } from 'react-redux';
@@ -24,24 +27,10 @@ const StyledWrapper = styled.div`
   z-index: 1000;
   transform: translate(${({ isVisible }) => (isVisible ? '0' : '100%')});
   transition: transform 0.4s ease-in-out;
-`;
 
-const StyledButton = styled.button`
-  position: absolute;
-  bottom: 30px;
-  left: 30px;
-  border: none;
-  width: 30px;
-  height: 40px;
-  background-color: transparent;
-  background-image: url(${backArrow});
-  background-size: 30px;
-  background-repeat: no-repeat;
-  cursor: pointer;
-`;
-
-const StyledTitle = styled.h1`
-  color: ${({ theme }) => theme.fontGrey};
+  @media (max-width: 480px) {
+    width: 100vw;
+  }
 `;
 
 const StyledForm = styled(Form)`
@@ -54,25 +43,32 @@ const StyledForm = styled(Form)`
 const StyledInput = styled(Input)`
   margin-top: 10px;
   width: 370px;
+
+  @media (max-width: 480px) {
+    width: 90vw;
+  }
 `;
 
 const StyledActionButton = styled(ActionButton)`
   margin-top: 20px;
 `;
 
-const StyledBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  z-index: 999;
-  height: 100vh;
-  background-color: black;
-  opacity: 0.5;
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
-`;
+const editProfileSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email.'),
+  password: Yup.string().min(8, 'Too short.'),
+  firstName: Yup.string().min(2, 'Too short.').max(25, 'Too long.'),
+  lastName: Yup.string().min(2, 'Too short.').max(25, 'Too long.'),
+});
 
-const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error, cleanUp }) => {
+const EditProfileBar = ({
+  isVisible,
+  handleClose,
+  profile,
+  auth,
+  updateProfile,
+  error,
+  cleanUp,
+}) => {
   const [isEditProfileVisible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -85,23 +81,24 @@ const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error
     };
   }, [cleanUp]);
 
-  if (!firebase.profile.isLoaded) return null;
+  if (!profile.isLoaded) return null;
 
   return (
     <>
       <StyledWrapper isVisible={isEditProfileVisible}>
-        <StyledButton
+        <ReturnButton
           onClick={() => {
             setVisible(false);
             handleClose(false);
           }}
         />
-        <StyledTitle>Edit profile</StyledTitle>
+        <BarsTitle>Edit profile</BarsTitle>
         <Formik
+          validationSchema={editProfileSchema}
           initialValues={{
-            firstName: firebase.profile.firstName,
-            lastName: firebase.profile.lastName,
-            email: firebase.auth.email,
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+            email: auth.email,
             password: '',
           }}
           onSubmit={async (values) => {
@@ -111,7 +108,7 @@ const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error
             handleClose(false);
           }}
         >
-          {({ values, handleChange, handleBlur }) => (
+          {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
             <StyledForm>
               <StyledInput
                 type="text"
@@ -145,16 +142,17 @@ const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error
                 onBlur={handleBlur}
                 value={values.password}
               />
-              <StyledActionButton secondary type="submit">
+              <StyledActionButton secondary disabled={!isValid} type="submit">
                 update
               </StyledActionButton>
               <Message error>{error}</Message>
               {error === false ? <Message>Profile was updated!</Message> : null}
+              {errors.email && touched.email ? <Message error>{errors.email}</Message> : null}
             </StyledForm>
           )}
         </Formik>
       </StyledWrapper>
-      <StyledBackground
+      <DarkerBackground
         isVisible={isEditProfileVisible}
         onClick={() => {
           setVisible(false);
@@ -167,14 +165,22 @@ const EditProfileBar = ({ isVisible, handleClose, firebase, updateProfile, error
 
 EditProfileBar.propTypes = {
   isVisible: PropTypes.bool,
+  cleanUp: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  profile: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+  auth: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+  updateProfile: PropTypes.func.isRequired,
+  error: PropTypes.node,
 };
 
 EditProfileBar.defaultProps = {
   isVisible: false,
+  error: null,
 };
 
 const mapStateToProps = ({ firebase, auth }) => ({
-  firebase,
+  profile: firebase.profile,
+  auth: firebase.auth,
   error: auth.profileEdit.error,
 });
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import userIcon from 'assets/icons/user.svg';
 import { Link } from 'react-router-dom';
@@ -14,6 +15,10 @@ const StyledWrapper = styled.div`
   position: absolute;
   top: 50px;
   left: 50px;
+
+  @media (max-width: 480px) {
+    width: 360px;
+  }
 `;
 
 const StyledAccountsDetails = styled.div`
@@ -30,10 +35,15 @@ const StyledUserIcon = styled.div`
   background-position: 50% 50%;
   background-size: 100% 100%;
 `;
+
 const StyledTitle = styled.div`
   padding: 0;
   margin: 0;
   font-size: ${({ theme }) => theme.fontSize.l};
+
+  @media (max-width: 480px) {
+    font-size: ${({ theme }) => theme.fontSize.l};
+  }
 `;
 
 const StyledHello = styled.p`
@@ -66,6 +76,10 @@ const StyledButton = styled(Link)`
   &.active {
     border-bottom: 2px solid ${({ theme }) => theme.main};
   }
+
+  @media (max-width: 480px) {
+    font-size: ${({ theme }) => theme.fontSize.m};
+  }
 `;
 
 const StyledButtons = styled.div`
@@ -90,5 +104,10 @@ const AccountDetails = ({ profileData, signOut }) => (
     </StyledAccountsDetails>
   </StyledWrapper>
 );
+
+AccountDetails.propTypes = {
+  profileData: PropTypes.shape({}).isRequired,
+  signOut: PropTypes.func.isRequired,
+};
 
 export default AccountDetails;

@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import backArrow from 'assets/icons/back-arrow.svg';
+import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
+import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
 import { NavLink } from 'react-router-dom';
 import AccountDetails from 'components/molecules/AccountDetails/AccountDetails';
 import { signOut as signOutAction } from 'actions';
@@ -25,20 +26,11 @@ const StyledWrapper = styled.div`
   align-items: center;
   transform: translate(${({ isVisible }) => (isVisible ? '0' : '100%')});
   transition: transform 0.4s ease-in-out;
-`;
 
-const StyledButton = styled.button`
-  position: absolute;
-  bottom: 30px;
-  left: 30px;
-  border: none;
-  width: 30px;
-  height: 40px;
-  background-color: transparent;
-  background-image: url(${backArrow});
-  background-size: 30px;
-  background-repeat: no-repeat;
-  cursor: pointer;
+  @media (max-width: 480px) {
+    width: 100vw;
+    padding: 0;
+  }
 `;
 
 const StyledLinkList = styled.ul`
@@ -47,6 +39,8 @@ const StyledLinkList = styled.ul`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0;
+  padding: 0;
 
   li {
     margin-top: 20px;
@@ -73,25 +67,17 @@ const StyledNavLink = styled(NavLink)`
   &.active {
     border-bottom: 2px solid ${({ theme }) => theme.main};
   }
-`;
 
-const StyledBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  z-index: 999;
-  height: 100vh;
-  background-color: black;
-  opacity: 0.5;
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+  @media (max-width: 480px) {
+    font-size: ${({ theme }) => theme.fontSize.l};
+  }
 `;
 
 const Menubar = ({ isVisible, handleClose, profileData, signOut }) => (
   <>
     <StyledWrapper isVisible={isVisible}>
       <AccountDetails profileData={profileData} signOut={signOut} />
-      <StyledButton onClick={() => handleClose()} />
+      <ReturnButton onClick={() => handleClose()} />
 
       <StyledLinkList>
         <li>
@@ -111,13 +97,15 @@ const Menubar = ({ isVisible, handleClose, profileData, signOut }) => (
         </li>
       </StyledLinkList>
     </StyledWrapper>
-    <StyledBackground isVisible={isVisible} onClick={() => handleClose()} />
+    <DarkerBackground isVisible={isVisible} onClick={() => handleClose()} />
   </>
 );
 
 Menubar.propTypes = {
   isVisible: PropTypes.bool,
   handleClose: PropTypes.func.isRequired,
+  profileData: PropTypes.shape({}).isRequired,
+  signOut: PropTypes.func.isRequired,
 };
 
 Menubar.defaultProps = {

@@ -17,12 +17,24 @@ const ActionButton = styled.button`
   margin-right: 10px;
   cursor: pointer;
 
+  &:disabled {
+    background-color: ${({ theme }) => theme.fontGrey};
+    color: ${({ theme }) => theme.white};
+    cursor: not-allowed;
+  }
+
   ${({ secondary }) =>
     secondary &&
     css`
       background-color: ${({ theme }) => theme.main};
       color: ${({ theme }) => theme.white};
     `}
+
+  @media (max-width: 480px) {
+    width: 160px;
+    height: 40px;
+    font-size: ${({ theme }) => theme.fontSize.s};
+  }
 `;
 
 export default ActionButton;

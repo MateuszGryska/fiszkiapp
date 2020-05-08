@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from 'components/atoms/Button/Button';
 import styled from 'styled-components';
@@ -20,21 +20,47 @@ const StyledWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 480px) {
+    padding: 50px 30px;
+  }
 `;
 const StyledDetailsList = styled.ul`
   list-style: none;
   align-self: flex-start;
+  padding: 0;
+  margin: 0;
   width: 100%;
   font-size: ${({ theme }) => theme.fontSize.m};
+
+  @media (max-width: 480px) {
+    font-size: ${({ theme }) => theme.fontSize.xs};
+  }
 `;
 
 const StyledDetail = styled.li`
   display: flex;
   justify-content: space-between;
+  @media (max-width: 480px) {
+    flex-direction: column;
+    padding-top: 20px;
+  }
+`;
+
+const StyledInfoItem = styled.p`
+  @media (max-width: 480px) {
+    margin: 0;
+    padding: 0;
+  }
 `;
 
 const StyledVerify = styled.p`
   color: ${({ yes }) => (yes ? 'green' : 'red')};
+
+  @media (max-width: 480px) {
+    margin: 0;
+    padding: 0;
+  }
 `;
 
 const MyAccountTemplate = ({
@@ -62,19 +88,19 @@ const MyAccountTemplate = ({
         <Title>My account</Title>
         <StyledDetailsList>
           <StyledDetail>
-            <p>First Name:</p>
-            <p>{profileData.firstName}</p>
+            <StyledInfoItem>First Name:</StyledInfoItem>
+            <StyledInfoItem>{profileData.firstName}</StyledInfoItem>
           </StyledDetail>
           <StyledDetail>
-            <p>Last Name:</p>
-            <p>{profileData.lastName}</p>
+            <StyledInfoItem>Last Name:</StyledInfoItem>
+            <StyledInfoItem>{profileData.lastName}</StyledInfoItem>
           </StyledDetail>
           <StyledDetail>
-            <p>Email: </p>
-            <p>{loggedIn.email}</p>
+            <StyledInfoItem>Email: </StyledInfoItem>
+            <StyledInfoItem>{loggedIn.email}</StyledInfoItem>
           </StyledDetail>
           <StyledDetail>
-            <p>Email verified:</p>
+            <StyledInfoItem>Email verified:</StyledInfoItem>
             {loggedIn.emailVerified ? (
               <StyledVerify yes>
                 YES
@@ -121,6 +147,31 @@ const MyAccountTemplate = ({
   );
 };
 
+MyAccountTemplate.propTypes = {
+  profileData: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+  }),
+  loggedIn: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    emailVerified: PropTypes.bool.isRequired,
+  }).isRequired,
+  sendVerifyEmail: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  cleanUp: PropTypes.func.isRequired,
+  deleteUser: PropTypes.func.isRequired,
+  deleteError: PropTypes.string,
+  error: PropTypes.string,
+};
+
+MyAccountTemplate.defaultProps = {
+  deleteError: null,
+  error: null,
+  profileData: {
+    firstName: 'FirstName',
+    lastName: 'LastName',
+  },
+};
 const mapStateToProps = ({ firebase, auth }) => ({
   profileData: firebase.profile,
   loggedIn: firebase.auth,

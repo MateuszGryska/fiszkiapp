@@ -16,6 +16,10 @@ const StyledWrapper = styled.div`
   box-shadow: -10px 3px 20px 0px rgba(0, 0, 0, 0.16);
   padding: 20px 30px;
   z-index: 1000;
+
+  @media (max-width: 480px) {
+    width: 100vw;
+  }
 `;
 
 const StyledBackground = styled.div`
@@ -61,8 +65,13 @@ const DetailsTemplate = ({ title, content, created, isVisible }) => (
 DetailsTemplate.propTypes = {
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  created: PropTypes.string.isRequired,
-  isVisible: PropTypes.bool.isRequired,
+  created: PropTypes.string,
+  isVisible: PropTypes.bool,
+};
+
+DetailsTemplate.defaultProps = {
+  created: 'tutaj mati musi dodać wyświetlanie daty',
+  isVisible: false,
 };
 
 export default DetailsTemplate;

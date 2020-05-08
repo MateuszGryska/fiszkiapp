@@ -13,26 +13,68 @@ const initialState = {
   },
 };
 
+// Helper functions
+
+const addItemStart = (state) => {
+  return {
+    ...state,
+    loading: true,
+  };
+};
+const addItemSuccess = (state) => {
+  return {
+    ...state,
+    loading: false,
+    error: false,
+  };
+};
+const addItemFail = (state, payload) => {
+  return {
+    ...state,
+    loading: false,
+    error: payload,
+  };
+};
+
+const deleteItemStart = (state) => {
+  return { ...state, deleteItem: { ...state.deleteItem, loading: true } };
+};
+const deleteItemSuccess = (state) => {
+  return { ...state, deleteItem: { ...state.deleteItem, loading: false, error: false } };
+};
+const deleteItemFail = (state, payload) => {
+  return { ...state, deleteItem: { ...state.deleteItem, loading: false, error: payload } };
+};
+const editItemStart = (state) => {
+  return { ...state, editItem: { ...state.editItem, loading: true } };
+};
+const editItemSuccess = (state) => {
+  return { ...state, editItem: { ...state.editItem, loading: false, error: false } };
+};
+const editItemFail = (state, payload) => {
+  return { ...state, editItem: { ...state.editItem, loading: false, error: payload } };
+};
+
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case itemTypes.ADD_ITEM_START:
-      return { ...state, loading: true };
+      return addItemStart(state);
     case itemTypes.ADD_ITEM_SUCCESS:
-      return { ...state, loading: false, error: false };
+      return addItemSuccess(state);
     case itemTypes.ADD_ITEM_FAIL:
-      return { ...state, loading: false, error: payload };
+      return addItemFail(state, payload);
     case itemTypes.DELETE_ITEM_START:
-      return { ...state, deleteItem: { ...state.deleteItem, loading: true } };
+      return deleteItemStart(state);
     case itemTypes.DELETE_ITEM_SUCCESS:
-      return { ...state, deleteItem: { ...state.deleteItem, loading: false, error: false } };
+      return deleteItemSuccess(state);
     case itemTypes.DELETE_ITEM_FAIL:
-      return { ...state, deleteItem: { ...state.deleteItem, loading: false, error: payload } };
+      return deleteItemFail(state, payload);
     case itemTypes.EDIT_ITEM_START:
-      return { ...state, editItem: { ...state.editItem, loading: true } };
+      return editItemStart(state);
     case itemTypes.EDIT_ITEM_SUCCESS:
-      return { ...state, editItem: { ...state.editItem, loading: false, error: false } };
+      return editItemSuccess(state);
     case itemTypes.EDIT_ITEM_FAIL:
-      return { ...state, editItem: { ...state.editItem, loading: false, error: payload } };
+      return editItemFail(state, payload);
     default:
       return state;
   }

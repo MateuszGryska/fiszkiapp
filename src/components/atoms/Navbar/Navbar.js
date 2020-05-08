@@ -78,5 +78,6 @@ const Navbar = ({ handleOpen, emailVerified }) => (
 
 Navbar.propTypes = {
   handleOpen: PropTypes.func.isRequired,
+  emailVerified: PropTypes.bool.isRequired,
 };
 export default Navbar;

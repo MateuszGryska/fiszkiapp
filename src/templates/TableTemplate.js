@@ -13,6 +13,10 @@ const StyledWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 480px) {
+    padding: 50px 20px;
+  }
 `;
 
 const StyledInput = styled(Input)`
@@ -62,6 +66,10 @@ const StyledTable = styled.table`
 
   tbody tr:last-of-type {
     border-bottom: 2px solid ${({ theme }) => theme.main};
+  }
+
+  @media (max-width: 480px) {
+    max-width: 100vw;
   }
 `;
 
@@ -143,10 +151,12 @@ TableTemplate.propTypes = {
       english: PropTypes.string.isRequired,
     }),
   ),
+  loading: PropTypes.bool,
 };
 
 TableTemplate.defaultProps = {
   words: [],
+  loading: false,
 };
 
 export default TableTemplate;

@@ -98,9 +98,11 @@ class NotesTemplate extends Component {
 
 NotesTemplate.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.object),
+  loading: PropTypes.bool,
 };
 
 NotesTemplate.defaultProps = {
   notes: [],
+  loading: false,
 };
 export default NotesTemplate;

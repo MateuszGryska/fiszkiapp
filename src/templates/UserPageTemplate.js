@@ -28,6 +28,11 @@ const AddButton = styled.button`
   cursor: pointer;
   outline: none;
   display: ${({ isButtonVisible }) => (isButtonVisible ? 'none' : 'block')};
+
+  @media (max-width: 480px) {
+    width: 70px;
+    height: 70px;
+  }
 `;
 
 class UserPageTemplate extends Component {
@@ -92,6 +97,32 @@ class UserPageTemplate extends Component {
 
 UserPageTemplate.propTypes = {
   children: PropTypes.element.isRequired,
+  loggedIn: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    uid: PropTypes.string.isRequired,
+  }).isRequired,
+  profileData: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+  }),
+  emailVerified: PropTypes.bool.isRequired,
+  pageContext: PropTypes.oneOf([
+    'notes',
+    'words',
+    'flashcards',
+    'login',
+    'register',
+    'account',
+    'reset-password',
+  ]),
+};
+
+UserPageTemplate.defaultProps = {
+  profileData: {
+    firstName: 'First Name',
+    lastName: 'Last Name',
+  },
+  pageContext: 'login',
 };
 
 const mapStateToProps = ({ firebase }) => ({

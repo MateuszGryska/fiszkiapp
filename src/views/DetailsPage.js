@@ -1,69 +1,47 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import DetailsTemplate from 'templates/DetailsTemplate';
 import withContext from 'hoc/withContext';
+import { useFirestoreConnect } from 'react-redux-firebase';
 
-class DetailsPage extends Component {
-  state = {
-    activeItem: {
-      title: '',
-      content: '',
-      created: '',
-    },
-    isVisible: false,
-  };
-  /*eslint-disable */
-  componentDidMount() {
-    if (this.props.activeItem) {
-      const [activeItem] = this.props.activeItem;
-      this.setState({
-        activeItem,
-        isVisible: true,
-      });
-    }
-  }
-  /* eslint-enable */
+const DetailsPage = ({ userId, requested, match }) => {
+  useFirestoreConnect([{ collection: 'notes', doc: userId }]);
+  const notes = useSelector(({ firestore: { data } }) => data.notes && data.notes[userId]);
 
-  toggleVisible = () => {
-    this.setState((prevState) => ({
-      isVisible: !prevState.isVisible,
-    }));
-  };
-
-  render() {
-    const { activeItem, isVisible } = this.state;
-
+  let activeItem = {};
+  if (!notes) {
+    activeItem = {};
+  } else if (notes.notes.length === 0) {
+    activeItem = {};
+  } else if (requested[`notes/${userId}`]) {
+    const items = notes.notes;
+    activeItem = items.filter((item) => item.id === match.params.id);
     return (
       <DetailsTemplate
-        isVisible={isVisible}
-        handleClose={this.toggleVisible}
-        title={activeItem.title}
-        content={activeItem.content}
-        created={activeItem.created}
+        title={activeItem[0].title}
+        content={activeItem[0].content}
+        created={activeItem[0].created}
       />
     );
   }
-}
 
-DetailsTemplate.propTypes = {
-  activeItem: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      content: PropTypes.string.isRequired,
-      created: PropTypes.string.isRequired,
+  return null;
+};
+
+DetailsPage.propTypes = {
+  userId: PropTypes.string.isRequired,
+  requested: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
     }),
-  ),
+  }).isRequired,
 };
 
-DetailsTemplate.defaultProps = {
-  activeItem: [],
-};
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    activeItem: state[ownProps.pageContext].filter((item) => item.id === ownProps.match.params.id),
-  };
-};
+const mapStateToProps = ({ firebase, firestore }) => ({
+  userId: firebase.auth.uid,
+  requested: firestore.status.requested,
+});
 
 export default withContext(connect(mapStateToProps)(DetailsPage));

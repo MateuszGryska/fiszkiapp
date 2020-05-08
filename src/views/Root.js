@@ -19,12 +19,12 @@ const Root = ({ loggedIn }) => {
     routesWhenLoggedIn = (
       <>
         <Switch>
-          <Route exact path={routes.home} render={() => <Redirect to="/words" />} />
+          <Route exact path={routes.home} render={() => <Redirect to="/flashcards" />} />
           <Route path={routes.flashcards} component={FlashcardsPage} />
           <Route path={routes.notes} component={NotesPage} />
           <Route path={routes.account} component={MyAccountPage} />
           <Route path={routes.note} component={DetailsPage} />
-          <Route exact path={routes.words} component={TablePage} />
+          <Route path={routes.words} component={TablePage} />
           <Route path={routes.word} component={DetailsPage} />
           <Redirect to={routes.home} />
         </Switch>

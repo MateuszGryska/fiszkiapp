@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import backArrow from 'assets/icons/back-arrow.svg';
+import * as Yup from 'yup';
+import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
+import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
+import BarsTitle from 'components/atoms/BarsTitle/BarsTitle';
 import Input from 'components/atoms/Input/Input';
 import { connect } from 'react-redux';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
@@ -21,27 +24,12 @@ const StyledWrapper = styled.div`
     isVisible ? '-10px 3px 20px 0px rgba(0, 0, 0, 0.16);' : 'none'};
   padding: 20px 30px;
   z-index: 1000;
-
   transform: translate(${({ isVisible }) => (isVisible ? '0' : '100%')});
   transition: transform 0.4s ease-in-out;
-`;
 
-const StyledButton = styled.button`
-  position: absolute;
-  bottom: 30px;
-  left: 30px;
-  border: none;
-  width: 30px;
-  height: 40px;
-  background-color: transparent;
-  background-image: url(${backArrow});
-  background-size: 30px;
-  background-repeat: no-repeat;
-  cursor: pointer;
-`;
-
-const StyledTitle = styled.h1`
-  color: ${({ theme }) => theme.fontGrey};
+  @media (max-width: 480px) {
+    width: 100vw;
+  }
 `;
 
 const StyledForm = styled(Form)`
@@ -54,36 +42,60 @@ const StyledForm = styled(Form)`
 const StyledInput = styled(Input)`
   margin-top: 10px;
   width: 370px;
+
+  @media (max-width: 480px) {
+    width: 90vw;
+  }
 `;
 
 const StyledTextArea = styled(Input)`
   margin-top: 10px;
   width: 370px;
   height: 30vh;
+
+  @media (max-width: 480px) {
+    width: 90vw;
+  }
 `;
 
 const StyledActionButton = styled(ActionButton)`
   margin-top: 20px;
 `;
 
-const StyledBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  z-index: 999;
-  height: 100vh;
-  background-color: black;
-  opacity: 0.5;
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
-`;
+const wordSchema = Yup.object().shape({
+  polish: Yup.string()
+    .min(2, 'Too short.')
+    .max(25, 'Too long.')
+    .required('The polish word is required.'),
+  english: Yup.string()
+    .min(2, 'Too short.')
+    .max(25, 'Too long.')
+    .required('The english word is required.'),
+});
+
+const noteSchema = Yup.object().shape({
+  title: Yup.string().min(2, 'Too short.').max(25, 'Too long.').required('The title is required.'),
+  content: Yup.string()
+    .min(2, 'Too short.')
+    .max(300, 'Too long.')
+    .required('The content is required.'),
+});
 
 const NewItemBar = ({ handleClose, isVisible, pageContext, addItem }) => (
   <>
     <StyledWrapper isVisible={isVisible}>
-      <StyledButton onClick={() => handleClose()} />
-      <StyledTitle>Add new {pageContext === 'notes' ? 'note' : 'word'}</StyledTitle>
+      <ReturnButton onClick={() => handleClose()} />
+      <BarsTitle>Add new {pageContext === 'notes' ? 'note' : 'word'}</BarsTitle>
       <Formik
+        validationSchema={() => {
+          if (pageContext === 'words' || pageContext === 'flashcards') {
+            return wordSchema;
+          }
+          if (pageContext === 'notes') {
+            return noteSchema;
+          }
+          return null;
+        }}
         initialValues={{ title: '', content: '', polish: '', english: '' }}
         onSubmit={(values, { resetForm }) => {
           if (pageContext === 'flashcards') {
@@ -95,7 +107,7 @@ const NewItemBar = ({ handleClose, isVisible, pageContext, addItem }) => (
           handleClose();
         }}
       >
-        {({ values, handleChange, handleBlur }) => (
+        {({ values, handleChange, handleBlur, isValid }) => (
           <StyledForm>
             {pageContext === 'notes' ? (
               <>
@@ -139,14 +151,14 @@ const NewItemBar = ({ handleClose, isVisible, pageContext, addItem }) => (
                 />{' '}
               </>
             ) : null}
-            <StyledActionButton secondary type="submit">
+            <StyledActionButton secondary disabled={!isValid} type="submit">
               add
             </StyledActionButton>
           </StyledForm>
         )}
       </Formik>
     </StyledWrapper>
-    <StyledBackground isVisible={isVisible} onClick={() => handleClose()} />
+    <DarkerBackground isVisible={isVisible} onClick={() => handleClose()} />
   </>
 );
 
@@ -154,7 +166,19 @@ NewItemBar.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   addItem: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
-  pageContext: PropTypes.string.isRequired,
+  pageContext: PropTypes.oneOf([
+    'notes',
+    'words',
+    'flashcards',
+    'login',
+    'register',
+    'account',
+    'reset-password',
+  ]),
+};
+
+NewItemBar.defaultProps = {
+  pageContext: 'flashcards',
 };
 
 const mapDispatchToProps = (dispatch) => ({
