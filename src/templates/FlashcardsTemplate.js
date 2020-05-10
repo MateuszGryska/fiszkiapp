@@ -58,10 +58,10 @@ const FlashcardsTemplate = ({ userId, requested }) => {
   }
 
   const pickNewWord = (length) => {
-    let random = Math.floor(Math.random() * length);
-    if (random === { flashcardPosition }) {
+    let random;
+    do {
       random = Math.floor(Math.random() * length);
-    }
+    } while (random === flashcardPosition);
 
     setFlashcardPosition(random);
     setSmallerWordVisible(false);

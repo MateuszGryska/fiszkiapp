@@ -149,7 +149,7 @@ const AuthTemplate = ({
           initialValues={{ email: '', password: '', firstName: '', lastName: '' }}
           onSubmit={async (values, { setSubmitting }) => {
             if (pageContext === 'login') {
-              await signIn(values);
+              signIn(values);
             } else if (pageContext === 'reset-password') {
               await sendRecoverMail(values);
             } else if (pageContext === 'register') {
