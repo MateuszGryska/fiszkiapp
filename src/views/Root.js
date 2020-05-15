@@ -1,23 +1,24 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { routes } from 'routes';
 import { connect } from 'react-redux';
 import MainTemplate from 'templates/MainTemplate';
-import FlashcardsPage from './FlashcardsPage';
-import NotesPage from './NotesPage';
-import TablePage from './TablePage';
-import DetailsPage from './DetailsPage';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
-import MyAccountPage from './MyAccountPage';
 import RecoverPasswordPage from './RecoverPasswordPage';
+
+const FlashcardsPage = React.lazy(() => import('./FlashcardsPage'));
+const NotesPage = React.lazy(() => import('./NotesPage'));
+const TablePage = React.lazy(() => import('./TablePage'));
+const DetailsPage = React.lazy(() => import('./DetailsPage'));
+const MyAccountPage = React.lazy(() => import('./MyAccountPage'));
 
 const Root = ({ loggedIn }) => {
   let routesWhenLoggedIn;
 
   if (loggedIn) {
     routesWhenLoggedIn = (
-      <>
+      <Suspense fallback={<div>Loading...</div>}>
         <Switch>
           <Route exact path={routes.home} render={() => <Redirect to="/flashcards" />} />
           <Route path={routes.flashcards} component={FlashcardsPage} />
@@ -29,7 +30,7 @@ const Root = ({ loggedIn }) => {
           <Redirect to={routes.home} />
         </Switch>
         <Route path={routes.note} component={DetailsPage} />
-      </>
+      </Suspense>
     );
   } else {
     routesWhenLoggedIn = (
