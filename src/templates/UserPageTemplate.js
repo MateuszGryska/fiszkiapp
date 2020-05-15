@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import withContext from 'hoc/withContext';
 import styled from 'styled-components';
@@ -35,65 +35,43 @@ const AddButton = styled.button`
   }
 `;
 
-class UserPageTemplate extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isMenubarVisible: false,
-      isNewItemBarVisible: false,
-    };
-  }
+const UserPageTemplate = ({ children, loggedIn, profileData, emailVerified, pageContext }) => {
+  const [menubarVisible, setMenubarVisibility] = useState(false);
+  const [newItemBarVisible, setNewItemBarVisibility] = useState(false);
 
-  toggleMenuBarVisible = () => {
-    this.setState((prevState) => ({
-      isMenubarVisible: !prevState.isMenubarVisible,
-    }));
-  };
-
-  toggleNewItemBarVisible = () => {
-    this.setState((prevState) => ({
-      isNewItemBarVisible: !prevState.isNewItemBarVisible,
-    }));
-  };
-
-  render() {
-    const { children, loggedIn, profileData, emailVerified, pageContext } = this.props;
-    const { isMenubarVisible, isNewItemBarVisible } = this.state;
-
-    return (
-      <StyledWrapper>
-        {loggedIn.uid ? (
-          <>
-            <Navbar
-              loggedIn={loggedIn}
-              emailVerified={emailVerified}
-              handleOpen={this.toggleMenuBarVisible}
-            />
-            <Menubar
-              loggedIn={loggedIn}
-              profileData={profileData}
-              isVisible={isMenubarVisible}
-              handleClose={this.toggleMenuBarVisible}
-            />
-            {children}
-            <AddButton
-              loggedIn={loggedIn}
-              isButtonVisible={pageContext === 'account'}
-              onClick={this.toggleNewItemBarVisible}
-            />
-            <NewItemBar
-              loggedIn={loggedIn}
-              isVisible={isNewItemBarVisible}
-              handleClose={this.toggleNewItemBarVisible}
-            />
-          </>
-        ) : (
-          <h1>you must log in</h1>
-        )}
-      </StyledWrapper>
-    );
-  }
-}
+  return (
+    <StyledWrapper>
+      {loggedIn.uid ? (
+        <>
+          <Navbar
+            loggedIn={loggedIn}
+            emailVerified={emailVerified}
+            handleOpen={() => setMenubarVisibility(!menubarVisible)}
+          />
+          <Menubar
+            loggedIn={loggedIn}
+            profileData={profileData}
+            isVisible={menubarVisible}
+            handleClose={() => setMenubarVisibility(!menubarVisible)}
+          />
+          {children}
+          <AddButton
+            loggedIn={loggedIn}
+            isButtonVisible={pageContext === 'account'}
+            onClick={() => setNewItemBarVisibility(!newItemBarVisible)}
+          />
+          <NewItemBar
+            loggedIn={loggedIn}
+            isVisible={newItemBarVisible}
+            handleClose={() => setNewItemBarVisibility(!newItemBarVisible)}
+          />
+        </>
+      ) : (
+        <h1>you must log in</h1>
+      )}
+    </StyledWrapper>
+  );
+};
 
 UserPageTemplate.propTypes = {
   children: PropTypes.element.isRequired,
