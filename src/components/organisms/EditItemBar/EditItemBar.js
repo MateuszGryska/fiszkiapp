@@ -124,6 +124,7 @@ const EditItemBar = React.memo(
               {pageContext === 'notes' ? (
                 <>
                   <StyledInput
+                    autoComplete="off"
                     type="text"
                     name="title"
                     placeholder="title"
@@ -132,6 +133,7 @@ const EditItemBar = React.memo(
                     value={values.title}
                   />
                   <StyledTextArea
+                    autoComplete="off"
                     as="textarea"
                     type="text"
                     name="content"
@@ -146,6 +148,7 @@ const EditItemBar = React.memo(
               {pageContext === 'words' || pageContext === 'flashcards' ? (
                 <>
                   <StyledInput
+                    autoComplete="off"
                     type="text"
                     name="polish"
                     placeholder="polish"
@@ -154,6 +157,7 @@ const EditItemBar = React.memo(
                     value={values.polish}
                   />
                   <StyledInput
+                    autoComplete="off"
                     type="text"
                     name="english"
                     placeholder="english"

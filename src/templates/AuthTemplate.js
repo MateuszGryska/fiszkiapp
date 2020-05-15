@@ -99,8 +99,16 @@ const LoginSchema = Yup.object().shape({
 const registerSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email.').required('The email is required.'),
   password: Yup.string().required('The passoword is required.').min(8, 'Too short.'),
-  firstName: Yup.string().min(2, 'Too short.').max(25, 'Too long.'),
-  lastName: Yup.string().min(2, 'Too short.').max(25, 'Too long.'),
+  firstName: Yup.string()
+    .min(2, 'Too short.')
+    .max(25, 'Too long.')
+    .matches(/^[_A-z]*((-|\s)*[_A-z])*$/g)
+    .required('The first name is required.'),
+  lastName: Yup.string()
+    .min(2, 'Too short.')
+    .max(25, 'Too long.')
+    .matches(/^[_A-z]*((-|\s)*[_A-z])*$/g)
+    .required('The last name is required.'),
 });
 
 const resetSchema = Yup.object().shape({

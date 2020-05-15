@@ -66,10 +66,12 @@ const wordSchema = Yup.object().shape({
   polish: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
+    .matches(/^[_A-z]*((-|\s)*[_A-z])*$/g)
     .required('The polish word is required.'),
   english: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
+    .matches(/^[_A-z]*((-|\s)*[_A-z])*$/g)
     .required('The english word is required.'),
 });
 
@@ -113,6 +115,7 @@ const NewItemBar = React.memo(
               {pageContext === 'notes' ? (
                 <>
                   <StyledInput
+                    autoComplete="off"
                     type="text"
                     name="title"
                     placeholder="title"
@@ -121,6 +124,7 @@ const NewItemBar = React.memo(
                     value={values.title}
                   />
                   <StyledTextArea
+                    autoComplete="off"
                     as="textarea"
                     type="text"
                     name="content"
@@ -135,6 +139,7 @@ const NewItemBar = React.memo(
               {pageContext === 'words' || pageContext === 'flashcards' ? (
                 <>
                   <StyledInput
+                    autoComplete="off"
                     type="text"
                     name="polish"
                     placeholder="polish"
@@ -143,6 +148,7 @@ const NewItemBar = React.memo(
                     value={values.polish}
                   />
                   <StyledInput
+                    autoComplete="off"
                     type="text"
                     name="english"
                     placeholder="english"
