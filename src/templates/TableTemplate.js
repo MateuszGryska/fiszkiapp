@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
@@ -73,75 +73,49 @@ const StyledTable = styled.table`
   }
 `;
 
-class TableTemplate extends Component {
-  constructor(props) {
-    super(props);
+const TableTemplate = ({ words, loading }) => {
+  const [searchWord, setSearchWord] = useState('');
 
-    this.state = {
-      search: '',
-      words: this.props.words,
-      currentlyDisplayed: this.props.words,
-    };
-    this.onInputChange = this.onInputChange.bind(this);
-  }
+  const handleInputChange = (e) => {
+    setSearchWord(e.target.value);
+  };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.words !== nextProps.words) {
-      return {
-        words: nextProps.words,
-        currentlyDisplayed: nextProps.words,
-      };
-    }
-    return null;
-  }
-
-  onInputChange(event) {
-    const wordList = this.props.words;
-    const filteredWordList = wordList.filter(
-      (word) =>
-        word.polish.toLowerCase().includes(event.target.value.toLowerCase()) ||
-        word.english.toLowerCase().includes(event.target.value.toLowerCase()),
-    );
-    this.setState({
-      search: event.target.value,
-      currentlyDisplayed: filteredWordList,
-    });
-  }
-
-  render() {
-    const { currentlyDisplayed, search } = this.state;
-    const { loading } = this.props;
-
-    return (
-      <UserPageTemplate>
-        <StyledWrapper>
-          <Title>Words list</Title>
-          <StyledInput search placeholder="Search" value={search} onChange={this.onInputChange} />
-          <StyledTable>
-            <thead>
-              <tr>
-                <th>Polish</th>
-                <th>English</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
+  return (
+    <UserPageTemplate>
+      <StyledWrapper>
+        <Title>Words list</Title>
+        <StyledInput search placeholder="Search" value={searchWord} onChange={handleInputChange} />
+        <StyledTable>
+          <thead>
+            <tr>
+              <th>Polish</th>
+              <th>English</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          {words.length > 0 ? (
             <tbody>
-              {currentlyDisplayed.map(({ polish, english, id }) => (
-                <TableItem id={id} key={id} polish={polish} english={english} />
-              ))}
+              {words
+                .filter(
+                  ({ polish, english }) =>
+                    polish.toLowerCase().includes(searchWord.toLowerCase()) ||
+                    english.toLowerCase().includes(searchWord.toLowerCase()),
+                )
+                .map(({ polish, english, id }) => (
+                  <TableItem id={id} key={id} polish={polish} english={english} />
+                ))}
             </tbody>
-          </StyledTable>
-          {currentlyDisplayed.length === 0 ? (
-            <StyledInfo>
-              {loading ? 'Loading...' : `You don't have any words yet! Add new one!`}
-            </StyledInfo>
           ) : null}
-        </StyledWrapper>
-      </UserPageTemplate>
-    );
-  }
-}
+        </StyledTable>
+        {words.length === 0 ? (
+          <StyledInfo>
+            {loading ? 'Loading...' : `You don't have any words yet! Add new one!`}
+          </StyledInfo>
+        ) : null}
+      </StyledWrapper>
+    </UserPageTemplate>
+  );
+};
 
 TableTemplate.propTypes = {
   words: PropTypes.arrayOf(
