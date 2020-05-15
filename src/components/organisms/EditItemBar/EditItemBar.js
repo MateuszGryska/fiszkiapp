@@ -81,96 +81,101 @@ const noteSchema = Yup.object().shape({
     .required('The content is required.'),
 });
 
-const EditItemBar = ({
-  handleClose,
-  isVisible,
-  pageContext,
-  updateItem,
-  polish,
-  english,
-  title,
-  content,
-  id,
-  created,
-}) => (
-  <>
-    <StyledWrapper isVisible={isVisible}>
-      <ReturnButton onClick={() => handleClose(false)} />
-      <BarsTitle>Edit {pageContext === 'notes' ? 'note' : 'word'}</BarsTitle>
-      <Formik
-        validationSchema={() => {
-          if (pageContext === 'words' || pageContext === 'flashcards') {
-            return wordSchema;
-          }
-          if (pageContext === 'notes') {
-            return noteSchema;
-          }
-          return null;
-        }}
-        initialValues={{ title, content, polish, english, created }}
-        onSubmit={async (values) => {
-          if (pageContext === 'flashcards') {
-            await updateItem('words', id, values);
-            handleClose(false);
-          } else {
-            await updateItem(pageContext, id, values);
-            handleClose(false);
-          }
-        }}
-      >
-        {({ values, handleChange, handleBlur, isValid }) => (
-          <StyledForm>
-            {pageContext === 'notes' ? (
-              <>
-                <StyledInput
-                  type="text"
-                  name="title"
-                  placeholder="title"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.title}
-                />
-                <StyledTextArea
-                  as="textarea"
-                  type="text"
-                  name="content"
-                  placeholder="content"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.content}
-                />{' '}
-              </>
-            ) : null}
+const EditItemBar = React.memo(
+  ({
+    handleClose,
+    isVisible,
+    pageContext,
+    updateItem,
+    polish,
+    english,
+    title,
+    content,
+    id,
+    created,
+  }) => (
+    <>
+      <StyledWrapper isVisible={isVisible}>
+        <ReturnButton onClick={() => handleClose(false)} />
+        <BarsTitle>Edit {pageContext === 'notes' ? 'note' : 'word'}</BarsTitle>
+        <Formik
+          validationSchema={() => {
+            if (pageContext === 'words' || pageContext === 'flashcards') {
+              return wordSchema;
+            }
+            if (pageContext === 'notes') {
+              return noteSchema;
+            }
+            return null;
+          }}
+          initialValues={{ title, content, polish, english, created }}
+          onSubmit={async (values) => {
+            if (pageContext === 'flashcards') {
+              await updateItem('words', id, values);
+              handleClose(false);
+            } else {
+              await updateItem(pageContext, id, values);
+              handleClose(false);
+            }
+          }}
+        >
+          {({ values, handleChange, handleBlur, isValid }) => (
+            <StyledForm>
+              {pageContext === 'notes' ? (
+                <>
+                  <StyledInput
+                    type="text"
+                    name="title"
+                    placeholder="title"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.title}
+                  />
+                  <StyledTextArea
+                    as="textarea"
+                    type="text"
+                    name="content"
+                    placeholder="content"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.content}
+                  />
+                </>
+              ) : null}
 
-            {pageContext === 'words' || pageContext === 'flashcards' ? (
-              <>
-                <StyledInput
-                  type="text"
-                  name="polish"
-                  placeholder="polish"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.polish}
-                />
-                <StyledInput
-                  type="text"
-                  name="english"
-                  placeholder="english"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.english}
-                />{' '}
-              </>
-            ) : null}
-            <StyledActionButton secondary disabled={!isValid} type="submit">
-              update
-            </StyledActionButton>
-          </StyledForm>
-        )}
-      </Formik>
-    </StyledWrapper>
-    <DarkerBackground isVisible={isVisible} onClick={() => handleClose(false)} />
-  </>
+              {pageContext === 'words' || pageContext === 'flashcards' ? (
+                <>
+                  <StyledInput
+                    type="text"
+                    name="polish"
+                    placeholder="polish"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.polish}
+                  />
+                  <StyledInput
+                    type="text"
+                    name="english"
+                    placeholder="english"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.english}
+                  />
+                </>
+              ) : null}
+              <StyledActionButton secondary disabled={!isValid} type="submit">
+                update
+              </StyledActionButton>
+            </StyledForm>
+          )}
+        </Formik>
+      </StyledWrapper>
+      <DarkerBackground isVisible={isVisible} onClick={() => handleClose(false)} />
+    </>
+  ),
+  (prevProps, nextProps) => {
+    return prevProps.isVisible === nextProps.isVisible;
+  },
 );
 
 EditItemBar.propTypes = {
