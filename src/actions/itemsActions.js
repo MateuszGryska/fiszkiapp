@@ -12,6 +12,7 @@ export const addItem = (itemType, data) => async (dispatch, getState, { getFireb
 
     const newItem = {
       id: getId(),
+      created: await getFirebase().firestore.Timestamp.fromDate(new Date()),
       ...data,
     };
     if (!getItems.data()) {

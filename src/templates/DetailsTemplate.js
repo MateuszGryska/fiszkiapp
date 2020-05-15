@@ -36,11 +36,12 @@ const StyledBackground = styled.div`
 
 const StyledTitle = styled.h1`
   color: ${({ theme }) => theme.fontGrey};
+  margin: 0;
 `;
 
 const DataInfo = styled.p`
   font-size: 1rem;
-  margin: 0;
+  margin-top: 10px;
 `;
 const StyledContent = styled.p`
   font-weight: ${({ theme }) => theme.light};
@@ -70,7 +71,7 @@ DetailsTemplate.propTypes = {
 };
 
 DetailsTemplate.defaultProps = {
-  created: 'tutaj mati musi dodać wyświetlanie daty',
+  created: 'Problems with created date',
   isVisible: false,
 };
 

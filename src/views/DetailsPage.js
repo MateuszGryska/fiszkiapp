@@ -4,6 +4,7 @@ import { connect, useSelector } from 'react-redux';
 import DetailsTemplate from 'templates/DetailsTemplate';
 import withContext from 'hoc/withContext';
 import { useFirestoreConnect } from 'react-redux-firebase';
+import { format } from 'date-fns';
 
 const DetailsPage = ({ userId, requested, match }) => {
   useFirestoreConnect([{ collection: 'notes', doc: userId }]);
@@ -17,11 +18,15 @@ const DetailsPage = ({ userId, requested, match }) => {
   } else if (requested[`notes/${userId}`]) {
     const items = notes.notes;
     activeItem = items.filter((item) => item.id === match.params.id);
+
+    // format created date
+    const itemDate = format(activeItem[0].created.toDate(), 'dd.mm.yyyy p');
+
     return (
       <DetailsTemplate
         title={activeItem[0].title}
         content={activeItem[0].content}
-        created={activeItem[0].created}
+        created={itemDate}
       />
     );
   }
