@@ -68,6 +68,7 @@ const Button = ({
   ...rest
 }) => (
   <StyledWrapper
+    data-testid="button"
     disabled={disabled}
     loginButton={loginButton ? 'loginButton' : null}
     recoverButton={recoverButton ? 'recoverButton' : null}

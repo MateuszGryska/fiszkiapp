@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { routes } from 'routes';
 import { connect } from 'react-redux';
+import LoadingTemplate from 'templates/LoadingTemplate';
 import MainTemplate from 'templates/MainTemplate';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
@@ -18,7 +19,7 @@ const Root = ({ loggedIn }) => {
 
   if (loggedIn) {
     routesWhenLoggedIn = (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingTemplate>Loading...</LoadingTemplate>}>
         <Switch>
           <Route exact path={routes.home} render={() => <Redirect to="/flashcards" />} />
           <Route path={routes.flashcards} component={FlashcardsPage} />

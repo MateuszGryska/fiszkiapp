@@ -42,6 +42,11 @@ const StyledShowButton = styled.button`
   }
 `;
 
+const StyledNumberOfWords = styled.p`
+  width: 300px;
+  text-align: center;
+`;
+
 const FlashcardsTemplate = ({ userId, requested }) => {
   const [isSmallerWordVisible, setSmallerWordVisible] = useState(false);
   const [flashcardPosition, setFlashcardPosition] = useState(0);
@@ -59,6 +64,9 @@ const FlashcardsTemplate = ({ userId, requested }) => {
 
   const pickNewWord = (length) => {
     let random;
+    if (length === 1) {
+      return;
+    }
     do {
       random = Math.floor(Math.random() * length);
     } while (random === flashcardPosition);
@@ -71,6 +79,7 @@ const FlashcardsTemplate = ({ userId, requested }) => {
     <UserPageTemplate>
       <StyledWrapper>
         <Title>Flashcards</Title>
+        <StyledNumberOfWords>Number of words: {wordsList.length}</StyledNumberOfWords>
         <StyledBiggerWord>
           {wordsList.length > 0 ? wordsList[flashcardPosition].english : 'No words, add new ones!'}
         </StyledBiggerWord>
