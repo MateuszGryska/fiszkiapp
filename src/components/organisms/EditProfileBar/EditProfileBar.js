@@ -56,8 +56,14 @@ const StyledActionButton = styled(ActionButton)`
 const editProfileSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email.'),
   password: Yup.string().min(8, 'Too short.'),
-  firstName: Yup.string().min(2, 'Too short.').max(25, 'Too long.'),
-  lastName: Yup.string().min(2, 'Too short.').max(25, 'Too long.'),
+  firstName: Yup.string()
+    .min(2, 'Too short.')
+    .max(25, 'Too long.')
+    .matches(/^[_A-z]*((-|\s)*[_A-z])*$/g),
+  lastName: Yup.string()
+    .min(2, 'Too short.')
+    .max(25, 'Too long.')
+    .matches(/^[_A-z]*((-|\s)*[_A-z])*$/g),
 });
 
 const EditProfileBar = ({
@@ -111,6 +117,7 @@ const EditProfileBar = ({
           {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
             <StyledForm>
               <StyledInput
+                autoComplete="off"
                 type="text"
                 name="firstName"
                 placeholder="First name"
@@ -119,6 +126,7 @@ const EditProfileBar = ({
                 value={values.firstName}
               />
               <StyledInput
+                autoComplete="off"
                 type="text"
                 name="lastName"
                 placeholder="Last name"
@@ -127,6 +135,7 @@ const EditProfileBar = ({
                 value={values.lastName}
               />
               <StyledInput
+                autoComplete="off"
                 type="email"
                 name="email"
                 placeholder="email"
@@ -135,6 +144,7 @@ const EditProfileBar = ({
                 value={values.email}
               />
               <StyledInput
+                autoComplete="off"
                 type="password"
                 name="password"
                 placeholder="password"

@@ -73,32 +73,37 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
-const Menubar = ({ isVisible, handleClose, profileData, signOut }) => (
-  <>
-    <StyledWrapper isVisible={isVisible}>
-      <AccountDetails profileData={profileData} signOut={signOut} />
-      <ReturnButton onClick={() => handleClose()} />
+const Menubar = React.memo(
+  ({ isVisible, handleClose, profileData, signOut }) => (
+    <>
+      <StyledWrapper isVisible={isVisible}>
+        <AccountDetails profileData={profileData} signOut={signOut} />
+        <ReturnButton onClick={() => handleClose()} />
 
-      <StyledLinkList>
-        <li>
-          <StyledNavLink exact to="/flashcards" activeclass="active">
-            flashcards
-          </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink to="/words" activeclass="active">
-            words list
-          </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink to="/notes" activeclass="active">
-            notes
-          </StyledNavLink>
-        </li>
-      </StyledLinkList>
-    </StyledWrapper>
-    <DarkerBackground isVisible={isVisible} onClick={() => handleClose()} />
-  </>
+        <StyledLinkList>
+          <li>
+            <StyledNavLink exact to="/flashcards" activeclass="active">
+              flashcards
+            </StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to="/words" activeclass="active">
+              words list
+            </StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to="/notes" activeclass="active">
+              notes
+            </StyledNavLink>
+          </li>
+        </StyledLinkList>
+      </StyledWrapper>
+      <DarkerBackground isVisible={isVisible} onClick={() => handleClose()} />
+    </>
+  ),
+  (prevProps, nextProps) => {
+    return prevProps.isVisible === nextProps.isVisible;
+  },
 );
 
 Menubar.propTypes = {

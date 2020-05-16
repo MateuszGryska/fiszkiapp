@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Title from 'components/atoms/Title/Title';
@@ -38,63 +38,39 @@ const StyledInput = styled(Input)`
   margin-top: 20px;
 `;
 
-class NotesTemplate extends Component {
-  constructor(props) {
-    super(props);
+const NotesTemplate = ({ notes, loading }) => {
+  const [searchNote, setSearchNote] = useState('');
 
-    this.state = {
-      search: '',
-      notes: this.props.notes,
-      currentlyDisplayed: this.props.notes,
-    };
-    this.onInputChange = this.onInputChange.bind(this);
-  }
+  const handleInputChange = (e) => {
+    setSearchNote(e.target.value);
+  };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.notes !== nextProps.notes) {
-      return {
-        notes: nextProps.notes,
-        currentlyDisplayed: nextProps.notes,
-      };
-    }
-    return null;
-  }
-
-  onInputChange(event) {
-    const notesList = this.props.notes;
-    const filteredNotesList = notesList.filter((note) =>
-      note.title.toLowerCase().includes(event.target.value.toLowerCase()),
-    );
-    this.setState({
-      search: event.target.value,
-      currentlyDisplayed: filteredNotesList,
-    });
-  }
-
-  render() {
-    const { currentlyDisplayed, search } = this.state;
-    const { loading } = this.props;
-
-    return (
-      <UserPageTemplate>
-        <StyledWrapper>
-          <Title>Notes</Title>
-          <StyledInput search placeholder="Search" value={search} onChange={this.onInputChange} />
-          <StyledGrid>
-            {currentlyDisplayed.map(({ title, content, created, id }) => (
+  return (
+    <UserPageTemplate>
+      <StyledWrapper>
+        <Title>Notes</Title>
+        <StyledInput
+          search
+          placeholder="Search by title"
+          value={searchNote}
+          onChange={handleInputChange}
+        />
+        <StyledGrid>
+          {notes
+            .filter((note) => note.title.toLowerCase().includes(searchNote.toLowerCase()))
+            .map(({ title, content, created, id }) => (
               <Note id={id} key={id} title={title} content={content} created={created} />
             ))}
-          </StyledGrid>
-          {currentlyDisplayed.length === 0 ? (
-            <StyledInfo>
-              {loading ? 'Loading...' : `You don't have any notes yet! Add new one!`}
-            </StyledInfo>
-          ) : null}
-        </StyledWrapper>
-      </UserPageTemplate>
-    );
-  }
-}
+        </StyledGrid>
+        {notes.length === 0 ? (
+          <StyledInfo>
+            {loading ? 'Loading...' : `You don't have any notes yet! Add new one!`}
+          </StyledInfo>
+        ) : null}
+      </StyledWrapper>
+    </UserPageTemplate>
+  );
+};
 
 NotesTemplate.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.object),

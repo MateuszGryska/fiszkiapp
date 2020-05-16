@@ -43,31 +43,36 @@ const StyledButtons = styled.div`
   align-items: center;
 `;
 
-const WarningModal = ({ isVisible, handleClose, error, deleteAction, cleanUp, item }) => {
-  useEffect(() => {
-    return () => {
-      cleanUp();
-    };
-  }, [cleanUp]);
+const WarningModal = React.memo(
+  ({ isVisible, handleClose, error, deleteAction, cleanUp, item }) => {
+    useEffect(() => {
+      return () => {
+        cleanUp();
+      };
+    }, [cleanUp]);
 
-  return (
-    <>
-      <StyledWrapper isVisible={isVisible} item={item}>
-        <StyledInfo>{!item ? 'Oh no! Are you sure?' : 'Are you sure?'}</StyledInfo>
-        {!item ? <StyledImg src={SadPhoto} alt="sad child" /> : null}
-        <StyledButtons>
-          <ActionButton secondary onClick={() => deleteAction()}>
-            DO IT!
-          </ActionButton>
-          <ActionButton onClick={() => handleClose(false)}>Cancel</ActionButton>
-        </StyledButtons>
-        {error ? <Message error>{error}</Message> : null}
-        {error === false ? <Message>Delete user successfully!</Message> : null}
-      </StyledWrapper>
-      <DarkerBackground isVisible={isVisible} onClick={() => handleClose(false)} />
-    </>
-  );
-};
+    return (
+      <>
+        <StyledWrapper isVisible={isVisible} item={item}>
+          <StyledInfo>{!item ? 'Oh no! Are you sure?' : 'Are you sure?'}</StyledInfo>
+          {!item ? <StyledImg src={SadPhoto} alt="sad child" /> : null}
+          <StyledButtons>
+            <ActionButton secondary onClick={() => deleteAction()}>
+              DO IT!
+            </ActionButton>
+            <ActionButton onClick={() => handleClose(false)}>Cancel</ActionButton>
+          </StyledButtons>
+          {error ? <Message error>{error}</Message> : null}
+          {error === false ? <Message>Delete user successfully!</Message> : null}
+        </StyledWrapper>
+        <DarkerBackground isVisible={isVisible} onClick={() => handleClose(false)} />
+      </>
+    );
+  },
+  (prevProps, nextProps) => {
+    return prevProps.isVisible === nextProps.isVisible;
+  },
+);
 
 WarningModal.propTypes = {
   isVisible: PropTypes.bool,
