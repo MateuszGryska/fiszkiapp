@@ -43,7 +43,7 @@ const StyledLogo = styled.div`
 
 const StyledLoginSection = styled.div`
   width: 500px;
-  height: 500px;
+  height: ${({ pageContext }) => (pageContext === 'register' ? '600px' : '500px')};
   margin-top: 20px;
   background: white;
   display: flex;
@@ -111,6 +111,9 @@ const registerSchema = Yup.object().shape({
     .trim()
     .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g)
     .required('The last name is required.'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], `Password doesn't match`)
+    .required('You need to confirm your password.'),
 });
 
 const resetSchema = Yup.object().shape({
@@ -137,7 +140,7 @@ const AuthTemplate = ({
   return (
     <StyledWrapper>
       <StyledLogo />
-      <StyledLoginSection>
+      <StyledLoginSection pageContext={pageContext}>
         <StyledTitle>
           {pageContext === 'login' ? 'Sign in:' : null}
           {pageContext === 'register' ? 'Create new account:' : null}
@@ -156,7 +159,13 @@ const AuthTemplate = ({
             }
             return null;
           }}
-          initialValues={{ email: '', password: '', firstName: '', lastName: '' }}
+          initialValues={{
+            email: '',
+            password: '',
+            firstName: '',
+            lastName: '',
+            confirmPassword: '',
+          }}
           onSubmit={async (values, { setSubmitting }) => {
             if (pageContext === 'login') {
               signIn(values);
@@ -236,6 +245,14 @@ const AuthTemplate = ({
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.password}
+                  />
+                  <StyledInput
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="confirm password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.confirmPassword}
                   />
                 </>
               ) : null}

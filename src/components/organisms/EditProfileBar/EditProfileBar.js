@@ -66,6 +66,9 @@ const editProfileSchema = Yup.object().shape({
     .max(25, 'Too long.')
     .trim()
     .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], `Password doesn't match`)
+    .required('You need to confirm your password.'),
 });
 
 const EditProfileBar = ({
@@ -108,6 +111,7 @@ const EditProfileBar = ({
             lastName: profile.lastName,
             email: auth.email,
             password: '',
+            confirmPassword: '',
           }}
           onSubmit={async (values) => {
             await updateProfile(values);
@@ -153,6 +157,14 @@ const EditProfileBar = ({
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.password}
+              />
+              <StyledInput
+                type="password"
+                name="confirmPassword"
+                placeholder="confirm password"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.confirmPassword}
               />
               <StyledActionButton secondary disabled={!isValid} type="submit">
                 update
