@@ -62,16 +62,22 @@ const StyledActionButton = styled(ActionButton)`
   margin-top: 20px;
 `;
 
+const StyledParagraph = styled.p`
+  font-size: 1.2rem;
+`;
+
 const wordSchema = Yup.object().shape({
   polish: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
-    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-z])*$/g)
+    .trim()
+    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g)
     .required('The polish word is required.'),
   english: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
-    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-z])*$/g)
+    .trim()
+    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g)
     .required('The english word is required.'),
 });
 
@@ -89,6 +95,9 @@ const NewItemBar = React.memo(
       <StyledWrapper isVisible={isVisible}>
         <ReturnButton onClick={() => handleClose()} />
         <BarsTitle>Add new {pageContext === 'notes' ? 'note' : 'word'}</BarsTitle>
+        <StyledParagraph>
+          The word must have a maximum of 25 letters and be without special characters.
+        </StyledParagraph>
         <Formik
           validationSchema={() => {
             if (pageContext === 'words' || pageContext === 'flashcards') {

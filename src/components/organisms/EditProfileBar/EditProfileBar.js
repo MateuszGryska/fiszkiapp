@@ -59,11 +59,13 @@ const editProfileSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
-    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-z])*$/g),
+    .trim()
+    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g),
   lastName: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
-    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-z])*$/g),
+    .trim()
+    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g),
 });
 
 const EditProfileBar = ({
