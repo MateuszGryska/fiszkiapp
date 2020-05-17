@@ -29,8 +29,9 @@ const StyledDetailsList = styled.ul`
   list-style: none;
   align-self: flex-start;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
   width: 100%;
+  max-width: 700px;
   font-size: ${({ theme }) => theme.fontSize.m};
 
   @media (max-width: 480px) {

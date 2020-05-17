@@ -88,7 +88,7 @@ const FlashcardsTemplate = ({ userId, requested }) => {
         </StyledSmallerWord>
         <StyledShowButton onClick={() => setSmallerWordVisible(true)}>Show</StyledShowButton>
         <Button disabled={wordsList.length === 0} onClick={() => pickNewWord(wordsList.length)}>
-          NEW WORD
+          DRAW A NEW WORD
         </Button>
       </StyledWrapper>
     </UserPageTemplate>
