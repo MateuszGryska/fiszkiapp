@@ -66,10 +66,12 @@ const wordSchema = Yup.object().shape({
   polish: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
+    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-z])*$/g)
     .required('The polish word is required.'),
   english: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
+    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-z])*$/g)
     .required('The english word is required.'),
 });
 

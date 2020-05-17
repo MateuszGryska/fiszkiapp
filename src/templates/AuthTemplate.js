@@ -102,12 +102,12 @@ const registerSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
-    .matches(/^[_A-z]*((-|\s)*[_A-z])*$/g)
+    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-z])*$/g)
     .required('The first name is required.'),
   lastName: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
-    .matches(/^[_A-z]*((-|\s)*[_A-z])*$/g)
+    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-z])*$/g)
     .required('The last name is required.'),
 });
 

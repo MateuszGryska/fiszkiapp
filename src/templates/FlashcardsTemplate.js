@@ -87,7 +87,9 @@ const FlashcardsTemplate = ({ userId, requested }) => {
           {wordsList.length > 0 ? wordsList[flashcardPosition].polish : 'Brak słówek, dodaj nowe!'}
         </StyledSmallerWord>
         <StyledShowButton onClick={() => setSmallerWordVisible(true)}>Show</StyledShowButton>
-        <Button onClick={() => pickNewWord(wordsList.length)}>NEW WORD</Button>
+        <Button disabled={wordsList.length === 0} onClick={() => pickNewWord(wordsList.length)}>
+          NEW WORD
+        </Button>
       </StyledWrapper>
     </UserPageTemplate>
   );
