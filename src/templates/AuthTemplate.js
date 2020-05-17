@@ -52,6 +52,7 @@ const StyledLoginSection = styled.div`
   align-items: center;
   border: none;
   border-radius: 20px;
+  position: relative;
 
   @media (max-width: 480px) {
     width: 90vw;
@@ -69,11 +70,10 @@ const StyledForm = styled(Form)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
 `;
 
 const StyledInput = styled(Input)`
-  margin-top: 20px;
+  margin-bottom: ${({ error }) => (error ? '8px' : '20px')};
   @media (max-width: 480px) {
     width: 80vw;
   }
@@ -84,11 +84,23 @@ const StyledLink = styled(Link)`
   margin: 0px 30px 10px 30px;
 `;
 
-const StyledMessage = styled(Message)`
+const StyledMessagesBox = styled.div`
+  width: 500px;
+  height: 100px;
+  border-radius: 20px;
+  padding: 30px 20px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   position: absolute;
-  bottom: 0px;
+  bottom: -160px;
   left: 50%;
   transform: translate(-50%, -50%);
+`;
+const StyledMessage = styled(Message)`
+  margin: 0;
 `;
 
 const LoginSchema = Yup.object().shape({
@@ -103,13 +115,19 @@ const registerSchema = Yup.object().shape({
     .min(2, 'Too short.')
     .max(25, 'Too long.')
     .trim()
-    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g)
+    .matches(
+      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
+      'Special characters are not allowed',
+    )
     .required('The first name is required.'),
   lastName: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
     .trim()
-    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g)
+    .matches(
+      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
+      'Special characters are not allowed',
+    )
     .required('The last name is required.'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], `Password doesn't match`)
@@ -222,6 +240,7 @@ const AuthTemplate = ({
                     onBlur={handleBlur}
                     value={values.email}
                   />
+
                   <StyledInput
                     type="text"
                     name="firstName"
@@ -230,6 +249,7 @@ const AuthTemplate = ({
                     onBlur={handleBlur}
                     value={values.firstName}
                   />
+
                   <StyledInput
                     type="text"
                     name="lastName"
@@ -238,6 +258,7 @@ const AuthTemplate = ({
                     onBlur={handleBlur}
                     value={values.lastName}
                   />
+
                   <StyledInput
                     type="password"
                     name="password"
@@ -246,6 +267,7 @@ const AuthTemplate = ({
                     onBlur={handleBlur}
                     value={values.password}
                   />
+
                   <StyledInput
                     type="password"
                     name="confirmPassword"
@@ -297,8 +319,30 @@ const AuthTemplate = ({
               {pageContext === 'reset-password' && recoverError === false ? (
                 <Message>Recover email sent successfully!</Message>
               ) : null}
-              {errors.email && touched.email ? (
-                <StyledMessage error>{errors.email}</StyledMessage>
+              {errors.email ||
+              errors.password ||
+              errors.firstName ||
+              errors.lastName ||
+              errors.confirmPassword ? (
+                <StyledMessagesBox>
+                  {errors.email && touched.email ? (
+                    <StyledMessage error>Email error: {errors.email}</StyledMessage>
+                  ) : null}
+                  {errors.firstName && touched.firstName ? (
+                    <StyledMessage error>First name error: {errors.firstName}</StyledMessage>
+                  ) : null}
+                  {errors.lastName && touched.lastName ? (
+                    <StyledMessage error>Last name error: {errors.lastName}</StyledMessage>
+                  ) : null}
+                  {errors.password && touched.password ? (
+                    <StyledMessage error>Password error: {errors.password}</StyledMessage>
+                  ) : null}
+                  {errors.confirmPassword && touched.confirmPassword ? (
+                    <StyledMessage error>
+                      Confirm password error: {errors.confirmPassword}
+                    </StyledMessage>
+                  ) : null}
+                </StyledMessagesBox>
               ) : null}
             </StyledForm>
           )}

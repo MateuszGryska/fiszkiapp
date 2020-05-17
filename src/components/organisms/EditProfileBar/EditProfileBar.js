@@ -60,12 +60,18 @@ const editProfileSchema = Yup.object().shape({
     .min(2, 'Too short.')
     .max(25, 'Too long.')
     .trim()
-    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g),
+    .matches(
+      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
+      'Special characters are not allowed',
+    ),
   lastName: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
     .trim()
-    .matches(/^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g),
+    .matches(
+      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
+      'Special characters are not allowed',
+    ),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], `Password doesn't match`)
     .required('You need to confirm your password.'),
@@ -172,6 +178,18 @@ const EditProfileBar = ({
               <Message error>{error}</Message>
               {error === false ? <Message>Profile was updated!</Message> : null}
               {errors.email && touched.email ? <Message error>{errors.email}</Message> : null}
+              {errors.firstName && touched.firstName ? (
+                <Message error>{errors.firstName}</Message>
+              ) : null}
+              {errors.lastName && touched.lastName ? (
+                <Message error>{errors.lastName}</Message>
+              ) : null}
+              {errors.password && touched.password ? (
+                <Message error>{errors.password}</Message>
+              ) : null}
+              {errors.confirmPassword && touched.confirmPassword ? (
+                <Message error>{errors.confirmPassword}</Message>
+              ) : null}
             </StyledForm>
           )}
         </Formik>
