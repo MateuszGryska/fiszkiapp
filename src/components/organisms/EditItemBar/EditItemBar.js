@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
 import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
+import Message from 'components/atoms/Message/Message';
+
 import BarsTitle from 'components/atoms/BarsTitle/BarsTitle';
 import Input from 'components/atoms/Input/Input';
 import { connect } from 'react-redux';
@@ -62,14 +64,28 @@ const StyledActionButton = styled(ActionButton)`
   margin-top: 20px;
 `;
 
+const StyledParagraph = styled.p`
+  font-size: 1.2rem;
+`;
+
 const wordSchema = Yup.object().shape({
   polish: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
+    .trim()
+    .matches(
+      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
+      'Special characters are not allowed',
+    )
     .required('The polish word is required.'),
   english: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
+    .trim()
+    .matches(
+      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
+      'Special characters are not allowed',
+    )
     .required('The english word is required.'),
 });
 
@@ -98,6 +114,18 @@ const EditItemBar = React.memo(
       <StyledWrapper isVisible={isVisible}>
         <ReturnButton onClick={() => handleClose(false)} />
         <BarsTitle>Edit {pageContext === 'notes' ? 'note' : 'word'}</BarsTitle>
+        {pageContext === 'flashcards' || pageContext === 'words' ? (
+          <StyledParagraph>
+            The word can have a maximum of 25 letters and be without special characters.
+          </StyledParagraph>
+        ) : null}
+        {pageContext === 'notes' ? (
+          <StyledParagraph>
+            The title can have a maximum of 25 letters and content can have a maximum of 300
+            letters.
+          </StyledParagraph>
+        ) : null}
+
         <Formik
           validationSchema={() => {
             if (pageContext === 'words' || pageContext === 'flashcards') {
@@ -119,7 +147,7 @@ const EditItemBar = React.memo(
             }
           }}
         >
-          {({ values, handleChange, handleBlur, isValid }) => (
+          {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
             <StyledForm>
               {pageContext === 'notes' ? (
                 <>
@@ -170,6 +198,10 @@ const EditItemBar = React.memo(
               <StyledActionButton secondary disabled={!isValid} type="submit">
                 update
               </StyledActionButton>
+              {errors.polish && touched.polish ? <Message error>{errors.polish}</Message> : null}
+              {errors.english && touched.english ? <Message error>{errors.english}</Message> : null}
+              {errors.title && touched.title ? <Message error>{errors.title}</Message> : null}
+              {errors.content && touched.content ? <Message error>{errors.content}</Message> : null}
             </StyledForm>
           )}
         </Formik>

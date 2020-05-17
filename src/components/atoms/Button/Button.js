@@ -11,7 +11,7 @@ const StyledWrapper = styled.button`
   background: ${({ theme }) => theme.white};
   color: ${({ theme }) => theme.black};
   font-size: ${({ theme }) => theme.fontSize.s};
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
   letter-spacing: 2.5px;
   transition: all 0.3s ease 0s;
   cursor: pointer;
@@ -68,6 +68,7 @@ const Button = ({
   ...rest
 }) => (
   <StyledWrapper
+    data-testid="button"
     disabled={disabled}
     loginButton={loginButton ? 'loginButton' : null}
     recoverButton={recoverButton ? 'recoverButton' : null}

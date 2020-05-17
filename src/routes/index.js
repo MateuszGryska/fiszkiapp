@@ -9,4 +9,5 @@ export const routes = {
   register: '/register',
   account: '/account',
   reset: '/reset-password',
+  notverified: '/notverified',
 };

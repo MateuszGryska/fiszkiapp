@@ -64,7 +64,7 @@ const StyledVerifiedInfo = styled.div`
 
 const Navbar = ({ handleOpen, emailVerified }) => (
   <>
-    <StyledWrapper>
+    <StyledWrapper data-testid="navbar">
       <StyledNav>
         <StyledLogo to="/" />
         <StyledMenu onClick={() => handleOpen()} />
