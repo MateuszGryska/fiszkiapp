@@ -53,9 +53,19 @@ const StyledActionButton = styled(ActionButton)`
   margin-top: 20px;
 `;
 
+const StyledParagraph = styled.p`
+  font-size: 1.2rem;
+`;
+
+const StyledMessage = styled(Message)`
+  margin-top: 0px;
+  padding-left: 20px;
+  margin-bottom: 5px;
+`;
+
 const editProfileSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email.'),
-  password: Yup.string().min(8, 'Too short.'),
+  password: Yup.string().min(8, 'Too short. Password must be at least 8 characters.'),
   firstName: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
@@ -110,6 +120,11 @@ const EditProfileBar = ({
           }}
         />
         <BarsTitle>Edit profile</BarsTitle>
+        <StyledParagraph>
+          Edit what you want to change. <br />
+          First and last name can have a maximum of 25 letters. Password must be at least 8
+          characters. <br /> Special characters are not allowed.
+        </StyledParagraph>
         <Formik
           validationSchema={editProfileSchema}
           initialValues={{
@@ -128,68 +143,90 @@ const EditProfileBar = ({
         >
           {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
             <StyledForm>
-              <StyledInput
-                autoComplete="off"
-                type="text"
-                name="firstName"
-                placeholder="First name"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.firstName}
-              />
-              <StyledInput
-                autoComplete="off"
-                type="text"
-                name="lastName"
-                placeholder="Last name"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.lastName}
-              />
-              <StyledInput
-                autoComplete="off"
-                type="email"
-                name="email"
-                placeholder="email"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.email}
-              />
-              <StyledInput
-                autoComplete="off"
-                type="password"
-                name="password"
-                placeholder="password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.password}
-              />
-              <StyledInput
-                type="password"
-                name="confirmPassword"
-                placeholder="confirm password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.confirmPassword}
-              />
+              <div>
+                <StyledInput
+                  autoComplete="off"
+                  type="text"
+                  name="firstName"
+                  placeholder="First name"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.firstName}
+                />
+                {errors.firstName && touched.firstName ? (
+                  <StyledMessage error>{errors.firstName}</StyledMessage>
+                ) : (
+                  <StyledMessage error />
+                )}
+              </div>
+              <div>
+                <StyledInput
+                  autoComplete="off"
+                  type="text"
+                  name="lastName"
+                  placeholder="Last name"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.lastName}
+                />
+                {errors.lastName && touched.lastName ? (
+                  <StyledMessage error>{errors.lastName}</StyledMessage>
+                ) : (
+                  <StyledMessage error />
+                )}
+              </div>
+              <div>
+                <StyledInput
+                  autoComplete="off"
+                  type="email"
+                  name="email"
+                  placeholder="email"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.email}
+                />
+                {errors.email && touched.email ? (
+                  <StyledMessage error>{errors.email}</StyledMessage>
+                ) : (
+                  <StyledMessage error />
+                )}
+              </div>
+              <div>
+                <StyledInput
+                  autoComplete="off"
+                  type="password"
+                  name="password"
+                  placeholder="password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.password}
+                />
+                {errors.password && touched.password ? (
+                  <StyledMessage error>{errors.password}</StyledMessage>
+                ) : (
+                  <StyledMessage error />
+                )}
+              </div>
+              <div>
+                <StyledInput
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="confirm password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.confirmPassword}
+                />
+                {errors.confirmPassword && touched.confirmPassword ? (
+                  <StyledMessage error>{errors.confirmPassword}</StyledMessage>
+                ) : (
+                  <StyledMessage error />
+                )}
+              </div>
               <StyledActionButton secondary disabled={!isValid} type="submit">
                 update
               </StyledActionButton>
               <Message error>{error}</Message>
               {error === false ? <Message>Profile was updated!</Message> : null}
-              {errors.email && touched.email ? <Message error>{errors.email}</Message> : null}
-              {errors.firstName && touched.firstName ? (
-                <Message error>{errors.firstName}</Message>
-              ) : null}
-              {errors.lastName && touched.lastName ? (
-                <Message error>{errors.lastName}</Message>
-              ) : null}
-              {errors.password && touched.password ? (
-                <Message error>{errors.password}</Message>
-              ) : null}
-              {errors.confirmPassword && touched.confirmPassword ? (
-                <Message error>{errors.confirmPassword}</Message>
-              ) : null}
             </StyledForm>
           )}
         </Formik>
