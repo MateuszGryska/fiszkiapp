@@ -73,7 +73,6 @@ const StyledForm = styled(Form)`
 `;
 
 const StyledInput = styled(Input)`
-  margin-bottom: ${({ error }) => (error ? '8px' : '20px')};
   @media (max-width: 480px) {
     width: 80vw;
   }
@@ -84,33 +83,24 @@ const StyledLink = styled(Link)`
   margin: 0px 30px 10px 30px;
 `;
 
-const StyledMessagesBox = styled.div`
-  width: 500px;
-  height: 100px;
-  border-radius: 20px;
-  padding: 30px 20px;
-  background: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  position: absolute;
-  bottom: -160px;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
 const StyledMessage = styled(Message)`
-  margin: 0;
+  margin-top: 5px;
+  padding-left: 20px;
+  margin-bottom: 10px;
 `;
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email.').required('The email is required.'),
-  password: Yup.string().required('The passoword is required.').min(8, 'Too short.'),
+  password: Yup.string()
+    .required('The passoword is required.')
+    .min(8, 'Too short. Password must be at least 8 characters.'),
 });
 
 const registerSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email.').required('The email is required.'),
-  password: Yup.string().required('The passoword is required.').min(8, 'Too short.'),
+  password: Yup.string()
+    .required('The passoword is required.')
+    .min(8, 'Too short. Password must be at least 8 characters.'),
   firstName: Yup.string()
     .min(2, 'Too short.')
     .max(25, 'Too long.')
@@ -199,83 +189,134 @@ const AuthTemplate = ({
             <StyledForm>
               {pageContext === 'login' ? (
                 <>
-                  <StyledInput
-                    type="email"
-                    name="email"
-                    placeholder="email"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.email}
-                  />
-
-                  <StyledInput
-                    type="password"
-                    name="password"
-                    placeholder="password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.password}
-                  />
+                  <div>
+                    <StyledInput
+                      type="email"
+                      name="email"
+                      placeholder="email"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email}
+                    />
+                    {errors.email && touched.email ? (
+                      <StyledMessage error>{errors.email}</StyledMessage>
+                    ) : (
+                      <StyledMessage error />
+                    )}
+                  </div>
+                  <div>
+                    <StyledInput
+                      type="password"
+                      name="password"
+                      placeholder="password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password}
+                    />
+                    {errors.password && touched.password ? (
+                      <StyledMessage error>{errors.password}</StyledMessage>
+                    ) : (
+                      <StyledMessage error />
+                    )}
+                  </div>
                 </>
               ) : null}
               {pageContext === 'reset-password' ? (
                 <>
-                  <StyledInput
-                    type="email"
-                    name="email"
-                    placeholder="email"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.email}
-                  />
+                  <div>
+                    <StyledInput
+                      type="email"
+                      name="email"
+                      placeholder="email"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email}
+                    />
+                    {errors.email && touched.email ? (
+                      <StyledMessage error>{errors.email}</StyledMessage>
+                    ) : (
+                      <StyledMessage error />
+                    )}
+                  </div>
                 </>
               ) : null}
               {pageContext === 'register' ? (
                 <>
-                  <StyledInput
-                    type="email"
-                    name="email"
-                    placeholder="email"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.email}
-                  />
-
-                  <StyledInput
-                    type="text"
-                    name="firstName"
-                    placeholder="firstName"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.firstName}
-                  />
-
-                  <StyledInput
-                    type="text"
-                    name="lastName"
-                    placeholder="lastName"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.lastName}
-                  />
-
-                  <StyledInput
-                    type="password"
-                    name="password"
-                    placeholder="password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.password}
-                  />
-
-                  <StyledInput
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="confirm password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.confirmPassword}
-                  />
+                  <div>
+                    <StyledInput
+                      type="email"
+                      name="email"
+                      placeholder="email"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email}
+                    />
+                    {errors.email && touched.email ? (
+                      <StyledMessage error>{errors.email}</StyledMessage>
+                    ) : (
+                      <StyledMessage error />
+                    )}
+                  </div>
+                  <div>
+                    <StyledInput
+                      type="text"
+                      name="firstName"
+                      placeholder="firstName"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.firstName}
+                    />
+                    {errors.firstName && touched.firstName ? (
+                      <StyledMessage error>{errors.firstName}</StyledMessage>
+                    ) : (
+                      <StyledMessage error />
+                    )}
+                  </div>
+                  <div>
+                    <StyledInput
+                      type="text"
+                      name="lastName"
+                      placeholder="lastName"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.lastName}
+                    />
+                    {errors.lastName && touched.lastName ? (
+                      <StyledMessage error>{errors.lastName}</StyledMessage>
+                    ) : (
+                      <StyledMessage error />
+                    )}
+                  </div>
+                  <div>
+                    <StyledInput
+                      type="password"
+                      name="password"
+                      placeholder="password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password}
+                    />
+                    {errors.password && touched.password ? (
+                      <StyledMessage error>{errors.password}</StyledMessage>
+                    ) : (
+                      <StyledMessage error />
+                    )}
+                  </div>
+                  <div>
+                    <StyledInput
+                      type="password"
+                      name="confirmPassword"
+                      placeholder="confirm password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.confirmPassword}
+                    />
+                    {errors.confirmPassword && touched.confirmPassword ? (
+                      <StyledMessage error>{errors.confirmPassword}</StyledMessage>
+                    ) : (
+                      <StyledMessage error />
+                    )}
+                  </div>
                 </>
               ) : null}
               {pageContext === 'login' ? (
@@ -318,31 +359,6 @@ const AuthTemplate = ({
               <Message error>{pageContext === 'reset-password' ? recoverError : error}</Message>
               {pageContext === 'reset-password' && recoverError === false ? (
                 <Message>Recover email sent successfully!</Message>
-              ) : null}
-              {errors.email ||
-              errors.password ||
-              errors.firstName ||
-              errors.lastName ||
-              errors.confirmPassword ? (
-                <StyledMessagesBox>
-                  {errors.email && touched.email ? (
-                    <StyledMessage error>Email error: {errors.email}</StyledMessage>
-                  ) : null}
-                  {errors.firstName && touched.firstName ? (
-                    <StyledMessage error>First name error: {errors.firstName}</StyledMessage>
-                  ) : null}
-                  {errors.lastName && touched.lastName ? (
-                    <StyledMessage error>Last name error: {errors.lastName}</StyledMessage>
-                  ) : null}
-                  {errors.password && touched.password ? (
-                    <StyledMessage error>Password error: {errors.password}</StyledMessage>
-                  ) : null}
-                  {errors.confirmPassword && touched.confirmPassword ? (
-                    <StyledMessage error>
-                      Confirm password error: {errors.confirmPassword}
-                    </StyledMessage>
-                  ) : null}
-                </StyledMessagesBox>
               ) : null}
             </StyledForm>
           )}

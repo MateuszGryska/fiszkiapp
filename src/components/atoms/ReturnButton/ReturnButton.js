@@ -14,6 +14,10 @@ const returnButton = styled.button`
   background-repeat: no-repeat;
   cursor: pointer;
 
+  @media (max-width: 480px) {
+    bottom: 70px;
+  }
+
   &:hover {
     filter: contrast(300%);
   }

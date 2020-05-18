@@ -67,6 +67,12 @@ const StyledParagraph = styled.p`
   font-size: 1.2rem;
 `;
 
+const StyledMessage = styled(Message)`
+  margin-top: 0px;
+  padding-left: 20px;
+  margin-bottom: 5px;
+`;
+
 const wordSchema = Yup.object().shape({
   polish: Yup.string()
     .min(2, 'Too short.')
@@ -138,57 +144,81 @@ const NewItemBar = React.memo(
             <StyledForm>
               {pageContext === 'notes' ? (
                 <>
-                  <StyledInput
-                    autoComplete="off"
-                    type="text"
-                    name="title"
-                    placeholder="title"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.title}
-                  />
-                  <StyledTextArea
-                    autoComplete="off"
-                    as="textarea"
-                    type="text"
-                    name="content"
-                    placeholder="content"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.content}
-                  />
+                  <div>
+                    <StyledInput
+                      autoComplete="off"
+                      type="text"
+                      name="title"
+                      placeholder="title"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.title}
+                    />
+                    {errors.title && touched.title ? (
+                      <StyledMessage error>{errors.title}</StyledMessage>
+                    ) : (
+                      <StyledMessage />
+                    )}
+                  </div>
+                  <div>
+                    <StyledTextArea
+                      autoComplete="off"
+                      as="textarea"
+                      type="text"
+                      name="content"
+                      placeholder="content"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.content}
+                    />
+                    {errors.content && touched.content ? (
+                      <StyledMessage error>{errors.content}</StyledMessage>
+                    ) : (
+                      <StyledMessage />
+                    )}
+                  </div>
                 </>
               ) : null}
 
               {pageContext === 'words' || pageContext === 'flashcards' ? (
                 <>
-                  <StyledInput
-                    autoComplete="off"
-                    type="text"
-                    name="polish"
-                    placeholder="polish"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.polish}
-                  />
-                  <StyledInput
-                    autoComplete="off"
-                    type="text"
-                    name="english"
-                    placeholder="english"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.english}
-                  />
+                  <div>
+                    <StyledInput
+                      autoComplete="off"
+                      type="text"
+                      name="polish"
+                      placeholder="polish"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.polish}
+                    />
+                    {errors.polish && touched.polish ? (
+                      <StyledMessage error>{errors.polish}</StyledMessage>
+                    ) : (
+                      <StyledMessage />
+                    )}
+                  </div>
+                  <div>
+                    <StyledInput
+                      autoComplete="off"
+                      type="text"
+                      name="english"
+                      placeholder="english"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.english}
+                    />
+                    {errors.english && touched.english ? (
+                      <StyledMessage error>{errors.english}</StyledMessage>
+                    ) : (
+                      <StyledMessage />
+                    )}
+                  </div>
                 </>
               ) : null}
               <StyledActionButton secondary disabled={!isValid} type="submit">
                 add
               </StyledActionButton>
-              {errors.polish && touched.polish ? <Message error>{errors.polish}</Message> : null}
-              {errors.english && touched.english ? <Message error>{errors.english}</Message> : null}
-              {errors.title && touched.title ? <Message error>{errors.title}</Message> : null}
-              {errors.content && touched.content ? <Message error>{errors.content}</Message> : null}
             </StyledForm>
           )}
         </Formik>
