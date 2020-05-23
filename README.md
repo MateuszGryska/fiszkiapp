@@ -1,6 +1,6 @@
 ## Description
 
-App for learning English with flashcards and make notes. App with Authentication using Firebase. All data (words and notes) are saved using Firestore.
+App for develop your English with flashcards and make notes. App with Authentication using Firebase. All data (words and notes) are saved using Firestore.
 
 ## Built With
 React JS <br />
