@@ -108,7 +108,6 @@ const NewItemBar = React.memo(
               addItem(pageContext, values);
             }
             resetForm();
-            handleClose();
           }}
         >
           {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
@@ -187,8 +186,16 @@ const NewItemBar = React.memo(
                   </div>
                 </>
               ) : null}
-              <StyledActionButton secondary disabled={!isValid} type="submit">
+              <StyledActionButton
+                secondary
+                disabled={!isValid}
+                type="submit"
+                onClick={() => handleClose()}
+              >
                 add
+              </StyledActionButton>
+              <StyledActionButton secondary disabled={!isValid} type="submit">
+                add and next
               </StyledActionButton>
             </StyledForm>
           )}
