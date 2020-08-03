@@ -2,6 +2,9 @@ import styled, { css } from 'styled-components';
 import magnifierIcon from 'assets/icons/magnifier.svg';
 
 const Input = styled.input`
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   position: relative;
   background-color: ${({ theme }) => theme.white};
   padding: 10px 20px 10px 20px;

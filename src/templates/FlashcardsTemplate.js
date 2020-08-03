@@ -4,6 +4,7 @@ import { connect, useSelector } from 'react-redux';
 import Title from 'components/atoms/Title/Title';
 import styled from 'styled-components';
 import Button from 'components/atoms/Button/Button';
+import Toggle from 'components/atoms/Toggle/Toggle';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import UserPageTemplate from './UserPageTemplate';
 
@@ -42,14 +43,22 @@ const StyledShowButton = styled.button`
   }
 `;
 
-const StyledNumberOfWords = styled.p`
+const StyledParagraph = styled.p`
   width: 300px;
   text-align: center;
+`;
+
+const StyledToggleSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 200px;
 `;
 
 const FlashcardsTemplate = ({ userId, requested }) => {
   const [isSmallerWordVisible, setSmallerWordVisible] = useState(false);
   const [flashcardPosition, setFlashcardPosition] = useState(0);
+  const [isChecked, setCheckbox] = useState(false);
   useFirestoreConnect([{ collection: 'words', doc: userId }]);
   const words = useSelector(({ firestore: { data } }) => data.words && data.words[userId]);
 
@@ -79,13 +88,39 @@ const FlashcardsTemplate = ({ userId, requested }) => {
     <UserPageTemplate>
       <StyledWrapper>
         <Title>Flashcards</Title>
-        <StyledNumberOfWords>Number of words: {wordsList.length}</StyledNumberOfWords>
-        <StyledBiggerWord>
-          {wordsList.length > 0 ? wordsList[flashcardPosition].english : 'No words, add new ones!'}
-        </StyledBiggerWord>
-        <StyledSmallerWord isVisible={isSmallerWordVisible}>
-          {wordsList.length > 0 ? wordsList[flashcardPosition].polish : 'Brak słówek, dodaj nowe!'}
-        </StyledSmallerWord>
+        <StyledParagraph>Number of words: {wordsList.length}</StyledParagraph>
+        <StyledToggleSection>
+          <p>Switch language:</p>
+          <Toggle isChecked={isChecked} setCheckbox={() => setCheckbox(!isChecked)} />
+        </StyledToggleSection>
+        {isChecked ? (
+          <>
+            <StyledBiggerWord>
+              {wordsList.length > 0
+                ? wordsList[flashcardPosition].english
+                : 'No words, add new ones!'}
+            </StyledBiggerWord>
+            <StyledSmallerWord isVisible={isSmallerWordVisible}>
+              {wordsList.length > 0
+                ? wordsList[flashcardPosition].polish
+                : 'Brak słówek, dodaj nowe!'}
+            </StyledSmallerWord>
+          </>
+        ) : (
+          <>
+            <StyledBiggerWord>
+              {wordsList.length > 0
+                ? wordsList[flashcardPosition].polish
+                : 'No words, add new ones!'}
+            </StyledBiggerWord>
+            <StyledSmallerWord isVisible={isSmallerWordVisible}>
+              {wordsList.length > 0
+                ? wordsList[flashcardPosition].english
+                : 'Brak słówek, dodaj nowe!'}
+            </StyledSmallerWord>
+          </>
+        )}
+
         <StyledShowButton onClick={() => setSmallerWordVisible(true)}>Show</StyledShowButton>
         <Button disabled={wordsList.length === 0} onClick={() => pickNewWord(wordsList.length)}>
           DRAW A NEW WORD
