@@ -18,12 +18,14 @@ const StyledWrapper = styled.div`
 
 const StyledBiggerWord = styled.h1`
   padding-top: 50px;
+  text-align: center;
   font-size: ${({ theme }) => theme.fontSize.xl};
 `;
 
 const StyledSmallerWord = styled.h2`
   font-size: ${({ theme }) => theme.fontSize.m};
   margin: 0;
+  text-align: center;
   opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
 `;
 
