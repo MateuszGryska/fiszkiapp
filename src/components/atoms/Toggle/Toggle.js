@@ -18,8 +18,8 @@ const StyledWrapper = styled.input`
   display: inline-block;
   position: relative;
   margin: 0;
-  border: 2px solid ${({ theme }) => theme.input};
-  background: ${({ theme }) => theme.white};
+  border: 2px solid ${({ theme }) => theme.main};
+  background: ${({ theme }) => theme.main};
   transition: all 0.2s ease;
   &:after {
     content: '';
@@ -35,10 +35,9 @@ const StyledWrapper = styled.input`
   }
 
   &:checked {
-    border-color: ${({ theme }) => theme.main};
     &:after {
       transform: translatex(20px);
-      background: ${({ theme }) => theme.main};
+      background: ${({ theme }) => theme.white};
     }
   }
 `;
