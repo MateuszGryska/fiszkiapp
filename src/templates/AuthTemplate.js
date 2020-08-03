@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import * as Yup from 'yup';
 import Button from 'components/atoms/Button/Button';
 import Message from 'components/atoms/Message/Message';
 import withContext from 'hoc/withContext';
@@ -17,6 +16,7 @@ import {
   recoveryPassword as recoverPasswordAction,
   clean as cleanAction,
 } from 'actions';
+import { loginSchema, registerSchema, resetSchema } from 'validation';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -89,45 +89,6 @@ const StyledMessage = styled(Message)`
   margin-bottom: 10px;
 `;
 
-const LoginSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email.').required('The email is required.'),
-  password: Yup.string()
-    .required('The passoword is required.')
-    .min(8, 'Too short. Password must be at least 8 characters.'),
-});
-
-const registerSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email.').required('The email is required.'),
-  password: Yup.string()
-    .required('The passoword is required.')
-    .min(8, 'Too short. Password must be at least 8 characters.'),
-  firstName: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
-    .trim()
-    .matches(
-      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
-    )
-    .required('The first name is required.'),
-  lastName: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
-    .trim()
-    .matches(
-      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
-    )
-    .required('The last name is required.'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], `Password doesn't match`)
-    .required('You need to confirm your password.'),
-});
-
-const resetSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email.').required('The email is required.'),
-});
-
 const AuthTemplate = ({
   pageContext,
   signUp,
@@ -157,7 +118,7 @@ const AuthTemplate = ({
         <Formik
           validationSchema={() => {
             if (pageContext === 'login') {
-              return LoginSchema;
+              return loginSchema;
             }
             if (pageContext === 'register') {
               return registerSchema;

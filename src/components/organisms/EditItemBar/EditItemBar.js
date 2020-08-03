@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import * as Yup from 'yup';
 import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
 import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
 import Message from 'components/atoms/Message/Message';
@@ -12,6 +11,7 @@ import ActionButton from 'components/atoms/ActionButton/ActionButton';
 import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
 import { updateItem as editItemAction } from 'actions';
+import { wordSchema, noteSchema } from 'validation';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -72,35 +72,6 @@ const StyledMessage = styled(Message)`
   padding-left: 20px;
   margin-bottom: 5px;
 `;
-
-const wordSchema = Yup.object().shape({
-  polish: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
-    .trim()
-    .matches(
-      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
-    )
-    .required('The polish word is required.'),
-  english: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
-    .trim()
-    .matches(
-      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
-    )
-    .required('The english word is required.'),
-});
-
-const noteSchema = Yup.object().shape({
-  title: Yup.string().min(2, 'Too short.').max(25, 'Too long.').required('The title is required.'),
-  content: Yup.string()
-    .min(2, 'Too short.')
-    .max(300, 'Too long.')
-    .required('The content is required.'),
-});
 
 const EditItemBar = React.memo(
   ({

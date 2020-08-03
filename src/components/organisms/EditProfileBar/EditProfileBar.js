@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import * as Yup from 'yup';
 import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
 import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
 import BarsTitle from 'components/atoms/BarsTitle/BarsTitle';
@@ -12,6 +11,7 @@ import ActionButton from 'components/atoms/ActionButton/ActionButton';
 import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
 import { editProfile as editProfileAction, clean as cleanAction } from 'actions';
+import { editProfileSchema } from 'validation';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -62,30 +62,6 @@ const StyledMessage = styled(Message)`
   padding-left: 20px;
   margin-bottom: 5px;
 `;
-
-const editProfileSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email.'),
-  password: Yup.string().min(8, 'Too short. Password must be at least 8 characters.'),
-  firstName: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
-    .trim()
-    .matches(
-      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
-    ),
-  lastName: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
-    .trim()
-    .matches(
-      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
-    ),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], `Password doesn't match`)
-    .required('You need to confirm your password.'),
-});
 
 const EditProfileBar = ({
   isVisible,
