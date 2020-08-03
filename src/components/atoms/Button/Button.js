@@ -5,22 +5,19 @@ import styled, { css } from 'styled-components';
 const StyledWrapper = styled.button`
   height: 50px;
   width: 270px;
-  border-radius: 20px;
+  border-radius: 10px;
   border: none;
   margin-top: 30px;
-  background: ${({ theme }) => theme.white};
-  color: ${({ theme }) => theme.black};
+  background: ${({ theme }) => theme.main};
+  color: ${({ theme }) => theme.white};
   font-size: ${({ theme }) => theme.fontSize.s};
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
-  letter-spacing: 2.5px;
+  /* box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3); */
+  letter-spacing: 1.5px;
   transition: all 0.3s ease 0s;
   cursor: pointer;
-  outline: none;
 
   &:hover {
-    background: ${({ theme }) => theme.main};
-    box-shadow: 0px 15px 20px ${({ theme }) => theme.main};
-    color: ${({ theme }) => theme.white};
+    box-shadow: 0px 15px 20px ${({ theme }) => theme.hover};
     transform: translateY(-7px);
   }
 
@@ -46,10 +43,7 @@ const StyledWrapper = styled.button`
     ${({ deleteButton }) =>
       deleteButton &&
       css`
-        &:hover {
-          background: ${({ theme }) => theme.red};
-          box-shadow: 0px 15px 20px rgb(255, 51, 51);
-        }
+        background: ${({ theme }) => theme.red};
       `}
   ${({ recoverButton }) =>
     recoverButton &&

@@ -190,12 +190,12 @@ const NewItemBar = React.memo(
                 secondary
                 disabled={!isValid}
                 type="submit"
-                onClick={() => handleClose()}
+                onClick={!isValid ? () => handleClose() : null}
               >
                 add
               </StyledActionButton>
               <StyledActionButton secondary disabled={!isValid} type="submit">
-                add and next
+                add & next
               </StyledActionButton>
             </StyledForm>
           )}
