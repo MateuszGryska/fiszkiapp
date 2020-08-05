@@ -13,6 +13,7 @@ const StyledWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 200;
 
   @media (max-width: 480px) {
     padding: 50px 20px;
@@ -101,8 +102,14 @@ const TableTemplate = ({ words, loading }) => {
                     polish.toLowerCase().includes(searchWord.toLowerCase()) ||
                     english.toLowerCase().includes(searchWord.toLowerCase()),
                 )
-                .map(({ polish, english, id }) => (
-                  <TableItem id={id} key={id} polish={polish} english={english} />
+                .map(({ polish, english, description, id }) => (
+                  <TableItem
+                    id={id}
+                    key={id}
+                    polish={polish}
+                    english={english}
+                    description={description}
+                  />
                 ))}
             </tbody>
           ) : null}

@@ -42,7 +42,7 @@ export const resetSchema = Yup.object().shape({
 export const wordSchema = Yup.object().shape({
   polish: Yup.string()
     .min(2, 'Too short.')
-    .max(50, 'Too long.')
+    .max(25, 'Too long.')
     .trim()
     .matches(
       /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
@@ -51,13 +51,14 @@ export const wordSchema = Yup.object().shape({
     .required('The polish word is required.'),
   english: Yup.string()
     .min(2, 'Too short.')
-    .max(50, 'Too long.')
+    .max(25, 'Too long.')
     .trim()
     .matches(
       /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
       'Special characters are not allowed',
     )
     .required('The english word is required.'),
+  description: Yup.string().min(2, 'Too short.').max(100, 'Too long.'),
 });
 
 export const noteSchema = Yup.object().shape({

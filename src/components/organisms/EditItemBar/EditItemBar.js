@@ -51,8 +51,10 @@ const StyledInput = styled(Input)`
 
 const StyledTextArea = styled(Input)`
   margin-top: 10px;
-  width: 370px;
   height: 30vh;
+  min-height: 10vh;
+  min-width: 370px;
+  max-width: 370px;
 
   @media (max-width: 480px) {
     width: 90vw;
@@ -85,6 +87,7 @@ const EditItemBar = React.memo(
     content,
     id,
     created,
+    description,
   }) => (
     <>
       <StyledWrapper isVisible={isVisible}>
@@ -112,7 +115,7 @@ const EditItemBar = React.memo(
             }
             return null;
           }}
-          initialValues={{ title, content, polish, english, created }}
+          initialValues={{ title, content, polish, english, created, description }}
           onSubmit={async (values) => {
             if (pageContext === 'flashcards') {
               await updateItem('words', id, values);
@@ -193,6 +196,23 @@ const EditItemBar = React.memo(
                     />
                     {errors.english && touched.english ? (
                       <StyledMessage error>{errors.english}</StyledMessage>
+                    ) : (
+                      <StyledMessage />
+                    )}
+                  </div>
+                  <div>
+                    <StyledTextArea
+                      autoComplete="off"
+                      as="textarea"
+                      type="text"
+                      name="description"
+                      placeholder="description"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.description}
+                    />
+                    {errors.description && touched.description ? (
+                      <StyledMessage error>{errors.description}</StyledMessage>
                     ) : (
                       <StyledMessage />
                     )}

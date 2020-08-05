@@ -7,6 +7,7 @@ import WarningModal from 'components/molecules/WarningModal/WarningModal';
 import editIcon from 'assets/icons/edit-icon.svg';
 import deleteIcon from 'assets/icons/delete-icon.svg';
 import { deleteItem as deleteItemAction, clean as cleanAction } from 'actions';
+import Tooltip from 'components/atoms/Tooltip/Tooltip';
 
 const words = 'words';
 
@@ -37,7 +38,7 @@ const StyledButton = styled.button`
     `}
 `;
 
-const TableItem = ({ polish, english, id, deleteItem, deleteError, cleanUp }) => {
+const TableItem = ({ polish, english, description, id, deleteItem, deleteError, cleanUp }) => {
   const [isEditItemBarVisible, setEditItemBarVisible] = useState(false);
   const [isDeleteWarningVisible, setDeleteWarningVisible] = useState(false);
 
@@ -47,6 +48,7 @@ const TableItem = ({ polish, english, id, deleteItem, deleteError, cleanUp }) =>
         <td>{polish}</td>
         <td>{english}</td>
         <StyledActions>
+          <Tooltip description={description} />
           <StyledButton secondary onClick={() => setEditItemBarVisible(true)} />
           <StyledButton onClick={() => setDeleteWarningVisible(true)} />
         </StyledActions>
@@ -55,6 +57,7 @@ const TableItem = ({ polish, english, id, deleteItem, deleteError, cleanUp }) =>
             id={id}
             polish={polish}
             english={english}
+            description={description}
             isVisible={isEditItemBarVisible}
             handleClose={() => setEditItemBarVisible()}
           />

@@ -20,6 +20,10 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
   }
+
+  input, textarea {
+    font-family: "Montserrat", sans-serif;
+  }
 `;
 
 export default GlobalStyle;

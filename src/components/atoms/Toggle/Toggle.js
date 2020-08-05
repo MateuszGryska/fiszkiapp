@@ -42,7 +42,7 @@ const StyledWrapper = styled.input`
   }
 `;
 const Toggle = ({ isChecked, setCheckbox }) => {
-  return <StyledWrapper type="checkbox" checked={isChecked} onClick={setCheckbox} />;
+  return <StyledWrapper type="checkbox" readOnly checked={isChecked} onClick={setCheckbox} />;
 };
 
 Toggle.propTypes = {

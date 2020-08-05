@@ -5,6 +5,7 @@ import Title from 'components/atoms/Title/Title';
 import styled from 'styled-components';
 import Button from 'components/atoms/Button/Button';
 import Toggle from 'components/atoms/Toggle/Toggle';
+import Tooltip from 'components/atoms/Tooltip/Tooltip';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import UserPageTemplate from './UserPageTemplate';
 
@@ -31,7 +32,7 @@ const StyledSmallerWord = styled.h2`
 
 const StyledShowButton = styled.button`
   margin-top: 0;
-  margin-bottom: 100px;
+  margin-bottom: 20px;
   background: none;
   border: none;
   color: ${({ theme }) => theme.showButton};
@@ -124,6 +125,9 @@ const FlashcardsTemplate = ({ userId, requested }) => {
         )}
 
         <StyledShowButton onClick={() => setSmallerWordVisible(true)}>Show</StyledShowButton>
+        {wordsList.length > 0 ? (
+          <Tooltip description={wordsList[flashcardPosition].description} flashcards />
+        ) : null}
         <Button disabled={wordsList.length === 0} onClick={() => pickNewWord(wordsList.length)}>
           DRAW A NEW WORD
         </Button>

@@ -51,8 +51,10 @@ const StyledInput = styled(Input)`
 
 const StyledTextArea = styled(Input)`
   margin-top: 10px;
-  width: 370px;
   height: 30vh;
+  min-height: 10vh;
+  min-width: 370px;
+  max-width: 370px;
 
   @media (max-width: 480px) {
     width: 90vw;
@@ -100,7 +102,7 @@ const NewItemBar = React.memo(
             }
             return null;
           }}
-          initialValues={{ title: '', content: '', polish: '', english: '' }}
+          initialValues={{ title: '', content: '', polish: '', english: '', description: '' }}
           onSubmit={(values, { resetForm }) => {
             if (pageContext === 'flashcards') {
               addItem('words', values);
@@ -184,13 +186,30 @@ const NewItemBar = React.memo(
                       <StyledMessage />
                     )}
                   </div>
+                  <div>
+                    <StyledTextArea
+                      autoComplete="off"
+                      as="textarea"
+                      type="text"
+                      name="description"
+                      placeholder="description"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.description}
+                    />
+                    {errors.description && touched.description ? (
+                      <StyledMessage error>{errors.description}</StyledMessage>
+                    ) : (
+                      <StyledMessage />
+                    )}
+                  </div>
                 </>
               ) : null}
               <StyledActionButton
                 secondary
                 disabled={!isValid}
                 type="submit"
-                onClick={!isValid ? () => handleClose() : null}
+                onClick={() => handleClose()}
               >
                 add
               </StyledActionButton>
