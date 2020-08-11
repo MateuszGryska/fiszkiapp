@@ -11,6 +11,17 @@ import Tooltip from 'components/atoms/Tooltip/Tooltip';
 
 const words = 'words';
 
+const StyledContainer = styled.tr`
+  /* mobile */
+  @media only screen and (max-width: 768px),
+    (min-device-width: 768px) and (max-device-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
 const StyledActions = styled.td`
   display: flex;
   flex-direction: row;
@@ -44,7 +55,7 @@ const TableItem = ({ polish, english, description, id, deleteItem, deleteError, 
 
   return (
     <>
-      <tr>
+      <StyledContainer>
         <td>{polish}</td>
         <td>{english}</td>
         <StyledActions>
@@ -52,6 +63,7 @@ const TableItem = ({ polish, english, description, id, deleteItem, deleteError, 
           <StyledButton secondary onClick={() => setEditItemBarVisible(true)} />
           <StyledButton onClick={() => setDeleteWarningVisible(true)} />
         </StyledActions>
+
         <td>
           <EditItemBar
             id={id}
@@ -71,7 +83,7 @@ const TableItem = ({ polish, english, description, id, deleteItem, deleteError, 
             cleanUp={cleanUp}
           />
         </td>
-      </tr>
+      </StyledContainer>
     </>
   );
 };

@@ -11,7 +11,6 @@ const StyledWrapper = styled.button`
   background: ${({ theme }) => theme.main};
   color: ${({ theme }) => theme.white};
   font-size: ${({ theme }) => theme.fontSize.s};
-  /* box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3); */
   letter-spacing: 1.5px;
   transition: all 0.3s ease 0s;
   cursor: pointer;

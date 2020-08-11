@@ -57,6 +57,7 @@ const StyledTextArea = styled(Input)`
   max-width: 370px;
 
   @media (max-width: 480px) {
+    min-width: 200px;
     width: 90vw;
   }
 `;
@@ -159,7 +160,7 @@ const NewItemBar = React.memo(
                       autoComplete="off"
                       type="text"
                       name="polish"
-                      placeholder="polish"
+                      placeholder="polish*"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.polish}
@@ -175,7 +176,7 @@ const NewItemBar = React.memo(
                       autoComplete="off"
                       type="text"
                       name="english"
-                      placeholder="english"
+                      placeholder="english*"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.english}

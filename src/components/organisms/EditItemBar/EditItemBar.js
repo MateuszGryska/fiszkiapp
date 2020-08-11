@@ -57,6 +57,7 @@ const StyledTextArea = styled(Input)`
   max-width: 370px;
 
   @media (max-width: 480px) {
+    min-width: 200px;
     width: 90vw;
   }
 `;
