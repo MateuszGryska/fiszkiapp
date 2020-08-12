@@ -2,6 +2,7 @@ export {
   signUp,
   signOut,
   signIn,
+  socialSignIn,
   clean,
   verifyEmail,
   recoveryPassword,

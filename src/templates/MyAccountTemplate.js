@@ -119,7 +119,9 @@ const MyAccountTemplate = ({
             )}
           </StyledDetail>
         </StyledDetailsList>
-        <Button onClick={() => setEditProfileVisible(true)}>EDIT PROFILE</Button>
+        {!profileData.socialLogIn ? (
+          <Button onClick={() => setEditProfileVisible(true)}>EDIT PROFILE</Button>
+        ) : null}
         <Button deleteButton onClick={() => setDeleteWarningVisible(true)}>
           DELETE ACCOUNT
         </Button>
@@ -132,10 +134,12 @@ const MyAccountTemplate = ({
             {error === false ? <Message>Verify email sent successfully!</Message> : null}
           </>
         ) : null}
+
         <EditProfileBar
           isVisible={isEditProfileVisible}
           handleClose={() => setEditProfileVisible()}
         />
+
         <WarningModal
           isVisible={isDeleteWarningVisible}
           handleClose={() => setDeleteWarningVisible()}

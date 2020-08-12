@@ -20,34 +20,27 @@ const StyledWrapper = styled.button`
     transform: translateY(-7px);
   }
 
-
   &:disabled {
     background: ${({ theme }) => theme.fontGrey};
-        transition: none;
-        cursor: not-allowed;
-        color: black;
-        &:hover {
-          background: ${({ theme }) => theme.fontGrey};
-          box-shadow: none;
-          transform: translateY(0px);
-        }
+    transition: none;
+    cursor: not-allowed;
+    color: black;
+    &:hover {
+      background: ${({ theme }) => theme.fontGrey};
+      box-shadow: none;
+      transform: translateY(0px);
+    }
   }
 
-  ${({ loginButton }) =>
-    loginButton &&
+  ${({ deleteButton }) =>
+    deleteButton &&
     css`
-      margin-top: 125px;
+      background: ${({ theme }) => theme.red};
     `}
-
-    ${({ deleteButton }) =>
-      deleteButton &&
-      css`
-        background: ${({ theme }) => theme.red};
-      `}
   ${({ recoverButton }) =>
     recoverButton &&
     css`
-      margin-top: 160px;
+      margin-top: 95px;
     `}
 `;
 

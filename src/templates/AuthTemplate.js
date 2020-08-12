@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Button from 'components/atoms/Button/Button';
+import SocialButton from 'components/atoms/SocialButton/SocialButton';
 import Message from 'components/atoms/Message/Message';
 import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
@@ -15,8 +16,15 @@ import {
   signIn as signInAction,
   recoveryPassword as recoverPasswordAction,
   clean as cleanAction,
+  socialSignIn as socialSignInAction,
 } from 'actions';
 import { loginSchema, registerSchema, resetSchema } from 'validation';
+
+const socialTypes = {
+  facebook: 'facebook',
+  google: 'google',
+  twitter: 'twitter',
+};
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -43,7 +51,7 @@ const StyledLogo = styled.div`
 
 const StyledLoginSection = styled.div`
   width: 500px;
-  height: ${({ pageContext }) => (pageContext === 'register' ? '600px' : '500px')};
+  height: ${({ pageContext }) => (pageContext === 'reset-password' ? '400px' : '700px')};
   margin-top: 20px;
   background: white;
   display: flex;
@@ -61,14 +69,12 @@ const StyledLoginSection = styled.div`
 
 const StyledTitle = styled.h1`
   color: ${({ theme }) => theme.fontGrey};
-  margin-top: 50px;
+  margin-top: 30px;
 `;
 
 const StyledForm = styled(Form)`
   display: flex;
-  height: 100%;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 `;
 
@@ -80,7 +86,11 @@ const StyledInput = styled(Input)`
 
 const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.black};
-  margin: 0px 30px 10px 30px;
+  margin: 10px 30px 0px 30px;
+
+  &:last-child {
+    margin-bottom: 10px;
+  }
 `;
 
 const StyledMessage = styled(Message)`
@@ -89,10 +99,16 @@ const StyledMessage = styled(Message)`
   margin-bottom: 10px;
 `;
 
+const StyledOr = styled.p`
+  padding-bottom: 40px;
+  margin: 0;
+`;
+
 const AuthTemplate = ({
   pageContext,
   signUp,
   signIn,
+  socialSignIn,
   sendRecoverMail,
   cleanUp,
   loading,
@@ -326,6 +342,16 @@ const AuthTemplate = ({
         </Formik>
         {pageContext === 'login' ? (
           <>
+            <StyledOr>OR</StyledOr>
+            <SocialButton facebook onClick={() => socialSignIn(socialTypes.facebook)}>
+              Log in with Facebook
+            </SocialButton>
+            <SocialButton google onClick={() => socialSignIn(socialTypes.google)}>
+              Sign in with Google
+            </SocialButton>
+            <SocialButton twitter onClick={() => socialSignIn(socialTypes.twitter)}>
+              Sign in with Twitter
+            </SocialButton>
             <StyledLink to="/register">I WANT NEW ACCOUNT</StyledLink>
             <StyledLink to="/reset-password">RESET PASSWORD</StyledLink>
           </>
@@ -348,6 +374,7 @@ AuthTemplate.propTypes = {
   ]).isRequired,
   signUp: PropTypes.func.isRequired,
   signIn: PropTypes.func.isRequired,
+  socialSignIn: PropTypes.func.isRequired,
   sendRecoverMail: PropTypes.func.isRequired,
   cleanUp: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
@@ -371,6 +398,7 @@ const mapStateToProps = ({ auth }) => ({
 const mapDispatchToProps = (dispatch) => ({
   signIn: (email, password) => dispatch(signInAction(email, password)),
   signUp: (email, password) => dispatch(signUpAction(email, password)),
+  socialSignIn: (type) => dispatch(socialSignInAction(type)),
   sendRecoverMail: (email) => dispatch(recoverPasswordAction(email)),
   cleanUp: () => dispatch(cleanAction()),
 });
