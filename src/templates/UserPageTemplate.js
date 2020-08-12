@@ -49,7 +49,6 @@ const UserPageTemplate = ({ children, loggedIn, profileData, emailVerified, page
             handleOpen={() => setMenubarVisibility(!menubarVisible)}
           />
           <Menubar
-            loggedIn={loggedIn}
             profileData={profileData}
             isVisible={menubarVisible}
             handleClose={() => setMenubarVisibility(!menubarVisible)}

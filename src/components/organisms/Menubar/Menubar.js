@@ -19,7 +19,7 @@ const StyledWrapper = styled.div`
   box-shadow: ${({ isVisible }) =>
     isVisible ? '-10px 3px 20px 0px rgba(0, 0, 0, 0.16);' : 'none'};
   padding: 20px 30px;
-  z-index: 1000;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,8 +28,7 @@ const StyledWrapper = styled.div`
   transition: transform 0.4s ease-in-out;
 
   @media (max-width: 480px) {
-    width: 100vw;
-    padding: 0;
+    width: 100%;
   }
 `;
 

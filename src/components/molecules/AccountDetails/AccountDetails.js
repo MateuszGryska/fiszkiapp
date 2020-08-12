@@ -17,6 +17,7 @@ const StyledWrapper = styled.div`
   left: 50px;
 
   @media (max-width: 480px) {
+    left: 10px;
     width: 360px;
   }
 `;

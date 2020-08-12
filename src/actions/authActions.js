@@ -18,7 +18,9 @@ export const signUp = (data) => async (dispatch, getState, { getFirebase }) => {
       firstName: data.firstName,
       lastName: data.lastName,
       socialLogIn: false,
+      points: 0,
     });
+
     dispatch({ type: authTypes.AUTH_SUCCESS });
   } catch (err) {
     dispatch({ type: authTypes.AUTH_FAIL, payload: err.message });
@@ -54,7 +56,7 @@ export const signIn = (data) => async (dispatch, getState, { getFirebase }) => {
 };
 
 // log in with social buttons
-export const socialSignIn = (type) => async (dispatch, { getFirebase }) => {
+export const socialSignIn = (type) => async (dispatch, getState, { getFirebase }) => {
   const firebase = getFirebase();
   const firestore = getFirebase().firestore();
 
@@ -79,20 +81,25 @@ export const socialSignIn = (type) => async (dispatch, { getFirebase }) => {
     }
 
     // set user data
-    const name = user.displayName.split(' ');
+    const checkDataInDatabase = await firestore.collection('users').doc(user.uid).get();
+    if (!checkDataInDatabase.data()) {
+      const name = user.displayName.split(' ');
 
-    if (name.length <= 1) {
-      await firestore.collection('users').doc(result.user.uid).set({
-        firstName: name[0],
-        lastName: name[0],
-        socialLogIn: true,
-      });
-    } else {
-      await firestore.collection('users').doc(result.user.uid).set({
-        firstName: name[0],
-        lastName: name[1],
-        socialLogIn: true,
-      });
+      if (name.length <= 1) {
+        await firestore.collection('users').doc(result.user.uid).set({
+          firstName: name[0],
+          lastName: name[0],
+          socialLogIn: true,
+          points: 0,
+        });
+      } else {
+        await firestore.collection('users').doc(result.user.uid).set({
+          firstName: name[0],
+          lastName: name[1],
+          socialLogIn: true,
+          points: 0,
+        });
+      }
     }
 
     dispatch({ type: authTypes.SOCIAL_AUTH_SUCCESS });

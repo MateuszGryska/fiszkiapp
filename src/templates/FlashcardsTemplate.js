@@ -7,6 +7,9 @@ import Button from 'components/atoms/Button/Button';
 import Toggle from 'components/atoms/Toggle/Toggle';
 import Tooltip from 'components/atoms/Tooltip/Tooltip';
 import { useFirestoreConnect } from 'react-redux-firebase';
+
+import { addNewPoint as addNewPointAction } from 'actions';
+
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.div`
@@ -18,7 +21,7 @@ const StyledWrapper = styled.div`
 `;
 
 const StyledBiggerWord = styled.h1`
-  padding-top: 50px;
+  padding-top: 10px;
   text-align: center;
   font-size: ${({ theme }) => theme.fontSize.xl};
 `;
@@ -58,10 +61,11 @@ const StyledToggleSection = styled.div`
   width: 200px;
 `;
 
-const FlashcardsTemplate = ({ userId, requested }) => {
+const FlashcardsTemplate = ({ userId, requested, points, addNewPoint }) => {
   const [isSmallerWordVisible, setSmallerWordVisible] = useState(false);
   const [flashcardPosition, setFlashcardPosition] = useState(0);
   const [isChecked, setCheckbox] = useState(false);
+
   useFirestoreConnect([{ collection: 'words', doc: userId }]);
   const words = useSelector(({ firestore: { data } }) => data.words && data.words[userId]);
 
@@ -87,11 +91,27 @@ const FlashcardsTemplate = ({ userId, requested }) => {
     setSmallerWordVisible(false);
   };
 
+  const addPointAndPickNewWord = (length) => {
+    let random;
+    if (length === 1) {
+      return;
+    }
+    do {
+      random = Math.floor(Math.random() * length);
+    } while (random === flashcardPosition);
+
+    addNewPoint();
+
+    setFlashcardPosition(random);
+    setSmallerWordVisible(false);
+  };
+
   return (
     <UserPageTemplate>
       <StyledWrapper>
         <Title>Flashcards</Title>
         <StyledParagraph>Number of words: {wordsList.length}</StyledParagraph>
+        <StyledParagraph>Points: {points || 0}</StyledParagraph>
         <StyledToggleSection>
           <p>Switch language:</p>
           <Toggle isChecked={isChecked} setCheckbox={() => setCheckbox(!isChecked)} />
@@ -128,6 +148,13 @@ const FlashcardsTemplate = ({ userId, requested }) => {
         {wordsList.length > 0 ? (
           <Tooltip description={wordsList[flashcardPosition].description} flashcards />
         ) : null}
+        <Button
+          disabled={wordsList.length === 0}
+          onClick={() => addPointAndPickNewWord(wordsList.length)}
+        >
+          I KNOW THIS WORD <br />
+          (+1 POINT)
+        </Button>
         <Button disabled={wordsList.length === 0} onClick={() => pickNewWord(wordsList.length)}>
           DRAW A NEW WORD
         </Button>
@@ -143,7 +170,12 @@ FlashcardsTemplate.propTypes = {
 
 const mapStateToProps = ({ firebase, firestore }) => ({
   userId: firebase.auth.uid,
+  points: firebase.profile.points,
   requested: firestore.status.requested,
 });
 
-export default connect(mapStateToProps)(FlashcardsTemplate);
+const mapDispatchToProps = (dispatch) => ({
+  addNewPoint: () => dispatch(addNewPointAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FlashcardsTemplate);
