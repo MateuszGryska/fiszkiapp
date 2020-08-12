@@ -115,6 +115,12 @@ const QuizTemplate = ({ userId, requested, addNewPoint }) => {
                 >
                   DRAW A NEW WORD <br /> (+1 POINT)
                 </Button>
+                <Button
+                  disabled={wordsList.length === 0}
+                  onClick={() => pickNewWord(wordsList.length)}
+                >
+                  DRAW A NEW WORD
+                </Button>
               </StyledForm>
             )}
           </Formik>
