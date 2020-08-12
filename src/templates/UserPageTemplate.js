@@ -91,6 +91,8 @@ UserPageTemplate.propTypes = {
     'register',
     'account',
     'reset-password',
+    'quiz',
+    'spelling',
   ]),
 };
 

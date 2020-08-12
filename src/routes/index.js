@@ -5,6 +5,8 @@ export const routes = {
   words: '/words',
   word: '/words/:id',
   flashcards: '/flashcards',
+  quiz: '/quiz',
+  spelling: '/spelling',
   login: '/login',
   register: '/register',
   account: '/account',

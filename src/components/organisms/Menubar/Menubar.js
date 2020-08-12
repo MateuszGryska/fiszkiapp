@@ -86,6 +86,16 @@ const Menubar = React.memo(
             </StyledNavLink>
           </li>
           <li>
+            <StyledNavLink to="/quiz" activeclass="active">
+              quiz
+            </StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to="/spelling" activeclass="active">
+              spelling check
+            </StyledNavLink>
+          </li>
+          <li>
             <StyledNavLink to="/words" activeclass="active">
               words list
             </StyledNavLink>

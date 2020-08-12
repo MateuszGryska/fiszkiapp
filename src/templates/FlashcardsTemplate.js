@@ -92,18 +92,8 @@ const FlashcardsTemplate = ({ userId, requested, points, addNewPoint }) => {
   };
 
   const addPointAndPickNewWord = (length) => {
-    let random;
-    if (length === 1) {
-      return;
-    }
-    do {
-      random = Math.floor(Math.random() * length);
-    } while (random === flashcardPosition);
-
+    pickNewWord(length);
     addNewPoint();
-
-    setFlashcardPosition(random);
-    setSmallerWordVisible(false);
   };
 
   return (

@@ -82,33 +82,30 @@ const NewItemBar = React.memo(
       <StyledWrapper isVisible={isVisible}>
         <ReturnButton onClick={() => handleClose()} />
         <BarsTitle>Add new {pageContext === 'notes' ? 'note' : 'word'}</BarsTitle>
-        {pageContext === 'flashcards' || pageContext === 'words' ? (
-          <StyledParagraph>
-            The word can have a maximum of 25 letters and be without special characters.
-          </StyledParagraph>
-        ) : null}
+
         {pageContext === 'notes' ? (
           <StyledParagraph>
             The title can have a maximum of 25 letters and content can have a maximum of 300
             letters.
           </StyledParagraph>
-        ) : null}
+        ) : (
+          <StyledParagraph>
+            The word can have a maximum of 25 letters and be without special characters.
+          </StyledParagraph>
+        )}
         <Formik
           validationSchema={() => {
-            if (pageContext === 'words' || pageContext === 'flashcards') {
-              return wordSchema;
-            }
             if (pageContext === 'notes') {
               return noteSchema;
             }
-            return null;
+            return wordSchema;
           }}
           initialValues={{ title: '', content: '', polish: '', english: '', description: '' }}
           onSubmit={(values, { resetForm }) => {
-            if (pageContext === 'flashcards') {
-              addItem('words', values);
-            } else {
+            if (pageContext === 'notes') {
               addItem(pageContext, values);
+            } else {
+              addItem('words', values);
             }
             resetForm();
           }}
@@ -151,9 +148,7 @@ const NewItemBar = React.memo(
                     )}
                   </div>
                 </>
-              ) : null}
-
-              {pageContext === 'words' || pageContext === 'flashcards' ? (
+              ) : (
                 <>
                   <div>
                     <StyledInput
@@ -205,7 +200,8 @@ const NewItemBar = React.memo(
                     )}
                   </div>
                 </>
-              ) : null}
+              )}
+
               <StyledActionButton
                 secondary
                 disabled={!isValid}
@@ -241,6 +237,8 @@ NewItemBar.propTypes = {
     'register',
     'account',
     'reset-password',
+    'quiz',
+    'spelling',
   ]),
 };
 
