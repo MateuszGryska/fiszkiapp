@@ -4,6 +4,7 @@ import Title from 'components/atoms/Title/Title';
 import styled from 'styled-components';
 import Button from 'components/atoms/Button/Button';
 import Input from 'components/atoms/Input/Input';
+import Toggle from 'components/atoms/Toggle/Toggle';
 import Tooltip from 'components/atoms/Tooltip/Tooltip';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { Formik, Form } from 'formik';
@@ -47,8 +48,16 @@ const StyledForm = styled(Form)`
   align-items: center;
 `;
 
-const QuizTemplate = ({ userId, requested, addNewPoint }) => {
+const StyledToggleSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 200px;
+`;
+
+const SpellingTemplate = ({ userId, requested, addNewPoint }) => {
   const [wordPosition, setWordPosition] = useState(0);
+  const [isChecked, setCheckbox] = useState(false);
 
   useFirestoreConnect([{ collection: 'words', doc: userId }]);
   const words = useSelector(({ firestore: { data } }) => data.words && data.words[userId]);
@@ -79,9 +88,20 @@ const QuizTemplate = ({ userId, requested, addNewPoint }) => {
       <StyledWrapper>
         <Title>Spelling check</Title>
         <StyledParagraph>Write the correct translation of the word.</StyledParagraph>
-        <StyledMainWord>
-          {wordsList.length > 0 ? wordsList[wordPosition].english : 'No words, add new ones!'}
-        </StyledMainWord>
+        <StyledToggleSection>
+          <p>Switch language:</p>
+          <Toggle isChecked={isChecked} setCheckbox={() => setCheckbox(!isChecked)} />
+        </StyledToggleSection>
+        {isChecked ? (
+          <StyledMainWord>
+            {wordsList.length > 0 ? wordsList[wordPosition].polish : 'Brak słówek, dodaj nowe!'}
+          </StyledMainWord>
+        ) : (
+          <StyledMainWord>
+            {wordsList.length > 0 ? wordsList[wordPosition].english : 'No words, add new ones!'}
+          </StyledMainWord>
+        )}
+
         {wordsList.length > 0 ? (
           <Tooltip description={wordsList[wordPosition].description} />
         ) : null}
@@ -89,7 +109,10 @@ const QuizTemplate = ({ userId, requested, addNewPoint }) => {
           <Formik
             initialValues={{ answer: '' }}
             onSubmit={(values, { resetForm }) => {
-              if (values.answer === wordsList[wordPosition].polish) {
+              if (
+                values.answer === wordsList[wordPosition].polish ||
+                (isChecked && values.answer === wordsList[wordPosition].english)
+              ) {
                 addNewPoint();
                 pickNewWord(wordsList.length);
                 resetForm();
@@ -107,14 +130,26 @@ const QuizTemplate = ({ userId, requested, addNewPoint }) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
-                <Button
-                  type="submit"
-                  disabled={
-                    wordsList.length < 1 || values.answer !== wordsList[wordPosition].polish
-                  }
-                >
-                  DRAW A NEW WORD <br /> (+1 POINT)
-                </Button>
+                {isChecked ? (
+                  <Button
+                    type="submit"
+                    disabled={
+                      wordsList.length === 0 || values.answer !== wordsList[wordPosition].english
+                    }
+                  >
+                    DRAW A NEW WORD <br /> (+1 POINT)
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    disabled={
+                      wordsList.length === 0 || values.answer !== wordsList[wordPosition].polish
+                    }
+                  >
+                    DRAW A NEW WORD <br /> (+1 POINT)
+                  </Button>
+                )}
+
                 <Button
                   disabled={wordsList.length === 0}
                   onClick={() => pickNewWord(wordsList.length)}
@@ -139,4 +174,4 @@ const mapDispatchToProps = (dispatch) => ({
   addNewPoint: () => dispatch(addNewPointAction()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuizTemplate);
+export default connect(mapStateToProps, mapDispatchToProps)(SpellingTemplate);

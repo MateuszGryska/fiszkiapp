@@ -124,12 +124,12 @@ const FlashcardsTemplate = ({ userId, requested, points, addNewPoint }) => {
             <StyledBiggerWord>
               {wordsList.length > 0
                 ? wordsList[flashcardPosition].polish
-                : 'No words, add new ones!'}
+                : 'Brak słówek, dodaj nowe!'}
             </StyledBiggerWord>
             <StyledSmallerWord isVisible={isSmallerWordVisible}>
               {wordsList.length > 0
                 ? wordsList[flashcardPosition].english
-                : 'Brak słówek, dodaj nowe!'}
+                : 'No words, add new ones!'}
             </StyledSmallerWord>
           </>
         )}
