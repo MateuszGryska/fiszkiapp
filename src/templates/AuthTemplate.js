@@ -34,9 +34,14 @@ const StyledWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background: url(${background});
+  background-size: 100vw;
   background-color: transparent;
   background-position: 50% 20%;
   background-repeat: no-repeat;
+
+  @media (max-width: 1980px) {
+    background-size: auto 100vh;
+  }
 `;
 
 const StyledLogo = styled.div`
