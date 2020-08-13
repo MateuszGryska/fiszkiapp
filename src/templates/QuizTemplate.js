@@ -150,10 +150,10 @@ const QuizTemplate = ({ userId, requested, requesting, addNewPoint }) => {
                 ? wordsList[wordPosition].english
                 : 'You must add at least 3 words!'}
             </StyledMainWord>
-            {wordsList.length > 0 ? (
+            {wordsList.length >= 3 ? (
               <Tooltip description={wordsList[wordPosition].description} />
             ) : null}
-            {wordsList.length > 0 ? (
+            {wordsList.length >= 3 ? (
               <Formik
                 initialValues={{
                   picked: '',
