@@ -55,7 +55,7 @@ const StyledToggleSection = styled.div`
   width: 200px;
 `;
 
-const SpellingTemplate = ({ userId, requested, addNewPoint }) => {
+const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
   const [wordPosition, setWordPosition] = useState(0);
   const [isChecked, setCheckbox] = useState(false);
 
@@ -88,78 +88,86 @@ const SpellingTemplate = ({ userId, requested, addNewPoint }) => {
       <StyledWrapper>
         <Title>Spelling check</Title>
         <StyledParagraph>Write the correct translation of the word.</StyledParagraph>
-        <StyledToggleSection>
-          <p>Switch language:</p>
-          <Toggle isChecked={isChecked} setCheckbox={() => setCheckbox(!isChecked)} />
-        </StyledToggleSection>
-        {isChecked ? (
-          <StyledMainWord>
-            {wordsList.length > 0 ? wordsList[wordPosition].polish : 'Brak słówek, dodaj nowe!'}
-          </StyledMainWord>
+        {requesting[`words/${userId}`] ? (
+          <h1>Loading...</h1>
         ) : (
-          <StyledMainWord>
-            {wordsList.length > 0 ? wordsList[wordPosition].english : 'No words, add new ones!'}
-          </StyledMainWord>
-        )}
-
-        {wordsList.length > 0 ? (
-          <Tooltip description={wordsList[wordPosition].description} />
-        ) : null}
-        {wordsList.length > 0 ? (
-          <Formik
-            initialValues={{ answer: '' }}
-            onSubmit={(values, { resetForm }) => {
-              if (
-                values.answer === wordsList[wordPosition].polish ||
-                (isChecked && values.answer === wordsList[wordPosition].english)
-              ) {
-                addNewPoint();
-                pickNewWord(wordsList.length);
-                resetForm();
-              }
-            }}
-          >
-            {({ values, handleChange, handleBlur }) => (
-              <StyledForm>
-                <StyledInput
-                  type="text"
-                  name="answer"
-                  placeholder="answer"
-                  value={values.answer}
-                  autoComplete="off"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                {isChecked ? (
-                  <Button
-                    type="submit"
-                    disabled={
-                      wordsList.length === 0 || values.answer !== wordsList[wordPosition].english
-                    }
-                  >
-                    DRAW A NEW WORD <br /> (+1 POINT)
-                  </Button>
-                ) : (
-                  <Button
-                    type="submit"
-                    disabled={
-                      wordsList.length === 0 || values.answer !== wordsList[wordPosition].polish
-                    }
-                  >
-                    DRAW A NEW WORD <br /> (+1 POINT)
-                  </Button>
-                )}
-
-                <Button
-                  disabled={wordsList.length === 0}
-                  onClick={() => pickNewWord(wordsList.length)}
-                >
-                  DRAW A NEW WORD
-                </Button>
-              </StyledForm>
+          <>
+            <StyledToggleSection>
+              <p>Switch language:</p>
+              <Toggle isChecked={isChecked} setCheckbox={() => setCheckbox(!isChecked)} />
+            </StyledToggleSection>
+            {isChecked ? (
+              <StyledMainWord>
+                {wordsList.length > 0 ? wordsList[wordPosition].english : 'No words, add new ones!'}
+              </StyledMainWord>
+            ) : (
+              <StyledMainWord>
+                {wordsList.length > 0 ? wordsList[wordPosition].polish : 'Brak słówek, dodaj nowe!'}
+              </StyledMainWord>
             )}
-          </Formik>
-        ) : null}
+
+            {wordsList.length > 0 ? (
+              <Tooltip description={wordsList[wordPosition].description} />
+            ) : null}
+            {wordsList.length > 0 ? (
+              <Formik
+                initialValues={{ answer: '' }}
+                onSubmit={(values, { resetForm }) => {
+                  if (
+                    values.answer === wordsList[wordPosition].english ||
+                    (isChecked && values.answer === wordsList[wordPosition].polish)
+                  ) {
+                    addNewPoint();
+                    pickNewWord(wordsList.length);
+                    resetForm();
+                  }
+                }}
+              >
+                {({ values, handleChange, handleBlur }) => (
+                  <StyledForm>
+                    <StyledInput
+                      type="text"
+                      name="answer"
+                      placeholder="answer"
+                      value={values.answer}
+                      autoComplete="off"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {isChecked ? (
+                      <Button
+                        type="submit"
+                        disabled={
+                          wordsList.length === 0 || values.answer !== wordsList[wordPosition].polish
+                        }
+                      >
+                        DRAW A NEW WORD <br /> (+1 POINT)
+                      </Button>
+                    ) : (
+                      <Button
+                        type="submit"
+                        disabled={
+                          wordsList.length === 0 ||
+                          values.answer !== wordsList[wordPosition].english
+                        }
+                      >
+                        DRAW A NEW WORD <br /> (+1 POINT)
+                      </Button>
+                    )}
+
+                    <Button
+                      disabled={wordsList.length === 0}
+                      type="button"
+                      onClick={() => pickNewWord(wordsList.length)}
+                    >
+                      DRAW A NEW WORD
+                    </Button>
+                  </StyledForm>
+                )}
+              </Formik>
+            ) : null}
+          </>
+        )}
       </StyledWrapper>
     </UserPageTemplate>
   );
@@ -168,6 +176,7 @@ const SpellingTemplate = ({ userId, requested, addNewPoint }) => {
 const mapStateToProps = ({ firebase, firestore }) => ({
   userId: firebase.auth.uid,
   requested: firestore.status.requested,
+  requesting: firestore.status.requesting,
 });
 
 const mapDispatchToProps = (dispatch) => ({

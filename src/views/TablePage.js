@@ -5,9 +5,7 @@ import TableTemplate from 'templates/TableTemplate';
 import { useFirestoreConnect } from 'react-redux-firebase';
 
 const TablePage = ({ userId, requested, requesting }) => {
-  useFirestoreConnect([
-    { collection: 'words', doc: userId }, // or `todos/${props.todoId}`
-  ]);
+  useFirestoreConnect([{ collection: 'words', doc: userId }]);
   const words = useSelector(({ firestore: { data } }) => data.words && data.words[userId]);
 
   let wordsList = [];
