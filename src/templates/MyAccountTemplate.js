@@ -64,11 +64,19 @@ const StyledVerify = styled.p`
   }
 `;
 
+const StyledSeperator = styled.div`
+  width: 100%;
+  height: 10px;
+  opacity: 0.5;
+  border-top: 1px solid grey;
+`;
 const MyAccountTemplate = ({
   profileData,
   loggedIn,
   sendVerifyEmail,
   loading,
+  words,
+  notes,
   error,
   cleanUp,
   deleteError,
@@ -88,6 +96,19 @@ const MyAccountTemplate = ({
       <StyledWrapper>
         <Title>My account</Title>
         <StyledDetailsList>
+          <StyledDetail>
+            <StyledInfoItem>Points: </StyledInfoItem>
+            <StyledInfoItem>{profileData.points || 0}</StyledInfoItem>
+          </StyledDetail>
+          <StyledDetail>
+            <StyledInfoItem>Words: </StyledInfoItem>
+            <StyledInfoItem>{words.length}</StyledInfoItem>
+          </StyledDetail>
+          <StyledDetail>
+            <StyledInfoItem>Notes: </StyledInfoItem>
+            <StyledInfoItem>{notes.length}</StyledInfoItem>
+          </StyledDetail>
+          <StyledSeperator />
           <StyledDetail>
             <StyledInfoItem>First Name:</StyledInfoItem>
             <StyledInfoItem>{profileData.firstName}</StyledInfoItem>

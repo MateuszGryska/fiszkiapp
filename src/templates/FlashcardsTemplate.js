@@ -61,7 +61,7 @@ const StyledToggleSection = styled.div`
   width: 200px;
 `;
 
-const FlashcardsTemplate = ({ userId, requested, points, addNewPoint }) => {
+const FlashcardsTemplate = ({ userId, requested, addNewPoint }) => {
   const [isSmallerWordVisible, setSmallerWordVisible] = useState(false);
   const [flashcardPosition, setFlashcardPosition] = useState(0);
   const [isChecked, setCheckbox] = useState(false);
@@ -100,8 +100,7 @@ const FlashcardsTemplate = ({ userId, requested, points, addNewPoint }) => {
     <UserPageTemplate>
       <StyledWrapper>
         <Title>Flashcards</Title>
-        <StyledParagraph>Number of words: {wordsList.length}</StyledParagraph>
-        <StyledParagraph>Points: {points || 0}</StyledParagraph>
+        <StyledParagraph>Do you remember all the words?</StyledParagraph>
         <StyledToggleSection>
           <p>Switch language:</p>
           <Toggle isChecked={isChecked} setCheckbox={() => setCheckbox(!isChecked)} />
@@ -160,7 +159,6 @@ FlashcardsTemplate.propTypes = {
 
 const mapStateToProps = ({ firebase, firestore }) => ({
   userId: firebase.auth.uid,
-  points: firebase.profile.points,
   requested: firestore.status.requested,
 });
 
