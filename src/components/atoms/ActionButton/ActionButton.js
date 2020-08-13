@@ -11,9 +11,9 @@ const ActionButton = styled.button`
   border: none;
   font-size: 1.3rem;
   background: ${({ theme }) => theme.greyButton};
-  border-radius: 20px;
+  border-radius: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1.5px;
   margin-right: 10px;
   cursor: pointer;
 

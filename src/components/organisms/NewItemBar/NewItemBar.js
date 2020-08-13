@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import * as Yup from 'yup';
 import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
 import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
 import Message from 'components/atoms/Message/Message';
@@ -12,6 +11,8 @@ import ActionButton from 'components/atoms/ActionButton/ActionButton';
 import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
 import { addItem as addItemAction } from 'actions';
+import { wordSchema, noteSchema } from 'validation';
+import { COLLECTION_TYPES, PAGE_TYPES } from 'helpers/constants';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -51,10 +52,13 @@ const StyledInput = styled(Input)`
 
 const StyledTextArea = styled(Input)`
   margin-top: 10px;
-  width: 370px;
   height: 30vh;
+  min-height: 10vh;
+  min-width: 370px;
+  max-width: 370px;
 
   @media (max-width: 480px) {
+    min-width: 200px;
     width: 90vw;
   }
 `;
@@ -73,76 +77,43 @@ const StyledMessage = styled(Message)`
   margin-bottom: 5px;
 `;
 
-const wordSchema = Yup.object().shape({
-  polish: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
-    .trim()
-    .matches(
-      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
-    )
-    .required('The polish word is required.'),
-  english: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
-    .trim()
-    .matches(
-      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
-    )
-    .required('The english word is required.'),
-});
-
-const noteSchema = Yup.object().shape({
-  title: Yup.string().min(2, 'Too short.').max(25, 'Too long.').required('The title is required.'),
-  content: Yup.string()
-    .min(2, 'Too short.')
-    .max(300, 'Too long.')
-    .required('The content is required.'),
-});
-
 const NewItemBar = React.memo(
   ({ handleClose, isVisible, pageContext, addItem }) => (
     <>
       <StyledWrapper isVisible={isVisible}>
         <ReturnButton onClick={() => handleClose()} />
-        <BarsTitle>Add new {pageContext === 'notes' ? 'note' : 'word'}</BarsTitle>
-        {pageContext === 'flashcards' || pageContext === 'words' ? (
-          <StyledParagraph>
-            The word can have a maximum of 25 letters and be without special characters.
-          </StyledParagraph>
-        ) : null}
-        {pageContext === 'notes' ? (
+        <BarsTitle>Add new {pageContext === PAGE_TYPES.notes ? 'note' : 'word'}</BarsTitle>
+
+        {pageContext === PAGE_TYPES.notes ? (
           <StyledParagraph>
             The title can have a maximum of 25 letters and content can have a maximum of 300
             letters.
           </StyledParagraph>
-        ) : null}
+        ) : (
+          <StyledParagraph>
+            The word can have a maximum of 25 letters and be without special characters.
+          </StyledParagraph>
+        )}
         <Formik
           validationSchema={() => {
-            if (pageContext === 'words' || pageContext === 'flashcards') {
-              return wordSchema;
-            }
-            if (pageContext === 'notes') {
+            if (pageContext === PAGE_TYPES.notes) {
               return noteSchema;
             }
-            return null;
+            return wordSchema;
           }}
-          initialValues={{ title: '', content: '', polish: '', english: '' }}
+          initialValues={{ title: '', content: '', polish: '', english: '', description: '' }}
           onSubmit={(values, { resetForm }) => {
-            if (pageContext === 'flashcards') {
-              addItem('words', values);
-            } else {
+            if (pageContext === PAGE_TYPES.notes) {
               addItem(pageContext, values);
+            } else {
+              addItem(COLLECTION_TYPES.words, values);
             }
             resetForm();
-            handleClose();
           }}
         >
           {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
             <StyledForm>
-              {pageContext === 'notes' ? (
+              {pageContext === PAGE_TYPES.notes ? (
                 <>
                   <div>
                     <StyledInput
@@ -178,16 +149,14 @@ const NewItemBar = React.memo(
                     )}
                   </div>
                 </>
-              ) : null}
-
-              {pageContext === 'words' || pageContext === 'flashcards' ? (
+              ) : (
                 <>
                   <div>
                     <StyledInput
                       autoComplete="off"
                       type="text"
                       name="polish"
-                      placeholder="polish"
+                      placeholder="polish*"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.polish}
@@ -203,7 +172,7 @@ const NewItemBar = React.memo(
                       autoComplete="off"
                       type="text"
                       name="english"
-                      placeholder="english"
+                      placeholder="english*"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.english}
@@ -214,10 +183,36 @@ const NewItemBar = React.memo(
                       <StyledMessage />
                     )}
                   </div>
+                  <div>
+                    <StyledTextArea
+                      autoComplete="off"
+                      as="textarea"
+                      type="text"
+                      name="description"
+                      placeholder="description"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.description}
+                    />
+                    {errors.description && touched.description ? (
+                      <StyledMessage error>{errors.description}</StyledMessage>
+                    ) : (
+                      <StyledMessage />
+                    )}
+                  </div>
                 </>
-              ) : null}
-              <StyledActionButton secondary disabled={!isValid} type="submit">
+              )}
+
+              <StyledActionButton
+                secondary
+                disabled={!isValid}
+                type="submit"
+                onClick={() => handleClose()}
+              >
                 add
+              </StyledActionButton>
+              <StyledActionButton secondary disabled={!isValid} type="submit">
+                add & next
               </StyledActionButton>
             </StyledForm>
           )}
@@ -243,11 +238,13 @@ NewItemBar.propTypes = {
     'register',
     'account',
     'reset-password',
+    'quiz',
+    'spelling',
   ]),
 };
 
 NewItemBar.defaultProps = {
-  pageContext: 'flashcards',
+  pageContext: PAGE_TYPES.flashcards,
 };
 
 const mapDispatchToProps = (dispatch) => ({

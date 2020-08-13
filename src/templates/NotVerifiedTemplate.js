@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Button from 'components/atoms/Button/Button';
 import { connect } from 'react-redux';
@@ -71,7 +72,7 @@ const NotVerifiedTemplate = ({ sendVerifyEmail, loading, error, signOut, cleanUp
       <StyledModal>
         <StyledTitle>YOUR EMAIL IS NOT VERIFIED!</StyledTitle>
         <StyledParagraph>
-          Check your email and verified your account. <br />
+          Check your email and verified your account. Log in again after verification. <br />
           <br /> You don&#39;t get any message? <br /> Check your spam folder or re-send email:
         </StyledParagraph>
         <StyledActionsButton>
@@ -85,6 +86,19 @@ const NotVerifiedTemplate = ({ sendVerifyEmail, loading, error, signOut, cleanUp
       </StyledModal>
     </StyledWrapper>
   );
+};
+
+NotVerifiedTemplate.propTypes = {
+  sendVerifyEmail: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  error: PropTypes.string,
+  signOut: PropTypes.func.isRequired,
+  cleanUp: PropTypes.func.isRequired,
+};
+
+NotVerifiedTemplate.defaultProps = {
+  loading: false,
+  error: null,
 };
 
 const mapStateToProps = ({ firebase, auth }) => ({

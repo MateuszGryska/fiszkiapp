@@ -62,9 +62,9 @@ const StyledVerifiedInfo = styled.div`
   align-items: center;
 `;
 
-const Navbar = ({ handleOpen, emailVerified }) => (
+const Topbar = ({ handleOpen, emailVerified }) => (
   <>
-    <StyledWrapper data-testid="navbar">
+    <StyledWrapper>
       <StyledNav>
         <StyledLogo to="/" />
         <StyledMenu onClick={() => handleOpen()} />
@@ -76,8 +76,8 @@ const Navbar = ({ handleOpen, emailVerified }) => (
   </>
 );
 
-Navbar.propTypes = {
+Topbar.propTypes = {
   handleOpen: PropTypes.func.isRequired,
   emailVerified: PropTypes.bool.isRequired,
 };
-export default Navbar;
+export default Topbar;

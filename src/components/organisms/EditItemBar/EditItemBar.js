@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import * as Yup from 'yup';
 import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
 import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
 import Message from 'components/atoms/Message/Message';
@@ -12,6 +11,8 @@ import ActionButton from 'components/atoms/ActionButton/ActionButton';
 import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
 import { updateItem as editItemAction } from 'actions';
+import { wordSchema, noteSchema } from 'validation';
+import { COLLECTION_TYPES, PAGE_TYPES } from 'helpers/constants';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -51,10 +52,13 @@ const StyledInput = styled(Input)`
 
 const StyledTextArea = styled(Input)`
   margin-top: 10px;
-  width: 370px;
   height: 30vh;
+  min-height: 10vh;
+  min-width: 370px;
+  max-width: 370px;
 
   @media (max-width: 480px) {
+    min-width: 200px;
     width: 90vw;
   }
 `;
@@ -73,35 +77,6 @@ const StyledMessage = styled(Message)`
   margin-bottom: 5px;
 `;
 
-const wordSchema = Yup.object().shape({
-  polish: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
-    .trim()
-    .matches(
-      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
-    )
-    .required('The polish word is required.'),
-  english: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
-    .trim()
-    .matches(
-      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
-    )
-    .required('The english word is required.'),
-});
-
-const noteSchema = Yup.object().shape({
-  title: Yup.string().min(2, 'Too short.').max(25, 'Too long.').required('The title is required.'),
-  content: Yup.string()
-    .min(2, 'Too short.')
-    .max(300, 'Too long.')
-    .required('The content is required.'),
-});
-
 const EditItemBar = React.memo(
   ({
     handleClose,
@@ -114,17 +89,18 @@ const EditItemBar = React.memo(
     content,
     id,
     created,
+    description,
   }) => (
     <>
       <StyledWrapper isVisible={isVisible}>
         <ReturnButton onClick={() => handleClose(false)} />
-        <BarsTitle>Edit {pageContext === 'notes' ? 'note' : 'word'}</BarsTitle>
-        {pageContext === 'flashcards' || pageContext === 'words' ? (
+        <BarsTitle>Edit {pageContext === PAGE_TYPES.notes ? 'note' : 'word'}</BarsTitle>
+        {pageContext === PAGE_TYPES.flashcards || pageContext === PAGE_TYPES.words ? (
           <StyledParagraph>
             The word can have a maximum of 25 letters and be without special characters.
           </StyledParagraph>
         ) : null}
-        {pageContext === 'notes' ? (
+        {pageContext === PAGE_TYPES.notes ? (
           <StyledParagraph>
             The title can have a maximum of 25 letters and content can have a maximum of 300
             letters.
@@ -133,7 +109,7 @@ const EditItemBar = React.memo(
 
         <Formik
           validationSchema={() => {
-            if (pageContext === 'words' || pageContext === 'flashcards') {
+            if (pageContext === PAGE_TYPES.words || pageContext === PAGE_TYPES.flashcards) {
               return wordSchema;
             }
             if (pageContext === 'notes') {
@@ -141,10 +117,10 @@ const EditItemBar = React.memo(
             }
             return null;
           }}
-          initialValues={{ title, content, polish, english, created }}
+          initialValues={{ title, content, polish, english, created, description }}
           onSubmit={async (values) => {
-            if (pageContext === 'flashcards') {
-              await updateItem('words', id, values);
+            if (pageContext === PAGE_TYPES.flashcards) {
+              await updateItem(COLLECTION_TYPES.words, id, values);
               handleClose(false);
             } else {
               await updateItem(pageContext, id, values);
@@ -154,7 +130,7 @@ const EditItemBar = React.memo(
         >
           {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
             <StyledForm>
-              {pageContext === 'notes' ? (
+              {pageContext === PAGE_TYPES.notes ? (
                 <>
                   <div>
                     <StyledInput
@@ -192,7 +168,7 @@ const EditItemBar = React.memo(
                 </>
               ) : null}
 
-              {pageContext === 'words' || pageContext === 'flashcards' ? (
+              {pageContext === PAGE_TYPES.words || pageContext === PAGE_TYPES.flashcards ? (
                 <>
                   <div>
                     <StyledInput
@@ -226,6 +202,23 @@ const EditItemBar = React.memo(
                       <StyledMessage />
                     )}
                   </div>
+                  <div>
+                    <StyledTextArea
+                      autoComplete="off"
+                      as="textarea"
+                      type="text"
+                      name="description"
+                      placeholder="description"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.description}
+                    />
+                    {errors.description && touched.description ? (
+                      <StyledMessage error>{errors.description}</StyledMessage>
+                    ) : (
+                      <StyledMessage />
+                    )}
+                  </div>
                 </>
               ) : null}
               <StyledActionButton secondary disabled={!isValid} type="submit">
@@ -248,11 +241,14 @@ EditItemBar.propTypes = {
   english: PropTypes.string,
   title: PropTypes.string,
   content: PropTypes.string,
+  description: PropTypes.string,
   id: PropTypes.string.isRequired,
   created: PropTypes.string,
   isVisible: PropTypes.bool,
   pageContext: PropTypes.oneOf([
     'notes',
+    'quiz',
+    'spelling',
     'words',
     'flashcards',
     'login',
@@ -265,13 +261,14 @@ EditItemBar.propTypes = {
 };
 
 EditItemBar.defaultProps = {
-  pageContext: 'words',
+  pageContext: PAGE_TYPES.words,
   isVisible: false,
   polish: '',
   english: '',
   title: '',
   content: '',
   created: '',
+  description: '',
 };
 
 const mapDispatchToProps = (dispatch) => ({

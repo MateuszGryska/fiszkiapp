@@ -7,6 +7,7 @@ import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground
 import { NavLink } from 'react-router-dom';
 import AccountDetails from 'components/molecules/AccountDetails/AccountDetails';
 import { signOut as signOutAction } from 'actions';
+import { routes } from 'routes';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -19,7 +20,7 @@ const StyledWrapper = styled.div`
   box-shadow: ${({ isVisible }) =>
     isVisible ? '-10px 3px 20px 0px rgba(0, 0, 0, 0.16);' : 'none'};
   padding: 20px 30px;
-  z-index: 1000;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,8 +29,7 @@ const StyledWrapper = styled.div`
   transition: transform 0.4s ease-in-out;
 
   @media (max-width: 480px) {
-    width: 100vw;
-    padding: 0;
+    width: 100%;
   }
 `;
 
@@ -82,17 +82,27 @@ const Menubar = React.memo(
 
         <StyledLinkList>
           <li>
-            <StyledNavLink exact to="/flashcards" activeclass="active">
+            <StyledNavLink exact to={routes.flashcards} activeclass="active">
               flashcards
             </StyledNavLink>
           </li>
           <li>
-            <StyledNavLink to="/words" activeclass="active">
+            <StyledNavLink to={routes.quiz} activeclass="active">
+              quiz
+            </StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to={routes.spelling} activeclass="active">
+              spelling check
+            </StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to={routes.words} activeclass="active">
               words list
             </StyledNavLink>
           </li>
           <li>
-            <StyledNavLink to="/notes" activeclass="active">
+            <StyledNavLink to={routes.notes} activeclass="active">
               notes
             </StyledNavLink>
           </li>

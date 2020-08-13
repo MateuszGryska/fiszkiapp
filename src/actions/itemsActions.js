@@ -1,4 +1,5 @@
 import { itemTypes } from 'actions/types';
+import { COLLECTION_TYPES } from 'helpers/constants';
 
 // add item
 export const addItem = (itemType, data) => async (dispatch, getState, { getFirebase }) => {
@@ -89,5 +90,27 @@ export const updateItem = (itemType, id, data) => async (dispatch, getState, { g
     dispatch({ type: itemTypes.EDIT_ITEM_SUCCESS });
   } catch (err) {
     dispatch({ type: itemTypes.EDIT_ITEM_FAIL, payload: err.message });
+  }
+};
+
+export const addNewPoint = () => async (dispatch, getState, { getFirebase }) => {
+  const firestore = getFirebase().firestore();
+  const { uid: userId } = getState().firebase.auth;
+  dispatch({ type: itemTypes.ADD_POINT_START });
+
+  try {
+    const getData = await firestore.collection(COLLECTION_TYPES.users).doc(userId).get();
+    const { points } = getData.data();
+
+    await firestore
+      .collection(COLLECTION_TYPES.users)
+      .doc(userId)
+      .update({
+        points: points + 1,
+      });
+
+    dispatch({ type: itemTypes.ADD_POINT_SUCCESS });
+  } catch (err) {
+    dispatch({ type: itemTypes.ADD_POINT_FAIL, payload: err.message });
   }
 };

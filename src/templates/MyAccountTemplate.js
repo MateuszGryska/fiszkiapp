@@ -64,11 +64,19 @@ const StyledVerify = styled.p`
   }
 `;
 
+const StyledSeperator = styled.div`
+  width: 100%;
+  height: 10px;
+  opacity: 0.5;
+  border-top: 1px solid grey;
+`;
 const MyAccountTemplate = ({
   profileData,
   loggedIn,
   sendVerifyEmail,
   loading,
+  words,
+  notes,
   error,
   cleanUp,
   deleteError,
@@ -88,6 +96,19 @@ const MyAccountTemplate = ({
       <StyledWrapper>
         <Title>My account</Title>
         <StyledDetailsList>
+          <StyledDetail>
+            <StyledInfoItem>Points: </StyledInfoItem>
+            <StyledInfoItem>{profileData.points || 0}</StyledInfoItem>
+          </StyledDetail>
+          <StyledDetail>
+            <StyledInfoItem>Words: </StyledInfoItem>
+            <StyledInfoItem>{words.length}</StyledInfoItem>
+          </StyledDetail>
+          <StyledDetail>
+            <StyledInfoItem>Notes: </StyledInfoItem>
+            <StyledInfoItem>{notes.length}</StyledInfoItem>
+          </StyledDetail>
+          <StyledSeperator />
           <StyledDetail>
             <StyledInfoItem>First Name:</StyledInfoItem>
             <StyledInfoItem>{profileData.firstName}</StyledInfoItem>
@@ -119,7 +140,9 @@ const MyAccountTemplate = ({
             )}
           </StyledDetail>
         </StyledDetailsList>
-        <Button onClick={() => setEditProfileVisible(true)}>EDIT PROFILE</Button>
+        {!profileData.socialLogIn ? (
+          <Button onClick={() => setEditProfileVisible(true)}>EDIT PROFILE</Button>
+        ) : null}
         <Button deleteButton onClick={() => setDeleteWarningVisible(true)}>
           DELETE ACCOUNT
         </Button>
@@ -132,10 +155,12 @@ const MyAccountTemplate = ({
             {error === false ? <Message>Verify email sent successfully!</Message> : null}
           </>
         ) : null}
+
         <EditProfileBar
           isVisible={isEditProfileVisible}
           handleClose={() => setEditProfileVisible()}
         />
+
         <WarningModal
           isVisible={isDeleteWarningVisible}
           handleClose={() => setDeleteWarningVisible()}
@@ -149,9 +174,13 @@ const MyAccountTemplate = ({
 };
 
 MyAccountTemplate.propTypes = {
+  words: PropTypes.arrayOf(PropTypes.object),
+  notes: PropTypes.arrayOf(PropTypes.object),
   profileData: PropTypes.shape({
     firstName: PropTypes.string,
     lastName: PropTypes.string,
+    points: PropTypes.number,
+    socialLogIn: PropTypes.bool,
   }),
   loggedIn: PropTypes.shape({
     email: PropTypes.string.isRequired,
@@ -166,11 +195,15 @@ MyAccountTemplate.propTypes = {
 };
 
 MyAccountTemplate.defaultProps = {
+  words: [],
+  notes: [],
   deleteError: null,
   error: null,
   profileData: {
     firstName: 'FirstName',
     lastName: 'LastName',
+    points: 0,
+    socialLogIn: false,
   },
 };
 const mapStateToProps = ({ firebase, auth }) => ({

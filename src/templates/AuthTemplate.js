@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import * as Yup from 'yup';
 import Button from 'components/atoms/Button/Button';
+import SocialButton from 'components/atoms/SocialButton/SocialButton';
 import Message from 'components/atoms/Message/Message';
 import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
@@ -16,7 +16,11 @@ import {
   signIn as signInAction,
   recoveryPassword as recoverPasswordAction,
   clean as cleanAction,
+  socialSignIn as socialSignInAction,
 } from 'actions';
+import { loginSchema, registerSchema, resetSchema } from 'validation';
+import { PAGE_TYPES, SOCIAL_TYPES } from 'helpers/constants';
+import { routes } from 'routes';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -26,9 +30,14 @@ const StyledWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background: url(${background});
+  background-size: 100vw;
   background-color: transparent;
   background-position: 50% 20%;
   background-repeat: no-repeat;
+
+  @media (max-width: 1980px) {
+    background-size: auto 100vh;
+  }
 `;
 
 const StyledLogo = styled.div`
@@ -43,7 +52,7 @@ const StyledLogo = styled.div`
 
 const StyledLoginSection = styled.div`
   width: 500px;
-  height: ${({ pageContext }) => (pageContext === 'register' ? '600px' : '500px')};
+  height: ${({ pageContext }) => (pageContext === PAGE_TYPES.resetPassword ? '400px' : '700px')};
   margin-top: 20px;
   background: white;
   display: flex;
@@ -61,14 +70,12 @@ const StyledLoginSection = styled.div`
 
 const StyledTitle = styled.h1`
   color: ${({ theme }) => theme.fontGrey};
-  margin-top: 50px;
+  margin-top: 30px;
 `;
 
 const StyledForm = styled(Form)`
   display: flex;
-  height: 100%;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 `;
 
@@ -80,7 +87,11 @@ const StyledInput = styled(Input)`
 
 const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.black};
-  margin: 0px 30px 10px 30px;
+  margin: 10px 30px 0px 30px;
+
+  &:last-child {
+    margin-bottom: 10px;
+  }
 `;
 
 const StyledMessage = styled(Message)`
@@ -89,49 +100,16 @@ const StyledMessage = styled(Message)`
   margin-bottom: 10px;
 `;
 
-const LoginSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email.').required('The email is required.'),
-  password: Yup.string()
-    .required('The passoword is required.')
-    .min(8, 'Too short. Password must be at least 8 characters.'),
-});
-
-const registerSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email.').required('The email is required.'),
-  password: Yup.string()
-    .required('The passoword is required.')
-    .min(8, 'Too short. Password must be at least 8 characters.'),
-  firstName: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
-    .trim()
-    .matches(
-      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
-    )
-    .required('The first name is required.'),
-  lastName: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
-    .trim()
-    .matches(
-      /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
-    )
-    .required('The last name is required.'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], `Password doesn't match`)
-    .required('You need to confirm your password.'),
-});
-
-const resetSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email.').required('The email is required.'),
-});
+const StyledOr = styled.p`
+  padding-bottom: 40px;
+  margin: 0;
+`;
 
 const AuthTemplate = ({
   pageContext,
   signUp,
   signIn,
+  socialSignIn,
   sendRecoverMail,
   cleanUp,
   loading,
@@ -150,19 +128,19 @@ const AuthTemplate = ({
       <StyledLogo />
       <StyledLoginSection pageContext={pageContext}>
         <StyledTitle>
-          {pageContext === 'login' ? 'Sign in:' : null}
-          {pageContext === 'register' ? 'Create new account:' : null}
-          {pageContext === 'reset-password' ? 'Type in your e-mail:' : null}
+          {pageContext === PAGE_TYPES.login ? 'Sign in:' : null}
+          {pageContext === PAGE_TYPES.register ? 'Create new account:' : null}
+          {pageContext === PAGE_TYPES.resetPassword ? 'Type in your e-mail:' : null}
         </StyledTitle>
         <Formik
           validationSchema={() => {
-            if (pageContext === 'login') {
-              return LoginSchema;
+            if (pageContext === PAGE_TYPES.login) {
+              return loginSchema;
             }
-            if (pageContext === 'register') {
+            if (pageContext === PAGE_TYPES.register) {
               return registerSchema;
             }
-            if (pageContext === 'reset-password') {
+            if (pageContext === PAGE_TYPES.resetPassword) {
               return resetSchema;
             }
             return null;
@@ -175,11 +153,11 @@ const AuthTemplate = ({
             confirmPassword: '',
           }}
           onSubmit={async (values, { setSubmitting }) => {
-            if (pageContext === 'login') {
+            if (pageContext === PAGE_TYPES.login) {
               signIn(values);
-            } else if (pageContext === 'reset-password') {
+            } else if (pageContext === PAGE_TYPES.resetPassword) {
               await sendRecoverMail(values);
-            } else if (pageContext === 'register') {
+            } else if (pageContext === PAGE_TYPES.register) {
               await signUp(values);
             }
             setSubmitting(false);
@@ -187,7 +165,7 @@ const AuthTemplate = ({
         >
           {({ values, handleChange, handleBlur, errors, touched, isValid }) => (
             <StyledForm>
-              {pageContext === 'login' ? (
+              {pageContext === PAGE_TYPES.login ? (
                 <>
                   <div>
                     <StyledInput
@@ -221,7 +199,7 @@ const AuthTemplate = ({
                   </div>
                 </>
               ) : null}
-              {pageContext === 'reset-password' ? (
+              {pageContext === PAGE_TYPES.resetPassword ? (
                 <>
                   <div>
                     <StyledInput
@@ -240,7 +218,7 @@ const AuthTemplate = ({
                   </div>
                 </>
               ) : null}
-              {pageContext === 'register' ? (
+              {pageContext === PAGE_TYPES.register ? (
                 <>
                   <div>
                     <StyledInput
@@ -319,11 +297,11 @@ const AuthTemplate = ({
                   </div>
                 </>
               ) : null}
-              {pageContext === 'login' ? (
+              {pageContext === PAGE_TYPES.login ? (
                 <>
                   <Button
                     disabled={!isValid}
-                    loginButton={pageContext === 'login' ? 'loginButton' : null}
+                    loginButton={pageContext === PAGE_TYPES.login ? 'loginButton' : null}
                     loading={loading ? 'LOGGING IN...' : null}
                     type="submit"
                   >
@@ -331,7 +309,7 @@ const AuthTemplate = ({
                   </Button>
                 </>
               ) : null}
-              {pageContext === 'register' ? (
+              {pageContext === PAGE_TYPES.register ? (
                 <>
                   <Button
                     disabled={!isValid}
@@ -343,12 +321,12 @@ const AuthTemplate = ({
                   </Button>
                 </>
               ) : null}
-              {pageContext === 'reset-password' ? (
+              {pageContext === PAGE_TYPES.resetPassword ? (
                 <>
                   <Button
                     disabled={!isValid}
                     loginButton={null}
-                    recoverButton={pageContext === 'reset-password' ? 'recoverPage' : null}
+                    recoverButton={pageContext === PAGE_TYPES.resetPassword ? 'recoverPage' : null}
                     loading={recoverLoading ? 'SENDING...' : null}
                     type="submit"
                   >
@@ -356,20 +334,32 @@ const AuthTemplate = ({
                   </Button>
                 </>
               ) : null}
-              <Message error>{pageContext === 'reset-password' ? recoverError : error}</Message>
-              {pageContext === 'reset-password' && recoverError === false ? (
+              <Message error>
+                {pageContext === PAGE_TYPES.resetPassword ? recoverError : error}
+              </Message>
+              {pageContext === PAGE_TYPES.resetPassword && recoverError === false ? (
                 <Message>Recover email sent successfully!</Message>
               ) : null}
             </StyledForm>
           )}
         </Formik>
-        {pageContext === 'login' ? (
+        {pageContext === PAGE_TYPES.login ? (
           <>
-            <StyledLink to="/register">I WANT NEW ACCOUNT</StyledLink>
-            <StyledLink to="/reset-password">RESET PASSWORD</StyledLink>
+            <StyledOr>OR</StyledOr>
+            <SocialButton facebook onClick={() => socialSignIn(SOCIAL_TYPES.facebook)}>
+              Log in with Facebook
+            </SocialButton>
+            <SocialButton google onClick={() => socialSignIn(SOCIAL_TYPES.google)}>
+              Sign in with Google
+            </SocialButton>
+            <SocialButton twitter onClick={() => socialSignIn(SOCIAL_TYPES.twitter)}>
+              Sign in with Twitter
+            </SocialButton>
+            <StyledLink to={routes.register}>I WANT NEW ACCOUNT</StyledLink>
+            <StyledLink to={routes.reset}>RESET PASSWORD</StyledLink>
           </>
         ) : (
-          <StyledLink to="/login">I ALREADY HAVE AN ACCOUNT</StyledLink>
+          <StyledLink to={routes.login}>I ALREADY HAVE AN ACCOUNT</StyledLink>
         )}
       </StyledLoginSection>
     </StyledWrapper>
@@ -387,6 +377,7 @@ AuthTemplate.propTypes = {
   ]).isRequired,
   signUp: PropTypes.func.isRequired,
   signIn: PropTypes.func.isRequired,
+  socialSignIn: PropTypes.func.isRequired,
   sendRecoverMail: PropTypes.func.isRequired,
   cleanUp: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
@@ -410,6 +401,7 @@ const mapStateToProps = ({ auth }) => ({
 const mapDispatchToProps = (dispatch) => ({
   signIn: (email, password) => dispatch(signInAction(email, password)),
   signUp: (email, password) => dispatch(signUpAction(email, password)),
+  socialSignIn: (type) => dispatch(socialSignInAction(type)),
   sendRecoverMail: (email) => dispatch(recoverPasswordAction(email)),
   cleanUp: () => dispatch(cleanAction()),
 });

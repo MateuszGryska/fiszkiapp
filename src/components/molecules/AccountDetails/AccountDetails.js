@@ -17,6 +17,7 @@ const StyledWrapper = styled.div`
   left: 50px;
 
   @media (max-width: 480px) {
+    left: 10px;
     width: 360px;
   }
 `;
@@ -106,8 +107,11 @@ const AccountDetails = ({ profileData, signOut }) => (
 );
 
 AccountDetails.propTypes = {
-  profileData: PropTypes.shape({}).isRequired,
+  profileData: PropTypes.shape({ firstName: PropTypes.string }),
   signOut: PropTypes.func.isRequired,
+};
+AccountDetails.defaultProps = {
+  profileData: { firstName: '' },
 };
 
 export default AccountDetails;

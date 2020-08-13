@@ -5,9 +5,10 @@ import DetailsTemplate from 'templates/DetailsTemplate';
 import withContext from 'hoc/withContext';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { format } from 'date-fns';
+import { COLLECTION_TYPES } from 'helpers/constants';
 
 const DetailsPage = ({ userId, requested, match }) => {
-  useFirestoreConnect([{ collection: 'notes', doc: userId }]);
+  useFirestoreConnect([{ collection: COLLECTION_TYPES.notes, doc: userId }]);
   const notes = useSelector(({ firestore: { data } }) => data.notes && data.notes[userId]);
 
   let activeItem = {};

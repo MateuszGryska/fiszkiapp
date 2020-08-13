@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { routes } from 'routes';
 import { connect } from 'react-redux';
@@ -10,6 +11,8 @@ import RecoverPasswordPage from './RecoverPasswordPage';
 import NotVerifiedPage from './NotVerifiedPage';
 
 const FlashcardsPage = React.lazy(() => import('./FlashcardsPage'));
+const QuizPage = React.lazy(() => import('./QuizPage'));
+const SpellingPage = React.lazy(() => import('./SpellingPage'));
 const NotesPage = React.lazy(() => import('./NotesPage'));
 const TablePage = React.lazy(() => import('./TablePage'));
 const DetailsPage = React.lazy(() => import('./DetailsPage'));
@@ -32,6 +35,8 @@ const Root = ({ loggedIn, emailVerified }) => {
         <Switch>
           <Route exact path={routes.home} render={() => <Redirect to="/flashcards" />} />
           <Route path={routes.flashcards} component={FlashcardsPage} />
+          <Route path={routes.quiz} component={QuizPage} />
+          <Route path={routes.spelling} component={SpellingPage} />
           <Route path={routes.notes} component={NotesPage} />
           <Route path={routes.account} component={MyAccountPage} />
           <Route path={routes.notverified} component={NotVerifiedPage} />
@@ -55,6 +60,16 @@ const Root = ({ loggedIn, emailVerified }) => {
     );
   }
   return <MainTemplate>{routesWhenLoggedIn}</MainTemplate>;
+};
+
+Root.propTypes = {
+  loggedIn: PropTypes.bool,
+  emailVerified: PropTypes.bool,
+};
+
+Root.defaultProps = {
+  loggedIn: null,
+  emailVerified: null,
 };
 
 const mapStateToProps = ({ firebase }) => ({

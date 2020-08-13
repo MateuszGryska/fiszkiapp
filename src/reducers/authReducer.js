@@ -48,6 +48,31 @@ const authSuccess = (state) => {
   };
 };
 
+const socialAuthStart = (state) => {
+  return { ...state, loading: true };
+};
+
+const socialAuthEnd = (state) => {
+  return {
+    ...state,
+    loading: false,
+  };
+};
+
+const socialAuthFail = (state, payload) => {
+  return {
+    ...state,
+    error: payload,
+  };
+};
+
+const socialAuthSuccess = (state) => {
+  return {
+    ...state,
+    error: false,
+  };
+};
+
 const verifyStart = (state) => {
   return {
     ...state,
@@ -205,6 +230,18 @@ export default (state = initialState, { type, payload }) => {
 
     case authTypes.AUTH_END:
       return authEnd(state);
+
+    case authTypes.SOCIAL_AUTH_START:
+      return socialAuthStart(state);
+
+    case authTypes.SOCIAL_AUTH_SUCCESS:
+      return socialAuthSuccess(state);
+
+    case authTypes.SOCIAL_AUTH_FAIL:
+      return socialAuthFail(state, payload);
+
+    case authTypes.SOCIAL_AUTH_END:
+      return socialAuthEnd(state);
 
     case authTypes.CLEAN_UP:
       return cleanUp(state);

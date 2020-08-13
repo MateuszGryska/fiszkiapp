@@ -24,10 +24,12 @@ class MainTemplate extends Component {
       'notes',
       'words',
       'flashcards',
+      'quiz',
       'login',
       'register',
       'account',
       'reset-password',
+      'spelling',
     ];
     const {
       location: { pathname },

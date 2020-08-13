@@ -1,4 +1,5 @@
 import { authTypes } from 'actions/types';
+import { SOCIAL_TYPES } from 'helpers/constants';
 
 // signUp action
 export const signUp = (data) => async (dispatch, getState, { getFirebase }) => {
@@ -17,7 +18,10 @@ export const signUp = (data) => async (dispatch, getState, { getFirebase }) => {
     await firestore.collection('users').doc(result.user.uid).set({
       firstName: data.firstName,
       lastName: data.lastName,
+      socialLogIn: false,
+      points: 0,
     });
+
     dispatch({ type: authTypes.AUTH_SUCCESS });
   } catch (err) {
     dispatch({ type: authTypes.AUTH_FAIL, payload: err.message });
@@ -32,6 +36,7 @@ export const signOut = () => async (dispatch, getState, { getFirebase }) => {
   try {
     await firebase.auth().signOut();
   } catch (err) {
+    // eslint-disable-next-line
     console.log(err.message);
   }
 };
@@ -51,13 +56,66 @@ export const signIn = (data) => async (dispatch, getState, { getFirebase }) => {
   dispatch({ type: authTypes.AUTH_END });
 };
 
+// signin with social buttons
+export const socialSignIn = (type) => async (dispatch, getState, { getFirebase }) => {
+  const firebase = getFirebase();
+  const firestore = getFirebase().firestore();
+
+  let provider;
+  if (type === SOCIAL_TYPES.facebook) {
+    provider = new firebase.auth.FacebookAuthProvider();
+  } else if (type === SOCIAL_TYPES.google) {
+    provider = new firebase.auth.GoogleAuthProvider();
+  } else if (type === SOCIAL_TYPES.twitter) {
+    provider = new firebase.auth.TwitterAuthProvider();
+  }
+
+  dispatch({ type: authTypes.SOCIAL_AUTH_START });
+
+  try {
+    const result = await firebase.auth().signInWithPopup(provider);
+    const user = firebase.auth().currentUser;
+
+    // send email verification
+    if (!user.emailVerified) {
+      await user.sendEmailVerification();
+    }
+
+    // set user data
+    const checkDataInDatabase = await firestore.collection('users').doc(user.uid).get();
+    if (!checkDataInDatabase.data()) {
+      const name = user.displayName.split(' ');
+
+      if (name.length <= 1) {
+        await firestore.collection('users').doc(result.user.uid).set({
+          firstName: name[0],
+          lastName: name[0],
+          socialLogIn: true,
+          points: 0,
+        });
+      } else {
+        await firestore.collection('users').doc(result.user.uid).set({
+          firstName: name[0],
+          lastName: name[1],
+          socialLogIn: true,
+          points: 0,
+        });
+      }
+    }
+
+    dispatch({ type: authTypes.SOCIAL_AUTH_SUCCESS });
+  } catch (err) {
+    dispatch({ type: authTypes.SOCIAL_AUTH_FAIL, payload: err.message });
+  }
+  dispatch({ type: authTypes.SOCIAL_AUTH_END });
+};
+
 // clean up messages
 export const clean = () => ({
   type: authTypes.CLEAN_UP,
 });
 
 // verify email
-
 export const verifyEmail = () => async (dispatch, getState, { getFirebase }) => {
   const firebase = getFirebase();
   dispatch({ type: authTypes.VERIFY_START });

@@ -5,7 +5,7 @@ const DarkerBackground = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  z-index: 999;
+  z-index: 997;
   height: 100vh;
   background-color: black;
   opacity: 0.5;

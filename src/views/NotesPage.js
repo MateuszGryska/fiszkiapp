@@ -3,9 +3,10 @@ import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import NotesTemplate from 'templates/NotesTemplate';
 import { useFirestoreConnect } from 'react-redux-firebase';
+import { COLLECTION_TYPES } from 'helpers/constants';
 
 const NotesPage = ({ userId, requested, requesting }) => {
-  useFirestoreConnect([{ collection: 'notes', doc: userId }]);
+  useFirestoreConnect([{ collection: COLLECTION_TYPES.notes, doc: userId }]);
   const notes = useSelector(({ firestore: { data } }) => data.notes && data.notes[userId]);
 
   let notesList = [];

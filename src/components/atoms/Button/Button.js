@@ -5,56 +5,42 @@ import styled, { css } from 'styled-components';
 const StyledWrapper = styled.button`
   height: 50px;
   width: 270px;
-  border-radius: 20px;
+  border-radius: 10px;
   border: none;
   margin-top: 30px;
-  background: ${({ theme }) => theme.white};
-  color: ${({ theme }) => theme.black};
+  background: ${({ theme }) => theme.main};
+  color: ${({ theme }) => theme.white};
   font-size: ${({ theme }) => theme.fontSize.s};
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
-  letter-spacing: 2.5px;
+  letter-spacing: 1.5px;
   transition: all 0.3s ease 0s;
   cursor: pointer;
-  outline: none;
 
   &:hover {
-    background: ${({ theme }) => theme.main};
-    box-shadow: 0px 15px 20px ${({ theme }) => theme.main};
-    color: ${({ theme }) => theme.white};
+    box-shadow: 0px 15px 20px ${({ theme }) => theme.hover};
     transform: translateY(-7px);
   }
 
-
   &:disabled {
     background: ${({ theme }) => theme.fontGrey};
-        transition: none;
-        cursor: not-allowed;
-        color: black;
-        &:hover {
-          background: ${({ theme }) => theme.fontGrey};
-          box-shadow: none;
-          transform: translateY(0px);
-        }
+    transition: none;
+    cursor: not-allowed;
+    color: black;
+    &:hover {
+      background: ${({ theme }) => theme.fontGrey};
+      box-shadow: none;
+      transform: translateY(0px);
+    }
   }
 
-  ${({ loginButton }) =>
-    loginButton &&
+  ${({ deleteButton }) =>
+    deleteButton &&
     css`
-      margin-top: 125px;
+      background: ${({ theme }) => theme.red};
     `}
-
-    ${({ deleteButton }) =>
-      deleteButton &&
-      css`
-        &:hover {
-          background: ${({ theme }) => theme.red};
-          box-shadow: 0px 15px 20px rgb(255, 51, 51);
-        }
-      `}
   ${({ recoverButton }) =>
     recoverButton &&
     css`
-      margin-top: 160px;
+      margin-top: 95px;
     `}
 `;
 
