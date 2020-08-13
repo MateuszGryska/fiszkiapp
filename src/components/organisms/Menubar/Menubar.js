@@ -7,6 +7,7 @@ import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground
 import { NavLink } from 'react-router-dom';
 import AccountDetails from 'components/molecules/AccountDetails/AccountDetails';
 import { signOut as signOutAction } from 'actions';
+import { routes } from 'routes';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -81,27 +82,27 @@ const Menubar = React.memo(
 
         <StyledLinkList>
           <li>
-            <StyledNavLink exact to="/flashcards" activeclass="active">
+            <StyledNavLink exact to={routes.flashcards} activeclass="active">
               flashcards
             </StyledNavLink>
           </li>
           <li>
-            <StyledNavLink to="/quiz" activeclass="active">
+            <StyledNavLink to={routes.quiz} activeclass="active">
               quiz
             </StyledNavLink>
           </li>
           <li>
-            <StyledNavLink to="/spelling" activeclass="active">
+            <StyledNavLink to={routes.spelling} activeclass="active">
               spelling check
             </StyledNavLink>
           </li>
           <li>
-            <StyledNavLink to="/words" activeclass="active">
+            <StyledNavLink to={routes.words} activeclass="active">
               words list
             </StyledNavLink>
           </li>
           <li>
-            <StyledNavLink to="/notes" activeclass="active">
+            <StyledNavLink to={routes.notes} activeclass="active">
               notes
             </StyledNavLink>
           </li>

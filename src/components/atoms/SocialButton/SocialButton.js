@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import googleLogo from 'assets/icons/google-logo.svg';
 import facebookLogo from 'assets/icons/facebook-logo.svg';
 import twitterLogo from 'assets/icons/twitter-logo.svg';
+import { SOCIAL_TYPES } from 'helpers/constants';
 
 const StyledWrapper = styled.button`
     position: relative;
@@ -74,15 +75,15 @@ const StyledIcon = styled.a`
 
 const SocialButton = ({ children, loading, facebook, google, twitter, ...rest }) => (
   <StyledWrapper
-    facebook={facebook ? 'facebook' : null}
-    google={google ? 'google' : null}
-    twitter={twitter ? 'twitter' : null}
+    facebook={facebook ? SOCIAL_TYPES.facebook : null}
+    google={google ? SOCIAL_TYPES.google : null}
+    twitter={twitter ? SOCIAL_TYPES.twitter : null}
     {...rest}
   >
     <StyledIcon
-      facebook={facebook ? 'facebook' : null}
-      google={google ? 'google' : null}
-      twitter={twitter ? 'twitter' : null}
+      facebook={facebook ? SOCIAL_TYPES.facebook : null}
+      google={google ? SOCIAL_TYPES.google : null}
+      twitter={twitter ? SOCIAL_TYPES.twitter : null}
     />
     <p>{loading || children}</p>
   </StyledWrapper>

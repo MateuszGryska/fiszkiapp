@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import Title from 'components/atoms/Title/Title';
 import Message from 'components/atoms/Message/Message';
@@ -7,7 +8,8 @@ import Button from 'components/atoms/Button/Button';
 import Tooltip from 'components/atoms/Tooltip/Tooltip';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { Formik, Field, Form } from 'formik';
-import { shuffle } from 'utils';
+import { shuffle } from 'helpers/shuffle';
+import { COLLECTION_TYPES } from 'helpers/constants';
 import { addNewPoint as addNewPointAction } from 'actions';
 
 import UserPageTemplate from './UserPageTemplate';
@@ -87,7 +89,7 @@ const QuizTemplate = ({ userId, requested, requesting, addNewPoint }) => {
   const [answers, setAnswers] = useState([]);
   const [falseAnswer, setFalseAnswer] = useState(null);
 
-  useFirestoreConnect([{ collection: 'words', doc: userId }]);
+  useFirestoreConnect([{ collection: COLLECTION_TYPES.words, doc: userId }]);
   const words = useSelector(({ firestore: { data } }) => data.words && data.words[userId]);
 
   useEffect(() => {
@@ -137,7 +139,7 @@ const QuizTemplate = ({ userId, requested, requesting, addNewPoint }) => {
     <UserPageTemplate>
       <StyledWrapper>
         <Title>Quiz</Title>
-        <StyledParagraph>Choose a good translation!</StyledParagraph>
+        <StyledParagraph>Choose a good translation.</StyledParagraph>
         {requesting[`words/${userId}`] ? (
           <h1>Loading...</h1>
         ) : (
@@ -204,6 +206,13 @@ const QuizTemplate = ({ userId, requested, requesting, addNewPoint }) => {
       </StyledWrapper>
     </UserPageTemplate>
   );
+};
+
+QuizTemplate.propTypes = {
+  userId: PropTypes.string.isRequired,
+  addNewPoint: PropTypes.func.isRequired,
+  requested: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+  requesting: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
 };
 
 const mapStateToProps = ({ firebase, firestore }) => ({

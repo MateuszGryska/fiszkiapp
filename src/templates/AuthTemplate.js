@@ -19,12 +19,8 @@ import {
   socialSignIn as socialSignInAction,
 } from 'actions';
 import { loginSchema, registerSchema, resetSchema } from 'validation';
-
-const socialTypes = {
-  facebook: 'facebook',
-  google: 'google',
-  twitter: 'twitter',
-};
+import { PAGE_TYPES, SOCIAL_TYPES } from 'helpers/constants';
+import { routes } from 'routes';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -56,7 +52,7 @@ const StyledLogo = styled.div`
 
 const StyledLoginSection = styled.div`
   width: 500px;
-  height: ${({ pageContext }) => (pageContext === 'reset-password' ? '400px' : '700px')};
+  height: ${({ pageContext }) => (pageContext === PAGE_TYPES.resetPassword ? '400px' : '700px')};
   margin-top: 20px;
   background: white;
   display: flex;
@@ -132,19 +128,19 @@ const AuthTemplate = ({
       <StyledLogo />
       <StyledLoginSection pageContext={pageContext}>
         <StyledTitle>
-          {pageContext === 'login' ? 'Sign in:' : null}
-          {pageContext === 'register' ? 'Create new account:' : null}
-          {pageContext === 'reset-password' ? 'Type in your e-mail:' : null}
+          {pageContext === PAGE_TYPES.login ? 'Sign in:' : null}
+          {pageContext === PAGE_TYPES.register ? 'Create new account:' : null}
+          {pageContext === PAGE_TYPES.resetPassword ? 'Type in your e-mail:' : null}
         </StyledTitle>
         <Formik
           validationSchema={() => {
-            if (pageContext === 'login') {
+            if (pageContext === PAGE_TYPES.login) {
               return loginSchema;
             }
-            if (pageContext === 'register') {
+            if (pageContext === PAGE_TYPES.register) {
               return registerSchema;
             }
-            if (pageContext === 'reset-password') {
+            if (pageContext === PAGE_TYPES.resetPassword) {
               return resetSchema;
             }
             return null;
@@ -157,11 +153,11 @@ const AuthTemplate = ({
             confirmPassword: '',
           }}
           onSubmit={async (values, { setSubmitting }) => {
-            if (pageContext === 'login') {
+            if (pageContext === PAGE_TYPES.login) {
               signIn(values);
-            } else if (pageContext === 'reset-password') {
+            } else if (pageContext === PAGE_TYPES.resetPassword) {
               await sendRecoverMail(values);
-            } else if (pageContext === 'register') {
+            } else if (pageContext === PAGE_TYPES.register) {
               await signUp(values);
             }
             setSubmitting(false);
@@ -169,7 +165,7 @@ const AuthTemplate = ({
         >
           {({ values, handleChange, handleBlur, errors, touched, isValid }) => (
             <StyledForm>
-              {pageContext === 'login' ? (
+              {pageContext === PAGE_TYPES.login ? (
                 <>
                   <div>
                     <StyledInput
@@ -203,7 +199,7 @@ const AuthTemplate = ({
                   </div>
                 </>
               ) : null}
-              {pageContext === 'reset-password' ? (
+              {pageContext === PAGE_TYPES.resetPassword ? (
                 <>
                   <div>
                     <StyledInput
@@ -222,7 +218,7 @@ const AuthTemplate = ({
                   </div>
                 </>
               ) : null}
-              {pageContext === 'register' ? (
+              {pageContext === PAGE_TYPES.register ? (
                 <>
                   <div>
                     <StyledInput
@@ -301,11 +297,11 @@ const AuthTemplate = ({
                   </div>
                 </>
               ) : null}
-              {pageContext === 'login' ? (
+              {pageContext === PAGE_TYPES.login ? (
                 <>
                   <Button
                     disabled={!isValid}
-                    loginButton={pageContext === 'login' ? 'loginButton' : null}
+                    loginButton={pageContext === PAGE_TYPES.login ? 'loginButton' : null}
                     loading={loading ? 'LOGGING IN...' : null}
                     type="submit"
                   >
@@ -313,7 +309,7 @@ const AuthTemplate = ({
                   </Button>
                 </>
               ) : null}
-              {pageContext === 'register' ? (
+              {pageContext === PAGE_TYPES.register ? (
                 <>
                   <Button
                     disabled={!isValid}
@@ -325,12 +321,12 @@ const AuthTemplate = ({
                   </Button>
                 </>
               ) : null}
-              {pageContext === 'reset-password' ? (
+              {pageContext === PAGE_TYPES.resetPassword ? (
                 <>
                   <Button
                     disabled={!isValid}
                     loginButton={null}
-                    recoverButton={pageContext === 'reset-password' ? 'recoverPage' : null}
+                    recoverButton={pageContext === PAGE_TYPES.resetPassword ? 'recoverPage' : null}
                     loading={recoverLoading ? 'SENDING...' : null}
                     type="submit"
                   >
@@ -338,30 +334,32 @@ const AuthTemplate = ({
                   </Button>
                 </>
               ) : null}
-              <Message error>{pageContext === 'reset-password' ? recoverError : error}</Message>
-              {pageContext === 'reset-password' && recoverError === false ? (
+              <Message error>
+                {pageContext === PAGE_TYPES.resetPassword ? recoverError : error}
+              </Message>
+              {pageContext === PAGE_TYPES.resetPassword && recoverError === false ? (
                 <Message>Recover email sent successfully!</Message>
               ) : null}
             </StyledForm>
           )}
         </Formik>
-        {pageContext === 'login' ? (
+        {pageContext === PAGE_TYPES.login ? (
           <>
             <StyledOr>OR</StyledOr>
-            <SocialButton facebook onClick={() => socialSignIn(socialTypes.facebook)}>
+            <SocialButton facebook onClick={() => socialSignIn(SOCIAL_TYPES.facebook)}>
               Log in with Facebook
             </SocialButton>
-            <SocialButton google onClick={() => socialSignIn(socialTypes.google)}>
+            <SocialButton google onClick={() => socialSignIn(SOCIAL_TYPES.google)}>
               Sign in with Google
             </SocialButton>
-            <SocialButton twitter onClick={() => socialSignIn(socialTypes.twitter)}>
+            <SocialButton twitter onClick={() => socialSignIn(SOCIAL_TYPES.twitter)}>
               Sign in with Twitter
             </SocialButton>
-            <StyledLink to="/register">I WANT NEW ACCOUNT</StyledLink>
-            <StyledLink to="/reset-password">RESET PASSWORD</StyledLink>
+            <StyledLink to={routes.register}>I WANT NEW ACCOUNT</StyledLink>
+            <StyledLink to={routes.reset}>RESET PASSWORD</StyledLink>
           </>
         ) : (
-          <StyledLink to="/login">I ALREADY HAVE AN ACCOUNT</StyledLink>
+          <StyledLink to={routes.login}>I ALREADY HAVE AN ACCOUNT</StyledLink>
         )}
       </StyledLoginSection>
     </StyledWrapper>

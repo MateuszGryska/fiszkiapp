@@ -3,9 +3,11 @@ import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import MyAccountTemplate from 'templates/MyAccountTemplate';
 import { useFirestoreConnect } from 'react-redux-firebase';
+import { COLLECTION_TYPES } from 'helpers/constants';
 
 const MyAccountPage = ({ userId, requested, requesting }) => {
-  useFirestoreConnect([{ collection: 'words', doc: userId }]);
+  useFirestoreConnect([{ collection: COLLECTION_TYPES.words, doc: userId }]);
+  useFirestoreConnect([{ collection: COLLECTION_TYPES.notes, doc: userId }]);
   const words = useSelector(({ firestore: { data } }) => data.words && data.words[userId]);
   const notes = useSelector(({ firestore: { data } }) => data.notes && data.notes[userId]);
 

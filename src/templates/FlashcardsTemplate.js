@@ -7,6 +7,8 @@ import Button from 'components/atoms/Button/Button';
 import Toggle from 'components/atoms/Toggle/Toggle';
 import Tooltip from 'components/atoms/Tooltip/Tooltip';
 import { useFirestoreConnect } from 'react-redux-firebase';
+import { pickNewWord } from 'utils/pick-new-word';
+import { COLLECTION_TYPES } from 'helpers/constants';
 
 import { addNewPoint as addNewPointAction } from 'actions';
 
@@ -66,7 +68,7 @@ const FlashcardsTemplate = ({ userId, requested, addNewPoint }) => {
   const [flashcardPosition, setFlashcardPosition] = useState(0);
   const [isChecked, setCheckbox] = useState(false);
 
-  useFirestoreConnect([{ collection: 'words', doc: userId }]);
+  useFirestoreConnect([{ collection: COLLECTION_TYPES.words, doc: userId }]);
   const words = useSelector(({ firestore: { data } }) => data.words && data.words[userId]);
 
   let wordsList = [];
@@ -78,21 +80,14 @@ const FlashcardsTemplate = ({ userId, requested, addNewPoint }) => {
     wordsList = words.words;
   }
 
-  const pickNewWord = (length) => {
-    let random;
-    if (length === 1) {
-      return;
-    }
-    do {
-      random = Math.floor(Math.random() * length);
-    } while (random === flashcardPosition);
-
-    setFlashcardPosition(random);
+  const setNewWord = (length) => {
+    const newWordPosition = pickNewWord(length, flashcardPosition);
+    setFlashcardPosition(newWordPosition);
     setSmallerWordVisible(false);
   };
 
   const addPointAndPickNewWord = (length) => {
-    pickNewWord(length);
+    setNewWord(length);
     addNewPoint();
   };
 
@@ -144,7 +139,7 @@ const FlashcardsTemplate = ({ userId, requested, addNewPoint }) => {
           I KNOW THIS WORD <br />
           (+1 POINT)
         </Button>
-        <Button disabled={wordsList.length === 0} onClick={() => pickNewWord(wordsList.length)}>
+        <Button disabled={wordsList.length === 0} onClick={() => setNewWord(wordsList.length)}>
           DRAW A NEW WORD
         </Button>
       </StyledWrapper>
@@ -154,6 +149,7 @@ const FlashcardsTemplate = ({ userId, requested, addNewPoint }) => {
 
 FlashcardsTemplate.propTypes = {
   userId: PropTypes.string.isRequired,
+  addNewPoint: PropTypes.func.isRequired,
   requested: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
 };
 

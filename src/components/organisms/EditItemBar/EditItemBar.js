@@ -12,6 +12,7 @@ import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
 import { updateItem as editItemAction } from 'actions';
 import { wordSchema, noteSchema } from 'validation';
+import { COLLECTION_TYPES, PAGE_TYPES } from 'helpers/constants';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -93,13 +94,13 @@ const EditItemBar = React.memo(
     <>
       <StyledWrapper isVisible={isVisible}>
         <ReturnButton onClick={() => handleClose(false)} />
-        <BarsTitle>Edit {pageContext === 'notes' ? 'note' : 'word'}</BarsTitle>
-        {pageContext === 'flashcards' || pageContext === 'words' ? (
+        <BarsTitle>Edit {pageContext === PAGE_TYPES.notes ? 'note' : 'word'}</BarsTitle>
+        {pageContext === PAGE_TYPES.flashcards || pageContext === PAGE_TYPES.words ? (
           <StyledParagraph>
             The word can have a maximum of 25 letters and be without special characters.
           </StyledParagraph>
         ) : null}
-        {pageContext === 'notes' ? (
+        {pageContext === PAGE_TYPES.notes ? (
           <StyledParagraph>
             The title can have a maximum of 25 letters and content can have a maximum of 300
             letters.
@@ -108,7 +109,7 @@ const EditItemBar = React.memo(
 
         <Formik
           validationSchema={() => {
-            if (pageContext === 'words' || pageContext === 'flashcards') {
+            if (pageContext === PAGE_TYPES.words || pageContext === PAGE_TYPES.flashcards) {
               return wordSchema;
             }
             if (pageContext === 'notes') {
@@ -118,8 +119,8 @@ const EditItemBar = React.memo(
           }}
           initialValues={{ title, content, polish, english, created, description }}
           onSubmit={async (values) => {
-            if (pageContext === 'flashcards') {
-              await updateItem('words', id, values);
+            if (pageContext === PAGE_TYPES.flashcards) {
+              await updateItem(COLLECTION_TYPES.words, id, values);
               handleClose(false);
             } else {
               await updateItem(pageContext, id, values);
@@ -129,7 +130,7 @@ const EditItemBar = React.memo(
         >
           {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
             <StyledForm>
-              {pageContext === 'notes' ? (
+              {pageContext === PAGE_TYPES.notes ? (
                 <>
                   <div>
                     <StyledInput
@@ -167,7 +168,7 @@ const EditItemBar = React.memo(
                 </>
               ) : null}
 
-              {pageContext === 'words' || pageContext === 'flashcards' ? (
+              {pageContext === PAGE_TYPES.words || pageContext === PAGE_TYPES.flashcards ? (
                 <>
                   <div>
                     <StyledInput
@@ -240,11 +241,14 @@ EditItemBar.propTypes = {
   english: PropTypes.string,
   title: PropTypes.string,
   content: PropTypes.string,
+  description: PropTypes.string,
   id: PropTypes.string.isRequired,
   created: PropTypes.string,
   isVisible: PropTypes.bool,
   pageContext: PropTypes.oneOf([
     'notes',
+    'quiz',
+    'spelling',
     'words',
     'flashcards',
     'login',
@@ -257,13 +261,14 @@ EditItemBar.propTypes = {
 };
 
 EditItemBar.defaultProps = {
-  pageContext: 'words',
+  pageContext: PAGE_TYPES.words,
   isVisible: false,
   polish: '',
   english: '',
   title: '',
   content: '',
   created: '',
+  description: '',
 };
 
 const mapDispatchToProps = (dispatch) => ({

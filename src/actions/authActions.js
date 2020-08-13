@@ -1,4 +1,5 @@
 import { authTypes } from 'actions/types';
+import { SOCIAL_TYPES } from 'helpers/constants';
 
 // signUp action
 export const signUp = (data) => async (dispatch, getState, { getFirebase }) => {
@@ -55,17 +56,17 @@ export const signIn = (data) => async (dispatch, getState, { getFirebase }) => {
   dispatch({ type: authTypes.AUTH_END });
 };
 
-// log in with social buttons
+// signin with social buttons
 export const socialSignIn = (type) => async (dispatch, getState, { getFirebase }) => {
   const firebase = getFirebase();
   const firestore = getFirebase().firestore();
 
   let provider;
-  if (type === 'facebook') {
+  if (type === SOCIAL_TYPES.facebook) {
     provider = new firebase.auth.FacebookAuthProvider();
-  } else if (type === 'google') {
+  } else if (type === SOCIAL_TYPES.google) {
     provider = new firebase.auth.GoogleAuthProvider();
-  } else if (type === 'twitter') {
+  } else if (type === SOCIAL_TYPES.twitter) {
     provider = new firebase.auth.TwitterAuthProvider();
   }
 

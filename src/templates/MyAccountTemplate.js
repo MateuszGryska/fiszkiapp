@@ -174,9 +174,13 @@ const MyAccountTemplate = ({
 };
 
 MyAccountTemplate.propTypes = {
+  words: PropTypes.arrayOf(PropTypes.object),
+  notes: PropTypes.arrayOf(PropTypes.object),
   profileData: PropTypes.shape({
     firstName: PropTypes.string,
     lastName: PropTypes.string,
+    points: PropTypes.number,
+    socialLogIn: PropTypes.bool,
   }),
   loggedIn: PropTypes.shape({
     email: PropTypes.string.isRequired,
@@ -191,11 +195,15 @@ MyAccountTemplate.propTypes = {
 };
 
 MyAccountTemplate.defaultProps = {
+  words: [],
+  notes: [],
   deleteError: null,
   error: null,
   profileData: {
     firstName: 'FirstName',
     lastName: 'LastName',
+    points: 0,
+    socialLogIn: false,
   },
 };
 const mapStateToProps = ({ firebase, auth }) => ({

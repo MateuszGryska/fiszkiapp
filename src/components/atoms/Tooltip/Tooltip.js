@@ -20,7 +20,7 @@ const Tooltip = styled.div`
     padding: 0.5em 1em;
     min-width: 100px; 
     text-align: center;
-    content: '${(props) => (props.description ? props.description : 'No description')}';
+    content: '${({ description }) => description || 'No description'}';
     color: ${({ theme }) => theme.black};
     font-size: 0.8em;
     line-height: 1.7em;

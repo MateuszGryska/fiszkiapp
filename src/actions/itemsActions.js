@@ -1,4 +1,5 @@
 import { itemTypes } from 'actions/types';
+import { COLLECTION_TYPES } from 'helpers/constants';
 
 // add item
 export const addItem = (itemType, data) => async (dispatch, getState, { getFirebase }) => {
@@ -98,11 +99,11 @@ export const addNewPoint = () => async (dispatch, getState, { getFirebase }) => 
   dispatch({ type: itemTypes.ADD_POINT_START });
 
   try {
-    const getData = await firestore.collection('users').doc(userId).get();
+    const getData = await firestore.collection(COLLECTION_TYPES.users).doc(userId).get();
     const { points } = getData.data();
 
     await firestore
-      .collection('users')
+      .collection(COLLECTION_TYPES.users)
       .doc(userId)
       .update({
         points: points + 1,

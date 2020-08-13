@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { routes } from 'routes';
 import { connect } from 'react-redux';
@@ -59,6 +60,16 @@ const Root = ({ loggedIn, emailVerified }) => {
     );
   }
   return <MainTemplate>{routesWhenLoggedIn}</MainTemplate>;
+};
+
+Root.propTypes = {
+  loggedIn: PropTypes.bool,
+  emailVerified: PropTypes.bool,
+};
+
+Root.defaultProps = {
+  loggedIn: null,
+  emailVerified: null,
 };
 
 const mapStateToProps = ({ firebase }) => ({

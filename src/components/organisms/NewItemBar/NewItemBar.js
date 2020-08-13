@@ -12,6 +12,7 @@ import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
 import { addItem as addItemAction } from 'actions';
 import { wordSchema, noteSchema } from 'validation';
+import { COLLECTION_TYPES, PAGE_TYPES } from 'helpers/constants';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -81,9 +82,9 @@ const NewItemBar = React.memo(
     <>
       <StyledWrapper isVisible={isVisible}>
         <ReturnButton onClick={() => handleClose()} />
-        <BarsTitle>Add new {pageContext === 'notes' ? 'note' : 'word'}</BarsTitle>
+        <BarsTitle>Add new {pageContext === PAGE_TYPES.notes ? 'note' : 'word'}</BarsTitle>
 
-        {pageContext === 'notes' ? (
+        {pageContext === PAGE_TYPES.notes ? (
           <StyledParagraph>
             The title can have a maximum of 25 letters and content can have a maximum of 300
             letters.
@@ -95,24 +96,24 @@ const NewItemBar = React.memo(
         )}
         <Formik
           validationSchema={() => {
-            if (pageContext === 'notes') {
+            if (pageContext === PAGE_TYPES.notes) {
               return noteSchema;
             }
             return wordSchema;
           }}
           initialValues={{ title: '', content: '', polish: '', english: '', description: '' }}
           onSubmit={(values, { resetForm }) => {
-            if (pageContext === 'notes') {
+            if (pageContext === PAGE_TYPES.notes) {
               addItem(pageContext, values);
             } else {
-              addItem('words', values);
+              addItem(COLLECTION_TYPES.words, values);
             }
             resetForm();
           }}
         >
           {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
             <StyledForm>
-              {pageContext === 'notes' ? (
+              {pageContext === PAGE_TYPES.notes ? (
                 <>
                   <div>
                     <StyledInput
@@ -243,7 +244,7 @@ NewItemBar.propTypes = {
 };
 
 NewItemBar.defaultProps = {
-  pageContext: 'flashcards',
+  pageContext: PAGE_TYPES.flashcards,
 };
 
 const mapDispatchToProps = (dispatch) => ({

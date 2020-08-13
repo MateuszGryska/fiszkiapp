@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import withContext from 'hoc/withContext';
 import styled from 'styled-components';
-import Navbar from 'components/atoms/Navbar/Navbar';
+import Topbar from 'components/atoms/Topbar/Topbar';
 import PropTypes from 'prop-types';
 import Menubar from 'components/organisms/Menubar/Menubar';
 import NewItemBar from 'components/organisms/NewItemBar/NewItemBar';
 import addIcon from 'assets/icons/add-icon.svg';
+import { PAGE_TYPES } from 'helpers/constants';
 
 const StyledWrapper = styled.div`
   padding-top: 70px;
@@ -43,7 +44,7 @@ const UserPageTemplate = ({ children, loggedIn, profileData, emailVerified, page
     <StyledWrapper>
       {loggedIn.uid ? (
         <>
-          <Navbar
+          <Topbar
             loggedIn={loggedIn}
             emailVerified={emailVerified}
             handleOpen={() => setMenubarVisibility(!menubarVisible)}
@@ -56,7 +57,7 @@ const UserPageTemplate = ({ children, loggedIn, profileData, emailVerified, page
           {children}
           <AddButton
             loggedIn={loggedIn}
-            isButtonVisible={pageContext === 'account'}
+            isButtonVisible={pageContext === PAGE_TYPES.account}
             onClick={() => setNewItemBarVisibility(!newItemBarVisible)}
           />
           <NewItemBar
@@ -101,7 +102,7 @@ UserPageTemplate.defaultProps = {
     firstName: 'First Name',
     lastName: 'Last Name',
   },
-  pageContext: 'login',
+  pageContext: PAGE_TYPES.login,
 };
 
 const mapStateToProps = ({ firebase }) => ({

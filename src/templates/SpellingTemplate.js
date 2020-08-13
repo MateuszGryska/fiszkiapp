@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import Title from 'components/atoms/Title/Title';
 import styled from 'styled-components';
@@ -6,6 +7,8 @@ import Button from 'components/atoms/Button/Button';
 import Input from 'components/atoms/Input/Input';
 import Toggle from 'components/atoms/Toggle/Toggle';
 import Tooltip from 'components/atoms/Tooltip/Tooltip';
+import { pickNewWord } from 'utils/pick-new-word';
+import { COLLECTION_TYPES } from 'helpers/constants';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { Formik, Form } from 'formik';
 
@@ -59,7 +62,7 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
   const [wordPosition, setWordPosition] = useState(0);
   const [isChecked, setCheckbox] = useState(false);
 
-  useFirestoreConnect([{ collection: 'words', doc: userId }]);
+  useFirestoreConnect([{ collection: COLLECTION_TYPES.words, doc: userId }]);
   const words = useSelector(({ firestore: { data } }) => data.words && data.words[userId]);
 
   let wordsList = [];
@@ -71,16 +74,9 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
     wordsList = words.words;
   }
 
-  const pickNewWord = (length) => {
-    let random;
-    if (length === 1) {
-      return;
-    }
-    do {
-      random = Math.floor(Math.random() * length);
-    } while (random === wordPosition);
-
-    setWordPosition(random);
+  const setNewWord = (length) => {
+    const newWordPosition = pickNewWord(length, wordPosition);
+    setWordPosition(newWordPosition);
   };
 
   return (
@@ -118,7 +114,7 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
                     (isChecked && values.answer === wordsList[wordPosition].polish)
                   ) {
                     addNewPoint();
-                    pickNewWord(wordsList.length);
+                    setNewWord(wordsList.length);
                     resetForm();
                   }
                 }}
@@ -158,7 +154,7 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
                     <Button
                       disabled={wordsList.length === 0}
                       type="button"
-                      onClick={() => pickNewWord(wordsList.length)}
+                      onClick={() => setNewWord(wordsList.length)}
                     >
                       DRAW A NEW WORD
                     </Button>
@@ -171,6 +167,13 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
       </StyledWrapper>
     </UserPageTemplate>
   );
+};
+
+SpellingTemplate.propTypes = {
+  userId: PropTypes.string.isRequired,
+  addNewPoint: PropTypes.func.isRequired,
+  requested: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+  requesting: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
 };
 
 const mapStateToProps = ({ firebase, firestore }) => ({

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Title from 'components/atoms/Title/Title';
 import Input from 'components/atoms/Input/Input';
 import Note from 'components/molecules/Note/Note';
+
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.div`
@@ -36,6 +37,11 @@ const StyledGrid = styled.div`
 
 const StyledInput = styled(Input)`
   margin-top: 20px;
+
+  @media only screen and (max-width: 768px),
+    (min-device-width: 768px) and (max-device-width: 1024px) {
+    max-width: 90%;
+  }
 `;
 
 const NotesTemplate = ({ notes, loading }) => {

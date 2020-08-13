@@ -92,6 +92,7 @@ TableItem.propTypes = {
   id: PropTypes.string.isRequired,
   polish: PropTypes.string.isRequired,
   english: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
   deleteItem: PropTypes.func.isRequired,
   deleteError: PropTypes.string,
   cleanUp: PropTypes.func.isRequired,
