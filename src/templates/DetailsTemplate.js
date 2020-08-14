@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
+import { routes } from 'routes';
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.section`
   height: 100vh;
-  width: 700px;
+  width: 100vw;
   position: fixed;
   top: 0;
   right: 0;
@@ -20,18 +21,6 @@ const StyledWrapper = styled.section`
   @media (max-width: 480px) {
     width: 100vw;
   }
-`;
-
-const StyledBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  z-index: 999;
-  height: 100vh;
-  background-color: black;
-  opacity: 0.5;
-  cursor: default;
 `;
 
 const StyledTitle = styled.h1`
@@ -47,19 +36,22 @@ const StyledContent = styled.p`
   font-weight: ${({ theme }) => theme.light};
   margin-bottom: 50px;
 `;
-const DetailsTemplate = ({ title, content, created, isVisible }) => (
+const DetailsTemplate = ({ title, content, created, loading, isVisible }) => (
   <UserPageTemplate>
-    <>
-      <StyledWrapper isVisible={isVisible}>
-        <StyledTitle>{title}</StyledTitle>
-        <DataInfo>{created}</DataInfo>
-        <StyledContent>{content}</StyledContent>
-        <ActionButton as={Link} to="/notes">
-          Close
-        </ActionButton>
-      </StyledWrapper>
-      <StyledBackground as={Link} to="/notes" />
-    </>
+    {loading ? (
+      <h1>Loading...</h1>
+    ) : (
+      <>
+        <StyledWrapper isVisible={isVisible}>
+          <StyledTitle>{title}</StyledTitle>
+          <DataInfo>{created}</DataInfo>
+          <StyledContent>{content}</StyledContent>
+          <ActionButton as={Link} to={routes.notes}>
+            Close
+          </ActionButton>
+        </StyledWrapper>
+      </>
+    )}
   </UserPageTemplate>
 );
 
@@ -68,11 +60,13 @@ DetailsTemplate.propTypes = {
   content: PropTypes.string.isRequired,
   created: PropTypes.string,
   isVisible: PropTypes.bool,
+  loading: PropTypes.bool,
 };
 
 DetailsTemplate.defaultProps = {
   created: 'Problems with created date',
   isVisible: false,
+  loading: false,
 };
 
 export default DetailsTemplate;

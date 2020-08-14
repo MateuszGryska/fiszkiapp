@@ -37,7 +37,7 @@ const Root = ({ loggedIn, emailVerified }) => {
           <Route path={routes.flashcards} component={FlashcardsPage} />
           <Route path={routes.quiz} component={QuizPage} />
           <Route path={routes.spelling} component={SpellingPage} />
-          <Route path={routes.notes} component={NotesPage} />
+          <Route exact path={routes.notes} component={NotesPage} />
           <Route path={routes.account} component={MyAccountPage} />
           <Route path={routes.notverified} component={NotVerifiedPage} />
           <Route path={routes.note} component={DetailsPage} />
