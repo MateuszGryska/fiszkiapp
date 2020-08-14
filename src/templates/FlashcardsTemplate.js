@@ -14,7 +14,7 @@ import { addNewPoint as addNewPointAction } from 'actions';
 
 import UserPageTemplate from './UserPageTemplate';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.section`
   padding: 50px 150px 25px 150px;
   display: flex;
   flex-direction: column;
@@ -56,7 +56,7 @@ const StyledParagraph = styled.p`
   text-align: center;
 `;
 
-const StyledToggleSection = styled.div`
+const StyledToggleSection = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;

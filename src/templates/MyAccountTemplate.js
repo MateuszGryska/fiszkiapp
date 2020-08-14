@@ -14,7 +14,7 @@ import EditProfileBar from 'components/organisms/EditProfileBar/EditProfileBar';
 import WarningModal from 'components/molecules/WarningModal/WarningModal';
 import UserPageTemplate from './UserPageTemplate';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.section`
   padding: 50px 70px;
   display: flex;
   flex-direction: column;

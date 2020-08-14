@@ -22,7 +22,7 @@ import { loginSchema, registerSchema, resetSchema } from 'validation';
 import { PAGE_TYPES, SOCIAL_TYPES } from 'helpers/constants';
 import { routes } from 'routes';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.main`
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -40,7 +40,7 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const StyledLogo = styled.div`
+const StyledLogo = styled.section`
   width: 400px;
   height: 80px;
   background-image: url(${logoIcon});
@@ -50,7 +50,7 @@ const StyledLogo = styled.div`
   background-size: 100% 70%;
 `;
 
-const StyledLoginSection = styled.div`
+const StyledLoginSection = styled.section`
   width: 500px;
   height: ${({ pageContext }) => (pageContext === PAGE_TYPES.resetPassword ? '400px' : '700px')};
   margin-top: 20px;

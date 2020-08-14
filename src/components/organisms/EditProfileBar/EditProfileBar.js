@@ -13,7 +13,7 @@ import { Formik, Form } from 'formik';
 import { editProfile as editProfileAction, clean as cleanAction } from 'actions';
 import { editProfileSchema } from 'validation';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.section`
   height: 100vh;
   width: 400px;
   position: fixed;

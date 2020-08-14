@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import menuIcon from 'assets/icons/menu.svg';
 import logo from 'assets/icons/logo.svg';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.header`
   height: 80px;
   width: 100vw;
   position: fixed;
@@ -47,7 +47,7 @@ const StyledMenu = styled.button`
   cursor: pointer;
 `;
 
-const StyledVerifiedInfo = styled.div`
+const StyledVerifiedInfo = styled.details`
   position: fixed;
   top: 80px;
   left: 0;

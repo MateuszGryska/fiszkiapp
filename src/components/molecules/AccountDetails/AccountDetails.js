@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import userIcon from 'assets/icons/user.svg';
 import { Link } from 'react-router-dom';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.section`
   width: 320px;
   height: 150px;
   padding: 10px 10px;
@@ -22,11 +22,11 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const StyledAccountsDetails = styled.div`
+const StyledAccountsDetails = styled.article`
   margin-left: 20px;
 `;
 
-const StyledUserIcon = styled.div`
+const StyledUserIcon = styled.aside`
   width: 100px;
   height: 100px;
   justify-self: flex-start;
@@ -37,7 +37,7 @@ const StyledUserIcon = styled.div`
   background-size: 100% 100%;
 `;
 
-const StyledTitle = styled.div`
+const StyledTitle = styled.aside`
   padding: 0;
   margin: 0;
   font-size: ${({ theme }) => theme.fontSize.l};
@@ -83,7 +83,7 @@ const StyledButton = styled(Link)`
   }
 `;
 
-const StyledButtons = styled.div`
+const StyledButtons = styled.nav`
   display: flex;
   flex-direction: column;
   align-items: flex-start;

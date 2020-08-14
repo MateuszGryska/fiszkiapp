@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.section`
   width: 100vw;
   height: 100vh;
   background: rgb(104, 163, 86);

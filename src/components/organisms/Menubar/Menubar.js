@@ -9,7 +9,7 @@ import AccountDetails from 'components/molecules/AccountDetails/AccountDetails';
 import { signOut as signOutAction } from 'actions';
 import { routes } from 'routes';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.section`
   height: 100vh;
   width: 400px;
   position: fixed;
@@ -79,34 +79,35 @@ const Menubar = React.memo(
       <StyledWrapper isVisible={isVisible}>
         <AccountDetails profileData={profileData} signOut={signOut} />
         <ReturnButton onClick={() => handleClose()} />
-
-        <StyledLinkList>
-          <li>
-            <StyledNavLink exact to={routes.flashcards} activeclass="active">
-              flashcards
-            </StyledNavLink>
-          </li>
-          <li>
-            <StyledNavLink to={routes.quiz} activeclass="active">
-              quiz
-            </StyledNavLink>
-          </li>
-          <li>
-            <StyledNavLink to={routes.spelling} activeclass="active">
-              spelling check
-            </StyledNavLink>
-          </li>
-          <li>
-            <StyledNavLink to={routes.words} activeclass="active">
-              words list
-            </StyledNavLink>
-          </li>
-          <li>
-            <StyledNavLink to={routes.notes} activeclass="active">
-              notes
-            </StyledNavLink>
-          </li>
-        </StyledLinkList>
+        <nav>
+          <StyledLinkList>
+            <li>
+              <StyledNavLink exact to={routes.flashcards} activeclass="active">
+                flashcards
+              </StyledNavLink>
+            </li>
+            <li>
+              <StyledNavLink to={routes.quiz} activeclass="active">
+                quiz
+              </StyledNavLink>
+            </li>
+            <li>
+              <StyledNavLink to={routes.spelling} activeclass="active">
+                spelling check
+              </StyledNavLink>
+            </li>
+            <li>
+              <StyledNavLink to={routes.words} activeclass="active">
+                words list
+              </StyledNavLink>
+            </li>
+            <li>
+              <StyledNavLink to={routes.notes} activeclass="active">
+                notes
+              </StyledNavLink>
+            </li>
+          </StyledLinkList>
+        </nav>
       </StyledWrapper>
       <DarkerBackground isVisible={isVisible} onClick={() => handleClose()} />
     </>
