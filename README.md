@@ -1,10 +1,10 @@
 # Fiszki App
 
-![GitHub Logo](/screenshots/fiszki1.png)
-![GitHub Logo](/screenshots/fiszki2.png)
-![GitHub Logo](/screenshots/fiszki5.png)
-![GitHub Logo](/screenshots/fiszki4.png)
-![GitHub Logo](/screenshots/fiszki7.png)
+![login view](/screenshots/fiszki1.png)
+![flashcards view](/screenshots/fiszki2.png)
+![spelling check view](/screenshots/fiszki5.png)
+![notes view](/screenshots/fiszki4.png)
+![table view](/screenshots/fiszki7.png)
 
 
 ## Description
