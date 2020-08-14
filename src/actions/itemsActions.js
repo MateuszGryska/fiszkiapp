@@ -75,8 +75,10 @@ export const updateItem = (itemType, id, data) => async (dispatch, getState, { g
     const prevItems = getItems.data()[itemType];
 
     const index = prevItems.findIndex((item) => item.id === id);
+
     prevItems[index] = {
       id,
+      created: await getFirebase().firestore.Timestamp.fromDate(new Date()),
       ...data,
     };
 

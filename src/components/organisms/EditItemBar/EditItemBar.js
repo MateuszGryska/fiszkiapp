@@ -88,7 +88,6 @@ const EditItemBar = React.memo(
     title,
     content,
     id,
-    created,
     description,
   }) => (
     <>
@@ -117,7 +116,7 @@ const EditItemBar = React.memo(
             }
             return null;
           }}
-          initialValues={{ title, content, polish, english, created, description }}
+          initialValues={{ title, content, polish, english, description }}
           onSubmit={async (values) => {
             if (pageContext === PAGE_TYPES.flashcards) {
               await updateItem(COLLECTION_TYPES.words, id, values);
@@ -243,7 +242,6 @@ EditItemBar.propTypes = {
   content: PropTypes.string,
   description: PropTypes.string,
   id: PropTypes.string.isRequired,
-  created: PropTypes.string,
   isVisible: PropTypes.bool,
   pageContext: PropTypes.oneOf([
     'notes',
@@ -267,7 +265,6 @@ EditItemBar.defaultProps = {
   english: '',
   title: '',
   content: '',
-  created: '',
   description: '',
 };
 

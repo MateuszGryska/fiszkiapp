@@ -7,7 +7,7 @@ import { useFirestoreConnect } from 'react-redux-firebase';
 import { format } from 'date-fns';
 import { COLLECTION_TYPES } from 'helpers/constants';
 
-const DetailsPage = ({ userId, requested, match }) => {
+const DetailsPage = ({ userId, requested, requesting, match }) => {
   useFirestoreConnect([{ collection: COLLECTION_TYPES.notes, doc: userId }]);
   const notes = useSelector(({ firestore: { data } }) => data.notes && data.notes[userId]);
 
@@ -28,6 +28,7 @@ const DetailsPage = ({ userId, requested, match }) => {
         title={activeItem[0].title}
         content={activeItem[0].content}
         created={itemDate}
+        loading={requesting[`notes/${userId}`]}
       />
     );
   }
@@ -43,11 +44,13 @@ DetailsPage.propTypes = {
       id: PropTypes.string.isRequired,
     }),
   }).isRequired,
+  requesting: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
 };
 
 const mapStateToProps = ({ firebase, firestore }) => ({
   userId: firebase.auth.uid,
   requested: firestore.status.requested,
+  requesting: firestore.status.requesting,
 });
 
 export default withContext(connect(mapStateToProps)(DetailsPage));
