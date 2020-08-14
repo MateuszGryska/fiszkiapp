@@ -6,7 +6,7 @@ import ActionButton from 'components/atoms/ActionButton/ActionButton';
 import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
 import Message from 'components/atoms/Message/Message';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.article`
   position: fixed;
   top: 50%;
   left: 50%;
@@ -35,7 +35,7 @@ const StyledImg = styled.img`
   margin-top: 30px;
 `;
 
-const StyledButtons = styled.div`
+const StyledButtons = styled.nav`
   margin-top: 30px;
   display: flex;
   flex-direction: row;

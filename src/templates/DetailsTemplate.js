@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
 import UserPageTemplate from './UserPageTemplate';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.section`
   height: 100vh;
   width: 700px;
   position: fixed;

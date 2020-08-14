@@ -14,7 +14,7 @@ import { updateItem as editItemAction } from 'actions';
 import { wordSchema, noteSchema } from 'validation';
 import { COLLECTION_TYPES, PAGE_TYPES } from 'helpers/constants';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.section`
   height: 100vh;
   width: 400px;
   position: fixed;

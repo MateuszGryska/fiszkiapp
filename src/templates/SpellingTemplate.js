@@ -16,7 +16,7 @@ import { addNewPoint as addNewPointAction } from 'actions';
 
 import UserPageTemplate from './UserPageTemplate';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.section`
   padding: 50px 150px 25px 150px;
   display: flex;
   flex-direction: column;

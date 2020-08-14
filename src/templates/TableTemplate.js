@@ -6,7 +6,7 @@ import Input from 'components/atoms/Input/Input';
 import TableItem from 'components/atoms/TableItem/TableItem';
 import UserPageTemplate from './UserPageTemplate';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.section`
   padding: 50px 70px;
   display: flex;
   flex-direction: column;

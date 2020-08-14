@@ -9,7 +9,7 @@ import NewItemBar from 'components/organisms/NewItemBar/NewItemBar';
 import addIcon from 'assets/icons/add-icon.svg';
 import { PAGE_TYPES } from 'helpers/constants';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.main`
   padding-top: 70px;
   position: relative;
 `;

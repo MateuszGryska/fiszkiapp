@@ -10,7 +10,7 @@ import { deleteItem as deleteItemAction, clean as cleanAction } from 'actions';
 
 const notes = 'notes';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.article`
   background: ${({ theme }) => theme.white};
   min-height: 250px;
   min-width: 400px;
@@ -20,7 +20,7 @@ const StyledWrapper = styled.div`
   border-radius: 20px;
 `;
 
-const StyledTitle = styled.div`
+const StyledTitle = styled.header`
   position: absolute;
   top: 0;
   left: 0;
@@ -41,7 +41,7 @@ const StyledParagraph = styled.p`
   font-size: ${({ theme }) => theme.fontSize.s};
 `;
 
-const StyledActionButtons = styled.div`
+const StyledActionButtons = styled.nav`
   position: absolute;
   display: flex;
   flex-direction: row;

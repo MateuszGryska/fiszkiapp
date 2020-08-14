@@ -7,7 +7,7 @@ import Note from 'components/molecules/Note/Note';
 
 import UserPageTemplate from './UserPageTemplate';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.section`
   padding: 50px 70px;
   display: flex;
   flex-direction: column;
@@ -20,7 +20,7 @@ const StyledInfo = styled.h1`
   text-align: center;
 `;
 
-const StyledGrid = styled.div`
+const StyledGrid = styled.article`
   padding-top: 50px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);

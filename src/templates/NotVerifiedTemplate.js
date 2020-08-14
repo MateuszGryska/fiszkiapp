@@ -11,7 +11,7 @@ import {
   signOut as signOutAction,
 } from 'actions';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.section`
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -21,7 +21,7 @@ const StyledWrapper = styled.div`
   background-color: ${({ theme }) => theme.main};
 `;
 
-const StyledModal = styled.div`
+const StyledModal = styled.article`
   width: 700px;
   height: 500px;
   padding: 30px 20px;
@@ -35,7 +35,7 @@ const StyledModal = styled.div`
   position: relative;
 `;
 
-const StyledActionsButton = styled.div`
+const StyledActionsButton = styled.nav`
   display: flex;
   flex-direction: column;
   justify-content: center;
