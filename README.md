@@ -1,10 +1,10 @@
 # Fiszki App
 
-![login view](/screenshots/fiszki1.png)
-![flashcards view](/screenshots/fiszki2.png)
-![spelling check view](/screenshots/fiszki5.png)
-![notes view](/screenshots/fiszki4.png)
-![table view](/screenshots/fiszki7.png)
+![login view](/fiszki1.png)
+![flashcards view](/fiszki2.png)
+![spelling check view](/fiszki5.png)
+![notes view](/fiszki4.png)
+![table view](/fiszki7.png)
 
 
 ## Description
