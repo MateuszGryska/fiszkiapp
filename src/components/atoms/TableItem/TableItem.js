@@ -49,6 +49,12 @@ const StyledButton = styled.button`
     `}
 `;
 
+const ModalsSection = styled.td`
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
+
 const TableItem = ({ polish, english, description, id, deleteItem, deleteError, cleanUp }) => {
   const [isEditItemBarVisible, setEditItemBarVisible] = useState(false);
   const [isDeleteWarningVisible, setDeleteWarningVisible] = useState(false);
@@ -64,7 +70,7 @@ const TableItem = ({ polish, english, description, id, deleteItem, deleteError, 
           <StyledButton onClick={() => setDeleteWarningVisible(true)} />
         </StyledActions>
 
-        <td>
+        <ModalsSection>
           <EditItemBar
             id={id}
             polish={polish}
@@ -82,7 +88,7 @@ const TableItem = ({ polish, english, description, id, deleteItem, deleteError, 
             error={deleteError}
             cleanUp={cleanUp}
           />
-        </td>
+        </ModalsSection>
       </StyledContainer>
     </>
   );
