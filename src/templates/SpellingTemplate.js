@@ -110,9 +110,13 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
                 initialValues={{ answer: '' }}
                 onSubmit={(values, { resetForm }) => {
                   if (
-                    values.answer.toLowerCase() === wordsList[wordPosition].english.toLowerCase() ||
-                    (isChecked &&
-                      values.answer.toLowerCase() === wordsList[wordPosition].polish.toLowerCase())
+                    values.answer.toLowerCase().trim() ===
+                      wordsList[wordPosition].english.toLowerCase().trim() ||
+                    (
+                      isChecked &&
+                      values.answer.toLowerCase().trim() ===
+                        wordsList[wordPosition].polish.toLowerCase()
+                    ).trim()
                   ) {
                     addNewPoint();
                     setNewWord(wordsList.length);
@@ -137,7 +141,7 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
                         disabled={
                           wordsList.length === 0 ||
                           values.answer.toLowerCase() !==
-                            wordsList[wordPosition].polish.toLowerCase()
+                            wordsList[wordPosition].polish.toLowerCase().trim()
                         }
                       >
                         DRAW A NEW WORD <br /> (+1 POINT)
@@ -148,7 +152,7 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
                         disabled={
                           wordsList.length === 0 ||
                           values.answer.toLowerCase() !==
-                            wordsList[wordPosition].english.toLowerCase()
+                            wordsList[wordPosition].english.toLowerCase().trim()
                         }
                       >
                         DRAW A NEW WORD <br /> (+1 POINT)
