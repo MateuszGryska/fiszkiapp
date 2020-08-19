@@ -27,6 +27,7 @@ const StyledActions = styled.td`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  ${({ isDarkMode }) => (isDarkMode ? 'filter: brightness(4);' : null)}
 `;
 
 const StyledButton = styled.button`
@@ -55,7 +56,16 @@ const ModalsSection = styled.td`
   left: 0;
 `;
 
-const TableItem = ({ polish, english, description, id, deleteItem, deleteError, cleanUp }) => {
+const TableItem = ({
+  polish,
+  english,
+  description,
+  id,
+  deleteItem,
+  deleteError,
+  cleanUp,
+  isDarkMode,
+}) => {
   const [isEditItemBarVisible, setEditItemBarVisible] = useState(false);
   const [isDeleteWarningVisible, setDeleteWarningVisible] = useState(false);
 
@@ -64,7 +74,7 @@ const TableItem = ({ polish, english, description, id, deleteItem, deleteError, 
       <StyledContainer>
         <td>{polish}</td>
         <td>{english}</td>
-        <StyledActions>
+        <StyledActions isDarkMode={isDarkMode}>
           <Tooltip description={description} />
           <StyledButton secondary onClick={() => setEditItemBarVisible(true)} />
           <StyledButton onClick={() => setDeleteWarningVisible(true)} />
@@ -102,14 +112,17 @@ TableItem.propTypes = {
   deleteItem: PropTypes.func.isRequired,
   deleteError: PropTypes.string,
   cleanUp: PropTypes.func.isRequired,
+  isDarkMode: PropTypes.bool,
 };
 
 TableItem.defaultProps = {
   deleteError: null,
+  isDarkMode: false,
 };
 
-const mapStateToProps = ({ auth }) => ({
+const mapStateToProps = ({ firebase, auth }) => ({
   deleteError: auth.deleteUser.error,
+  isDarkMode: firebase.profile.isDarkMode,
 });
 
 const mapDispatchToProps = (dispatch) => ({

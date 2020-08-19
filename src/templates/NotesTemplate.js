@@ -9,6 +9,7 @@ import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.section`
   padding: 50px 70px;
+  color: ${({ theme }) => theme.fontColor};
   display: flex;
   flex-direction: column;
   justify-content: center;

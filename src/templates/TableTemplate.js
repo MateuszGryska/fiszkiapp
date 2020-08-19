@@ -8,6 +8,7 @@ import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.section`
   padding: 50px 70px;
+  color: ${({ theme }) => theme.fontColor};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -71,7 +72,7 @@ const StyledTable = styled.table`
   }
 
   tbody tr:nth-of-type(even) {
-    background-color: ${({ theme }) => theme.input};
+    background-color: ${({ theme }) => theme.inputHover};
   }
 
   tbody tr:last-of-type {

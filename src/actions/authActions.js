@@ -1,5 +1,5 @@
 import { authTypes } from 'actions/types';
-import { SOCIAL_TYPES } from 'helpers/constants';
+import { SOCIAL_TYPES, COLLECTION_TYPES } from 'helpers/constants';
 
 // signUp action
 export const signUp = (data) => async (dispatch, getState, { getFirebase }) => {
@@ -20,6 +20,7 @@ export const signUp = (data) => async (dispatch, getState, { getFirebase }) => {
       lastName: data.lastName,
       socialLogIn: false,
       points: 0,
+      isDarkMode: false,
     });
 
     dispatch({ type: authTypes.AUTH_SUCCESS });
@@ -92,6 +93,7 @@ export const socialSignIn = (type) => async (dispatch, getState, { getFirebase }
           lastName: name[0],
           socialLogIn: true,
           points: 0,
+          isDarkMode: false,
         });
       } else {
         await firestore.collection('users').doc(result.user.uid).set({
@@ -99,6 +101,7 @@ export const socialSignIn = (type) => async (dispatch, getState, { getFirebase }
           lastName: name[1],
           socialLogIn: true,
           points: 0,
+          isDarkMode: false,
         });
       }
     }
@@ -185,5 +188,22 @@ export const deleteUser = () => async (dispatch, getState, { getFirebase }) => {
     await user.delete();
   } catch (err) {
     dispatch({ type: authTypes.DELETE_USER_FAIL, payload: err.message });
+  }
+};
+
+// set dark mode
+export const setDarkMode = (isDarkMode) => async (dispatch, getState, { getFirebase }) => {
+  const firestore = getFirebase().firestore();
+  const { uid: userId } = getState().firebase.auth;
+  dispatch({ type: authTypes.SET_DARK_MODE_START });
+
+  try {
+    await firestore.collection(COLLECTION_TYPES.users).doc(userId).update({
+      isDarkMode,
+    });
+
+    dispatch({ type: authTypes.SET_DARK_MODE_SUCCESS });
+  } catch (err) {
+    dispatch({ type: authTypes.SET_DARK_MODE_FAIL, payload: err.message });
   }
 };

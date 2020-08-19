@@ -7,8 +7,7 @@ const DarkerBackground = styled.div`
   width: 100vw;
   z-index: 997;
   height: 100vh;
-  background-color: black;
-  opacity: 0.5;
+  background-color: rgba(0, 0, 0, 0.5);
   display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
 `;
 

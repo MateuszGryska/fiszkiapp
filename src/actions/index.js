@@ -8,5 +8,6 @@ export {
   recoveryPassword,
   editProfile,
   deleteUser,
+  setDarkMode,
 } from './authActions';
 export { addItem, deleteItem, updateItem, addNewPoint } from './itemsActions';

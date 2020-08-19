@@ -12,6 +12,8 @@ import { PAGE_TYPES } from 'helpers/constants';
 const StyledWrapper = styled.main`
   padding-top: 70px;
   position: relative;
+  background: ${({ theme }) => theme.background};
+  height: 100vh;
 `;
 
 const AddButton = styled.button`

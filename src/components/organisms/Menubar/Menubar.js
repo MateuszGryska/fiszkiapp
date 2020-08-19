@@ -15,7 +15,7 @@ const StyledWrapper = styled.section`
   position: fixed;
   top: 0;
   right: 0;
-  background-color: ${({ theme }) => theme.white};
+  background-color: ${({ theme }) => theme.background};
   border-left: 8px solid ${({ theme }) => theme.main};
   box-shadow: ${({ isVisible }) =>
     isVisible ? '-10px 3px 20px 0px rgba(0, 0, 0, 0.16);' : 'none'};
@@ -49,7 +49,7 @@ const StyledLinkList = styled.ul`
 
 const StyledNavLink = styled(NavLink)`
   text-decoration: none;
-  color: ${({ theme }) => theme.black};
+  color: ${({ theme }) => theme.fontColor};
   font-weight: ${({ theme }) => theme.bold};
   font-size: ${({ theme }) => theme.fontSize.m};
 

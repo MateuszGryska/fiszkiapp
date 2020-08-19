@@ -20,6 +20,7 @@ const StyledWrapper = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: ${({ theme }) => theme.fontColor};
 `;
 
 const StyledMainWord = styled.h1`
@@ -55,8 +56,8 @@ const StyledRadioSection = styled.ul`
     border-radius: 10px;
     border: 1px solid ${({ theme }) => theme.main};
     margin-top: 30px;
-    background: ${({ theme }) => theme.white};
-    color: ${({ theme }) => theme.black};
+    background: ${({ theme }) => theme.background};
+    color: ${({ theme }) => theme.fontColor};
     font-size: ${({ theme }) => theme.fontSize.s};
     letter-spacing: 1.5px;
     cursor: pointer;

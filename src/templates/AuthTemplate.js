@@ -86,7 +86,7 @@ const StyledInput = styled(Input)`
 `;
 
 const StyledLink = styled(Link)`
-  color: ${({ theme }) => theme.black};
+  color: ${({ theme }) => theme.fontColor};
   margin: 10px 30px 0px 30px;
 
   &:last-child {

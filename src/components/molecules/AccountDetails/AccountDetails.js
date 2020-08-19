@@ -41,6 +41,7 @@ const StyledTitle = styled.aside`
   padding: 0;
   margin: 0;
   font-size: ${({ theme }) => theme.fontSize.l};
+  color: ${({ theme }) => theme.fontColor};
 
   @media (max-width: 480px) {
     font-size: ${({ theme }) => theme.fontSize.l};
@@ -54,7 +55,7 @@ const StyledHello = styled.p`
 
 const StyledButton = styled(Link)`
   text-decoration: none;
-  color: ${({ theme }) => theme.black};
+  color: ${({ theme }) => theme.fontColor};
   border: none;
   background: none;
   padding: 0;

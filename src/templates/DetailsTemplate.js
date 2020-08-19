@@ -12,7 +12,8 @@ const StyledWrapper = styled.section`
   position: fixed;
   top: 0;
   right: 0;
-  background-color: ${({ theme }) => theme.white};
+  background-color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.fontColor};
   border-left: 2px ${({ theme }) => theme.main};
   box-shadow: -10px 3px 20px 0px rgba(0, 0, 0, 0.16);
   padding: 20px 30px;

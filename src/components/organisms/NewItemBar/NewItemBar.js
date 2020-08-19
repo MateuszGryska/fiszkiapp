@@ -20,7 +20,7 @@ const StyledWrapper = styled.div`
   position: fixed;
   top: 0;
   right: 0;
-  background-color: ${({ theme }) => theme.white};
+  background-color: ${({ theme }) => theme.background};
   border-left: 8px solid ${({ theme }) => theme.main};
   box-shadow: ${({ isVisible }) =>
     isVisible ? '-10px 3px 20px 0px rgba(0, 0, 0, 0.16);' : 'none'};
@@ -28,6 +28,7 @@ const StyledWrapper = styled.div`
   z-index: 1000;
   transform: translate(${({ isVisible }) => (isVisible ? '0' : '100%')});
   transition: transform 0.4s ease-in-out;
+  color: ${({ theme }) => theme.fontColor};
 
   @media (max-width: 480px) {
     width: 100vw;

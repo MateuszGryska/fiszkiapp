@@ -21,12 +21,12 @@ const StyledWrapper = styled.button`
   }
 
   &:disabled {
-    background: ${({ theme }) => theme.fontGrey};
+    background: ${({ theme }) => theme.greyButton};
     transition: none;
     cursor: not-allowed;
-    color: black;
+    color: ${({ theme }) => theme.fontColor};
     &:hover {
-      background: ${({ theme }) => theme.fontGrey};
+      background: ${({ theme }) => theme.greyButton};
       box-shadow: none;
       transform: translateY(0px);
     }

@@ -11,7 +11,7 @@ import { deleteItem as deleteItemAction, clean as cleanAction } from 'actions';
 const notes = 'notes';
 
 const StyledWrapper = styled.article`
-  background: ${({ theme }) => theme.white};
+  background: ${({ theme }) => theme.background};
   min-height: 250px;
   min-width: 400px;
   box-shadow: 0px 15px 20px 0 rgba(0, 0, 0, 0.16);
@@ -39,6 +39,7 @@ const StyledParagraph = styled.p`
   padding-top: 50px;
   margin-bottom: 20px;
   font-size: ${({ theme }) => theme.fontSize.s};
+  color: ${({ theme }) => theme.fontColor};
 `;
 
 const StyledActionButtons = styled.nav`

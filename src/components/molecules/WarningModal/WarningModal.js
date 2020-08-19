@@ -14,7 +14,8 @@ const StyledWrapper = styled.article`
   width: 400px;
   height: ${({ item }) => (item ? '200px' : '400px')};
   padding: 20px 30px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.inputHover};
+  color: ${({ theme }) => theme.fontColor};
   border-radius: 20px;
   border: none;
   z-index: 1000;
