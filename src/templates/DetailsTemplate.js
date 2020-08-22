@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
+import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
 import { routes } from 'routes';
 import UserPageTemplate from './UserPageTemplate';
 
@@ -40,7 +41,7 @@ const StyledContent = styled.p`
 const DetailsTemplate = ({ title, content, created, loading, isVisible }) => (
   <UserPageTemplate>
     {loading ? (
-      <h1>Loading...</h1>
+      <LoadingSpinner />
     ) : (
       <>
         <StyledWrapper isVisible={isVisible}>

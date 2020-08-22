@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Title from 'components/atoms/Title/Title';
 import Toggle from 'components/atoms/Toggle/Toggle';
 import Avatar from 'components/atoms/Avatar/Avatar';
+import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
 import {
   verifyEmail as verifyEmailAction,
   clean as cleanAction,
@@ -207,7 +208,7 @@ const MyAccountTemplate = ({
             ) : null}
           </>
         ) : (
-          <h1>Loading...</h1>
+          <LoadingSpinner grey />
         )}
 
         <EditProfileBar

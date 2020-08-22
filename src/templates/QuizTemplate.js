@@ -6,6 +6,7 @@ import Message from 'components/atoms/Message/Message';
 import styled from 'styled-components';
 import Button from 'components/atoms/Button/Button';
 import Tooltip from 'components/atoms/Tooltip/Tooltip';
+import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { Formik, Field, Form } from 'formik';
 import { shuffle } from 'helpers/shuffle';
@@ -142,7 +143,7 @@ const QuizTemplate = ({ userId, requested, requesting, addNewPoint }) => {
         <Title>Quiz</Title>
         <StyledParagraph>Choose a good translation.</StyledParagraph>
         {requesting[`words/${userId}`] ? (
-          <h1>Loading...</h1>
+          <LoadingSpinner grey />
         ) : (
           <>
             {' '}

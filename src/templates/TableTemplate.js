@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Title from 'components/atoms/Title/Title';
 import Input from 'components/atoms/Input/Input';
+import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
 import TableItem from 'components/atoms/TableItem/TableItem';
 import UserPageTemplate from './UserPageTemplate';
 
@@ -144,7 +145,7 @@ const TableTemplate = ({ words, loading }) => {
         </StyledTable>
         {words.length === 0 ? (
           <StyledInfo>
-            {loading ? 'Loading...' : `You don't have any words yet! Add new one!`}
+            {loading ? <LoadingSpinner grey /> : `You don't have any words yet! Add new one!`}
           </StyledInfo>
         ) : null}
       </StyledWrapper>

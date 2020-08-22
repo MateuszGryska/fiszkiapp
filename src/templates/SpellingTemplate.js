@@ -7,6 +7,7 @@ import Button from 'components/atoms/Button/Button';
 import Input from 'components/atoms/Input/Input';
 import Toggle from 'components/atoms/Toggle/Toggle';
 import Tooltip from 'components/atoms/Tooltip/Tooltip';
+import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
 import { pickNewWord } from 'utils/pick-new-word';
 import { COLLECTION_TYPES } from 'helpers/constants';
 import { useFirestoreConnect } from 'react-redux-firebase';
@@ -86,7 +87,7 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
         <Title>Spelling check</Title>
         <StyledParagraph>Write the correct translation of the word.</StyledParagraph>
         {requesting[`words/${userId}`] ? (
-          <h1>Loading...</h1>
+          <LoadingSpinner grey />
         ) : (
           <>
             <StyledToggleSection>
