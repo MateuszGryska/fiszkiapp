@@ -15,6 +15,10 @@ const initialState = {
     error: null,
     loading: false,
   },
+  uploadAvatar: {
+    error: null,
+    loading: false,
+  },
   deleteUser: {
     error: null,
     loading: false,
@@ -190,6 +194,38 @@ const deleteFail = (state, payload) => {
   };
 };
 
+const uploadAvatarStart = (state) => {
+  return {
+    ...state,
+    uploadAvatar: {
+      ...state.uploadAvatar,
+      loading: true,
+    },
+  };
+};
+
+const uploadAvatarSuccess = (state) => {
+  return {
+    ...state,
+    uploadAvatar: {
+      ...state.uploadAvatar,
+      loading: false,
+      error: null,
+    },
+  };
+};
+
+const uploadAvatarFail = (state, payload) => {
+  return {
+    ...state,
+    uploadAvatar: {
+      ...state.uploadAvatar,
+      loading: false,
+      error: payload,
+    },
+  };
+};
+
 const cleanUp = (state) => {
   return {
     ...state,
@@ -209,6 +245,11 @@ const cleanUp = (state) => {
       ...state.editProfile,
       loading: false,
       error: null,
+    },
+    uploadAvatar: {
+      ...state.uploadAvatar,
+      error: null,
+      loading: false,
     },
     deleteUser: {
       ...state.deleteUser,
@@ -272,6 +313,15 @@ export default (state = initialState, { type, payload }) => {
 
     case authTypes.PROFILE_EDIT_FAIL:
       return profileEditFail(state, payload);
+
+    case authTypes.UPLOAD_AVATAR_START:
+      return uploadAvatarStart(state);
+
+    case authTypes.UPLOAD_AVATAR_SUCCCESS:
+      return uploadAvatarSuccess(state);
+
+    case authTypes.UPLOAD_AVATAR_FAIL:
+      return uploadAvatarFail(state, payload);
 
     case authTypes.DELETE_USER_START:
       return deleteStart(state);

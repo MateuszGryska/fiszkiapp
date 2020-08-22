@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import withContext from 'hoc/withContext';
 import styled from 'styled-components';
 import Topbar from 'components/atoms/Topbar/Topbar';
 import PropTypes from 'prop-types';
 import Menubar from 'components/organisms/Menubar/Menubar';
 import NewItemBar from 'components/organisms/NewItemBar/NewItemBar';
 import addIcon from 'assets/icons/add-icon.svg';
+import withContext from 'hoc/withContext';
 import { PAGE_TYPES } from 'helpers/constants';
 
 const StyledWrapper = styled.main`

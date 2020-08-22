@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import userIcon from 'assets/icons/user.svg';
+import Avatar from 'components/atoms/Avatar/Avatar';
 import { Link } from 'react-router-dom';
+import { useFirebase } from 'react-redux-firebase';
 
 const StyledWrapper = styled.section`
-  width: 320px;
+  width: 400px;
   height: 150px;
   padding: 10px 10px;
   display: flex;
@@ -14,7 +15,7 @@ const StyledWrapper = styled.section`
   align-items: center;
   position: absolute;
   top: 50px;
-  left: 50px;
+  left: 0px;
 
   @media (max-width: 480px) {
     left: 10px;
@@ -24,17 +25,6 @@ const StyledWrapper = styled.section`
 
 const StyledAccountsDetails = styled.article`
   margin-left: 20px;
-`;
-
-const StyledUserIcon = styled.aside`
-  width: 100px;
-  height: 100px;
-  justify-self: flex-start;
-  background-image: url(${userIcon});
-  background-repeat: no-repeat;
-  background-color: transparent;
-  background-position: 50% 50%;
-  background-size: 100% 100%;
 `;
 
 const StyledTitle = styled.aside`
@@ -90,29 +80,55 @@ const StyledButtons = styled.nav`
   align-items: flex-start;
 `;
 
-const AccountDetails = ({ profileData, signOut }) => (
-  <StyledWrapper>
-    <StyledUserIcon />
-    <StyledAccountsDetails>
-      <StyledTitle>
-        <StyledHello>Hello</StyledHello> {profileData.firstName}!
-      </StyledTitle>
-      <StyledButtons>
-        <StyledButton to="/account">My account</StyledButton>
-        <StyledButton to="/" onClick={() => signOut()}>
-          Log Out
-        </StyledButton>
-      </StyledButtons>
-    </StyledAccountsDetails>
-  </StyledWrapper>
-);
+const AccountDetails = ({ profileData, signOut }) => {
+  const [avatar, setAvatar] = useState(null);
+  const firebase = useFirebase();
+
+  useEffect(() => {
+    const storage = firebase.storage();
+    const gsReference = storage.refFromURL(`gs://fiszki-95d38.appspot.com`);
+    const fetchAvatar = async () => {
+      let avatarUrl;
+      try {
+        avatarUrl = await gsReference.child(profileData.avatar).getDownloadURL();
+      } catch (err) {
+        avatarUrl = null;
+      }
+      setAvatar(avatarUrl);
+    };
+    if (!profileData.isEmpty) {
+      fetchAvatar();
+    }
+  }, [avatar, profileData, firebase]);
+
+  return (
+    <StyledWrapper>
+      <Avatar alt="preview" image={avatar} />
+      <StyledAccountsDetails>
+        <StyledTitle>
+          <StyledHello>Hello</StyledHello> {profileData.firstName}!
+        </StyledTitle>
+        <StyledButtons>
+          <StyledButton to="/account">My account</StyledButton>
+          <StyledButton to="/" onClick={() => signOut()}>
+            Log Out
+          </StyledButton>
+        </StyledButtons>
+      </StyledAccountsDetails>
+    </StyledWrapper>
+  );
+};
 
 AccountDetails.propTypes = {
-  profileData: PropTypes.shape({ firstName: PropTypes.string }),
+  profileData: PropTypes.shape({
+    firstName: PropTypes.string,
+    isEmpty: PropTypes.bool,
+    avatar: PropTypes.string,
+  }),
   signOut: PropTypes.func.isRequired,
 };
 AccountDetails.defaultProps = {
-  profileData: { firstName: '' },
+  profileData: { firstName: '', isEmpty: true, avatar: '' },
 };
 
 export default AccountDetails;

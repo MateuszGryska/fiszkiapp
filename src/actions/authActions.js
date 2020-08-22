@@ -21,6 +21,7 @@ export const signUp = (data) => async (dispatch, getState, { getFirebase }) => {
       socialLogIn: false,
       points: 0,
       isDarkMode: false,
+      avatar: '',
     });
 
     dispatch({ type: authTypes.AUTH_SUCCESS });
@@ -94,6 +95,7 @@ export const socialSignIn = (type) => async (dispatch, getState, { getFirebase }
           socialLogIn: true,
           points: 0,
           isDarkMode: false,
+          avatar: '',
         });
       } else {
         await firestore.collection('users').doc(result.user.uid).set({
@@ -102,6 +104,7 @@ export const socialSignIn = (type) => async (dispatch, getState, { getFirebase }
           socialLogIn: true,
           points: 0,
           isDarkMode: false,
+          avatar: '',
         });
       }
     }
@@ -205,5 +208,31 @@ export const setDarkMode = (isDarkMode) => async (dispatch, getState, { getFireb
     dispatch({ type: authTypes.SET_DARK_MODE_SUCCESS });
   } catch (err) {
     dispatch({ type: authTypes.SET_DARK_MODE_FAIL, payload: err.message });
+  }
+};
+
+// upload image
+export const uploadAvatar = (file) => async (dispatch, getState, { getFirebase }) => {
+  const firestore = getFirebase().firestore();
+  const storage = getFirebase().storage();
+
+  const { uid: userId } = getState().firebase.auth;
+  const storageRef = storage.ref();
+  const fileRef = storageRef.child(`/user/${userId}/images/${file.name}`);
+
+  dispatch({ type: authTypes.UPLOAD_AVATAR_START });
+
+  try {
+    await fileRef.put(file);
+    await firestore
+      .collection(COLLECTION_TYPES.users)
+      .doc(userId)
+      .update({
+        avatar: `/user/${userId}/images/${file.name}`,
+      });
+
+    dispatch({ type: authTypes.UPLOAD_AVATAR_SUCCESS });
+  } catch (err) {
+    dispatch({ type: authTypes.UPLOAD_AVATAR_FAIL, payload: err.message });
   }
 };

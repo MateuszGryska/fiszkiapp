@@ -9,5 +9,6 @@ export {
   editProfile,
   deleteUser,
   setDarkMode,
+  uploadAvatar,
 } from './authActions';
 export { addItem, deleteItem, updateItem, addNewPoint } from './itemsActions';
