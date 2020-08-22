@@ -103,7 +103,7 @@ const AccountDetails = ({ profileData, signOut }) => {
 
   return (
     <StyledWrapper>
-      <Avatar alt="preview" image={avatar} />
+      <Avatar alt="avatar" image={avatar} />
       <StyledAccountsDetails>
         <StyledTitle>
           <StyledHello>Hello</StyledHello> {profileData.firstName}!
