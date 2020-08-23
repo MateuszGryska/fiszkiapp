@@ -12,6 +12,7 @@ import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
 import { editProfile as editProfileAction, clean as cleanAction } from 'actions';
 import { editProfileSchema } from 'validation';
+import { useTranslation } from 'react-i18next';
 
 const StyledWrapper = styled.section`
   height: 100vh;
@@ -74,6 +75,7 @@ const EditProfileBar = ({
   cleanUp,
 }) => {
   const [isEditProfileVisible, setVisible] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setVisible(isVisible);
@@ -96,11 +98,9 @@ const EditProfileBar = ({
             handleClose(false);
           }}
         />
-        <BarsTitle>Edit profile</BarsTitle>
+        <BarsTitle>{t('bars_title.edit_profile')}</BarsTitle>
         <StyledParagraph>
-          Edit what you want to change. <br />
-          First and last name can have a maximum of 25 letters. Password must be at least 8
-          characters. <br /> Special characters are not allowed.
+          {t('description.edit_profile')} <br /> {t('info.special_characters')}
         </StyledParagraph>
         <Formik
           validationSchema={editProfileSchema}
@@ -125,7 +125,7 @@ const EditProfileBar = ({
                   autoComplete="off"
                   type="text"
                   name="firstName"
-                  placeholder="First name"
+                  placeholder={t('account_info.first_name')}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.firstName}
@@ -141,7 +141,7 @@ const EditProfileBar = ({
                   autoComplete="off"
                   type="text"
                   name="lastName"
-                  placeholder="Last name"
+                  placeholder={t('account_info.last_name')}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.lastName}
@@ -157,7 +157,7 @@ const EditProfileBar = ({
                   autoComplete="off"
                   type="email"
                   name="email"
-                  placeholder="email"
+                  placeholder={t('account_info.email')}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
@@ -173,7 +173,7 @@ const EditProfileBar = ({
                   autoComplete="off"
                   type="password"
                   name="password"
-                  placeholder="password"
+                  placeholder={t('account_info.password')}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.password}
@@ -188,7 +188,7 @@ const EditProfileBar = ({
                 <StyledInput
                   type="password"
                   name="confirmPassword"
-                  placeholder="confirm password"
+                  placeholder={t('account_info.confirm_password')}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.confirmPassword}
@@ -200,10 +200,10 @@ const EditProfileBar = ({
                 )}
               </div>
               <StyledActionButton secondary disabled={!isValid} type="submit">
-                update
+                {t('buttons.update')}
               </StyledActionButton>
               <Message error>{error}</Message>
-              {error === false ? <Message>Profile was updated!</Message> : null}
+              {error === false ? <Message>{t('info.profile_updated_success')}</Message> : null}
             </StyledForm>
           )}
         </Formik>

@@ -12,6 +12,7 @@ import { Formik, Field, Form } from 'formik';
 import { shuffle } from 'helpers/shuffle';
 import { COLLECTION_TYPES } from 'helpers/constants';
 import { addNewPoint as addNewPointAction } from 'actions';
+import { useTranslation } from 'react-i18next';
 
 import UserPageTemplate from './UserPageTemplate';
 
@@ -90,6 +91,7 @@ const QuizTemplate = ({ userId, requested, requesting, addNewPoint }) => {
   const [secondWordPosition, setSecondWordPosition] = useState(2);
   const [answers, setAnswers] = useState([]);
   const [falseAnswer, setFalseAnswer] = useState(null);
+  const { t } = useTranslation();
 
   useFirestoreConnect([{ collection: COLLECTION_TYPES.words, doc: userId }]);
   const words = useSelector(({ firestore: { data } }) => data.words && data.words[userId]);
@@ -140,17 +142,15 @@ const QuizTemplate = ({ userId, requested, requesting, addNewPoint }) => {
   return (
     <UserPageTemplate>
       <StyledWrapper>
-        <Title>Quiz</Title>
-        <StyledParagraph>Choose a good translation.</StyledParagraph>
+        <Title>{t('title.quiz')}</Title>
+        <StyledParagraph>{t('description.quiz')}.</StyledParagraph>
         {requesting[`words/${userId}`] ? (
           <LoadingSpinner grey />
         ) : (
           <>
             {' '}
             <StyledMainWord>
-              {wordsList.length >= 3
-                ? wordsList[wordPosition].english
-                : 'You must add at least 3 words!'}
+              {wordsList.length >= 3 ? wordsList[wordPosition].english : t('info.min_three_words')}
             </StyledMainWord>
             {wordsList.length >= 3 ? (
               <Tooltip description={wordsList[wordPosition].description} />
@@ -167,7 +167,7 @@ const QuizTemplate = ({ userId, requested, requesting, addNewPoint }) => {
                     pickNewWord(wordsList.length);
                     setFalseAnswer(null);
                   } else {
-                    setFalseAnswer('Incorrect answer.');
+                    setFalseAnswer(t('info.incorrect_answers'));
                   }
                 }}
               >
@@ -192,7 +192,7 @@ const QuizTemplate = ({ userId, requested, requesting, addNewPoint }) => {
                     </StyledRadioSection>
 
                     <Button type="submit" disabled={wordsList.length < 3}>
-                      CHECK <br /> (+1 POINT)
+                      {t('buttons.check')} <br /> (+1 {t('point')})
                     </Button>
                     {falseAnswer ? (
                       <StyledMessage error>{falseAnswer}</StyledMessage>

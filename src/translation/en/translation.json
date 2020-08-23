@@ -1,0 +1,95 @@
+{
+  "title": {
+    "flashcards": "Flashcards",
+    "quiz": "Quiz",
+    "spelling_check": "Spelling check",
+    "words_list": "Words list",
+    "notes": "Notes",
+    "account": "My account"
+  },
+  "description": {
+    "flashcards": "Do you remember all the words",
+    "quiz": "Choose a good translation",
+    "spelling_check": "Write the correct translation of the word",
+    "words_list": "List of your words",
+    "notes": "List of your notes",
+    "add_or_edit_word": "The word can have a maximum of 25 letters and be without special characters. Description can have a maximum of 100 letters.",
+    "add_or_edit_note": "The title can have a maximum of 25 letters and content can have a maximum of 300 letters.",
+    "edit_profile": "Edit what you want to change. First and last name can have a maximum of 25 letters. Password must be at least 8 characters.",
+    "upload_avatar": "To upload avatar, please choose file from your computer. Image must have maximum 0,5 MB and 100x100 px. You can use .jpg, .png and .jpeg files."
+  },
+  "buttons": {
+    "flashcards_with_point": "I KNOW THIS WORD ",
+    "draw": "DRAW A NEW WORD",
+    "check": "CHECK",
+    "edit_profile": "EDIT PROFILE",
+    "upload_avatar": "UPLOAD AVATAR",
+    "delete_account": "DELETE ACCOUNT",
+    "resend_email": "RE-SEND VERIFY EMAIL",
+    "update": "update",
+    "add": "add",
+    "add_and_next": "add & next",
+    "upload": "upload",
+    "pick_image": "pick image",
+    "cancel": "cancel",
+    "do_it": "DO IT!",
+    "edit": "edit",
+    "remove": "remove",
+    "show": "Show",
+    "show_more": "Show more"
+  },
+  "info": {
+    "min_three_words": "You must add at least 3 words!",
+    "incorrect_answers": "Incorrect answer.",
+    "no_words": "You don't have any words yet! Add new one!",
+    "no_notes": "You don't have any notes yet! Add new one!",
+    "resend_verify_success": "Verify email sent successfully!",
+    "special_characters": "Special characters are not allowed.",
+    "profile_updated_success": "Profile was updated!",
+    "no_sure": "Oh no! Are you sure?",
+    "sure": "Are you sure?",
+    "delete_user_success": "Delete user successfully!"
+  },
+  "input": {
+    "answer": "Answer",
+    "search": "Search",
+    "search_by_title": "Search by title",
+    "polish": "Polish*",
+    "english": "English*",
+    "description": "Description",
+    "title": "Title*",
+    "content": "Content*"
+  },
+  "table_head": {
+    "polish": "Polish",
+    "english": "English",
+    "actions": "Actions",
+    "words": "Words"
+  },
+  "account_info": {
+    "points": "Points",
+    "words": "Words",
+    "notes": "Notes",
+    "dark_mode": "Dark mode",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "email": "Email",
+    "email_verified": "Email verified",
+    "password": "Password",
+    "confirm_password": "Confirm password"
+  },
+  "bars_title": {
+    "add": "Add new",
+    "edit": "Edit",
+    "note": "note",
+    "word": "word",
+    "edit_profile": "Edit profile",
+    "upload_avatar": "Upload new avatar"
+  },
+  "hello": "Hello",
+  "log_out": "Log out",
+  "switch": "Switch language",
+  "point": "POINT",
+  "yes": "yes",
+  "no": "no"
+}

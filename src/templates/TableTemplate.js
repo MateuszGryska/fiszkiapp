@@ -5,6 +5,8 @@ import Title from 'components/atoms/Title/Title';
 import Input from 'components/atoms/Input/Input';
 import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
 import TableItem from 'components/atoms/TableItem/TableItem';
+import { useTranslation } from 'react-i18next';
+
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.section`
@@ -97,8 +99,14 @@ const StyledTable = styled.table`
   }
 `;
 
+const StyledParagraph = styled.p`
+  width: 300px;
+  text-align: center;
+`;
+
 const TableTemplate = ({ words, loading }) => {
   const [searchWord, setSearchWord] = useState('');
+  const { t } = useTranslation();
 
   const handleInputChange = (e) => {
     setSearchWord(e.target.value);
@@ -107,20 +115,26 @@ const TableTemplate = ({ words, loading }) => {
   return (
     <UserPageTemplate>
       <StyledWrapper>
-        <Title>Words list</Title>
-        <StyledInput search placeholder="Search" value={searchWord} onChange={handleInputChange} />
+        <Title>{t('title.words_list')}</Title>
+        <StyledParagraph>{t('description.words_list')}.</StyledParagraph>
+        <StyledInput
+          search
+          placeholder={t('input.search')}
+          value={searchWord}
+          onChange={handleInputChange}
+        />
         <StyledTable>
           <thead className="desktophead">
             <tr>
-              <th>Polish</th>
-              <th>English</th>
-              <th>Actions</th>
+              <th>{t('table_head.polish')}</th>
+              <th>{t('table_head.english')}</th>
+              <th>{t('table_head.actions')}</th>
             </tr>
           </thead>
 
           <thead className="mobilehead">
             <tr>
-              <th>Words</th>
+              <th>{t('table_head.words')}</th>
             </tr>
           </thead>
           {words.length > 0 ? (
@@ -144,9 +158,7 @@ const TableTemplate = ({ words, loading }) => {
           ) : null}
         </StyledTable>
         {words.length === 0 ? (
-          <StyledInfo>
-            {loading ? <LoadingSpinner grey /> : `You don't have any words yet! Add new one!`}
-          </StyledInfo>
+          <StyledInfo>{loading ? <LoadingSpinner grey /> : t('info.no_words')}</StyledInfo>
         ) : null}
       </StyledWrapper>
     </UserPageTemplate>

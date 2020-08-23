@@ -9,6 +9,7 @@ import Tooltip from 'components/atoms/Tooltip/Tooltip';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { pickNewWord } from 'utils/pick-new-word';
 import { COLLECTION_TYPES } from 'helpers/constants';
+import { useTranslation } from 'react-i18next';
 
 import { addNewPoint as addNewPointAction } from 'actions';
 
@@ -68,6 +69,7 @@ const FlashcardsTemplate = ({ userId, requested, addNewPoint }) => {
   const [isSmallerWordVisible, setSmallerWordVisible] = useState(false);
   const [flashcardPosition, setFlashcardPosition] = useState(0);
   const [isChecked, setCheckbox] = useState(false);
+  const { t } = useTranslation();
 
   useFirestoreConnect([{ collection: COLLECTION_TYPES.words, doc: userId }]);
   const words = useSelector(({ firestore: { data } }) => data.words && data.words[userId]);
@@ -95,10 +97,10 @@ const FlashcardsTemplate = ({ userId, requested, addNewPoint }) => {
   return (
     <UserPageTemplate>
       <StyledWrapper>
-        <Title>Flashcards</Title>
-        <StyledParagraph>Do you remember all the words?</StyledParagraph>
+        <Title>{t('title.flashcards')}</Title>
+        <StyledParagraph>{t('description.flashcards')}</StyledParagraph>
         <StyledToggleSection>
-          <p>Switch language:</p>
+          <p>{t('switch')}:</p>
           <Toggle isChecked={isChecked} setCheckbox={() => setCheckbox(!isChecked)} />
         </StyledToggleSection>
         {isChecked ? (
@@ -129,7 +131,9 @@ const FlashcardsTemplate = ({ userId, requested, addNewPoint }) => {
           </>
         )}
 
-        <StyledShowButton onClick={() => setSmallerWordVisible(true)}>Show</StyledShowButton>
+        <StyledShowButton onClick={() => setSmallerWordVisible(true)}>
+          {t('buttons.show')}
+        </StyledShowButton>
         {wordsList.length > 0 ? (
           <Tooltip description={wordsList[flashcardPosition].description} flashcards />
         ) : null}
@@ -137,11 +141,10 @@ const FlashcardsTemplate = ({ userId, requested, addNewPoint }) => {
           disabled={wordsList.length === 0}
           onClick={() => addPointAndPickNewWord(wordsList.length)}
         >
-          I KNOW THIS WORD <br />
-          (+1 POINT)
+          {t('buttons.flashcards_with_point')} <br /> (+1 {t('point')})
         </Button>
         <Button disabled={wordsList.length === 0} onClick={() => setNewWord(wordsList.length)}>
-          DRAW A NEW WORD
+          {t('buttons.draw')}
         </Button>
       </StyledWrapper>
     </UserPageTemplate>

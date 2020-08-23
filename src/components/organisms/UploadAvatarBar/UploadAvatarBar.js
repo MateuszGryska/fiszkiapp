@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
 import withContext from 'hoc/withContext';
 import { uploadAvatar as uploadAvatarAction } from 'actions';
+import { useTranslation } from 'react-i18next';
 
 const StyledWrapper = styled.div`
   height: 100vh;
@@ -64,6 +65,7 @@ const UploadAvatarBar = React.memo(
     const [previewURL, setPreviewURL] = useState();
     const [isValid, setIsValid] = useState(false);
     const filePickerRef = useRef();
+    const { t } = useTranslation();
 
     useEffect(() => {
       if (!file) {
@@ -105,11 +107,8 @@ const UploadAvatarBar = React.memo(
       <>
         <StyledWrapper isVisible={isVisible}>
           <ReturnButton onClick={() => handleClose()} />
-          <BarsTitle>Upload new avatar!</BarsTitle>
-          <StyledParagraph>
-            To upload avatar, please choose file from your computer. Image must have maximum 0,5 MB
-            and 100x100 px. You can use .jpg, .png and .jpeg files.
-          </StyledParagraph>
+          <BarsTitle>{t('bars_title.upload_avatar')}!</BarsTitle>
+          <StyledParagraph>{t('description.upload_avatar')}</StyledParagraph>
           <StyledForm>
             {previewURL && <Avatar alt="preview" image={previewURL} />}
             {!previewURL && <Avatar alt="preview" />}
@@ -122,11 +121,11 @@ const UploadAvatarBar = React.memo(
               onChange={pickedHandler}
             />
             <StyledActionButton secondary onClick={pickImageHandler}>
-              pick image
+              {t('buttons.pick_image')}
             </StyledActionButton>
 
             <StyledActionButton secondary disabled={!isValid} type="submit" onClick={submitHandler}>
-              upload
+              {t('buttons.upload')}
             </StyledActionButton>
           </StyledForm>
           <StyledMessage error>{error}</StyledMessage>

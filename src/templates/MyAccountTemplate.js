@@ -18,6 +18,8 @@ import EditProfileBar from 'components/organisms/EditProfileBar/EditProfileBar';
 import UploadAvatarBar from 'components/organisms/UploadAvatarBar/UploadAvatarBar';
 import WarningModal from 'components/molecules/WarningModal/WarningModal';
 import { useFirebase } from 'react-redux-firebase';
+import { useTranslation } from 'react-i18next';
+
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.section`
@@ -97,6 +99,7 @@ const MyAccountTemplate = ({
   const [isDeleteWarningVisible, setDeleteWarningVisible] = useState(false);
   const [isDarkMode, setLocalDarkMode] = useState(false);
   const firebase = useFirebase();
+  const { t } = useTranslation();
 
   useEffect(() => {
     return () => {
@@ -135,54 +138,54 @@ const MyAccountTemplate = ({
   return (
     <UserPageTemplate>
       <StyledWrapper>
-        <Title>My account</Title>
+        <Title>{t('title.account')}</Title>
         {!profileData.isEmpty ? (
           <>
             <Avatar alt="avatar" image={avatar} />
             <StyledDetailsList>
               <StyledDetail>
-                <StyledInfoItem>Points: </StyledInfoItem>
+                <StyledInfoItem>{t('account_info.points')}: </StyledInfoItem>
                 <StyledInfoItem>{profileData.points || 0}</StyledInfoItem>
               </StyledDetail>
               <StyledDetail>
-                <StyledInfoItem>Words: </StyledInfoItem>
+                <StyledInfoItem>{t('account_info.words')}: </StyledInfoItem>
                 <StyledInfoItem>{words.length}</StyledInfoItem>
               </StyledDetail>
               <StyledDetail>
-                <StyledInfoItem>Notes: </StyledInfoItem>
+                <StyledInfoItem>{t('account_info.notes')}: </StyledInfoItem>
                 <StyledInfoItem>{notes.length}</StyledInfoItem>
               </StyledDetail>
               <StyledSeperator />
               <StyledDetail>
-                <StyledInfoItem>Dark mode: </StyledInfoItem>
+                <StyledInfoItem>{t('account_info.dark_mode')}: </StyledInfoItem>
                 <StyledInfoItem>
                   <Toggle isChecked={isDarkMode} setCheckbox={() => handleClick()} />
                 </StyledInfoItem>
               </StyledDetail>
               <StyledDetail>
-                <StyledInfoItem>First Name:</StyledInfoItem>
+                <StyledInfoItem>{t('account_info.first_name')}:</StyledInfoItem>
                 <StyledInfoItem>{profileData.firstName}</StyledInfoItem>
               </StyledDetail>
               <StyledDetail>
-                <StyledInfoItem>Last Name:</StyledInfoItem>
+                <StyledInfoItem>{t('account_info.last_name')}:</StyledInfoItem>
                 <StyledInfoItem>{profileData.lastName}</StyledInfoItem>
               </StyledDetail>
               <StyledDetail>
-                <StyledInfoItem>Email: </StyledInfoItem>
+                <StyledInfoItem>{t('account_info.email')}: </StyledInfoItem>
                 <StyledInfoItem>{loggedIn.email}</StyledInfoItem>
               </StyledDetail>
               <StyledDetail>
-                <StyledInfoItem>Email verified:</StyledInfoItem>
+                <StyledInfoItem>{t('account_info.email_verified')}:</StyledInfoItem>
                 {loggedIn.emailVerified ? (
                   <StyledVerify yes>
-                    YES
+                    {t('yes')}
                     <span role="img" aria-label="smile">
                       😊
                     </span>
                   </StyledVerify>
                 ) : (
                   <StyledVerify>
-                    NO
+                    {t('no')}
                     <span role="img" aria-label="angry">
                       😠
                     </span>
@@ -191,19 +194,25 @@ const MyAccountTemplate = ({
               </StyledDetail>
             </StyledDetailsList>
             {!profileData.socialLogIn ? (
-              <Button onClick={() => setEditProfileVisible(true)}>EDIT PROFILE</Button>
+              <Button onClick={() => setEditProfileVisible(true)}>
+                {t('buttons.edit_profile')}
+              </Button>
             ) : null}
-            <Button onClick={() => setUploadAvatarBarVisible(true)}>UPLOAD AVATAR</Button>
+            <Button onClick={() => setUploadAvatarBarVisible(true)}>
+              {t('buttons.upload_avatar')}
+            </Button>
             <Button deleteButton onClick={() => setDeleteWarningVisible(true)}>
-              DELETE ACCOUNT
+              {t('buttons.delete_account')}
             </Button>
             {!loggedIn.emailVerified ? (
               <>
                 <Button onClick={() => sendVerifyEmail()} loading={loading ? 'SENDING...' : null}>
-                  RE-SEND VERIFY EMAIL
+                  {t('buttons.resend_email')}
                 </Button>
                 {verifyError ? <Message error>{verifyError}</Message> : null}
-                {verifyError === false ? <Message>Verify email sent successfully!</Message> : null}
+                {verifyError === false ? (
+                  <Message>{t('info.resend_verify_success')}</Message>
+                ) : null}
               </>
             ) : null}
           </>

@@ -8,6 +8,9 @@ import { NavLink } from 'react-router-dom';
 import AccountDetails from 'components/molecules/AccountDetails/AccountDetails';
 import { signOut as signOutAction } from 'actions';
 import { routes } from 'routes';
+import polandIcon from 'assets/icons/poland.svg';
+import ukIcon from 'assets/icons/uk.svg';
+import { useTranslation } from 'react-i18next';
 
 const StyledWrapper = styled.section`
   height: 100vh;
@@ -41,6 +44,7 @@ const StyledLinkList = styled.ul`
   align-items: center;
   margin: 0;
   padding: 0;
+  text-transform: lowercase;
 
   li {
     margin-top: 20px;
@@ -73,45 +77,85 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
+const StyledIcon = styled.button`
+  width: 50px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  background-image: url(${({ icon }) => icon});
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-position: 50% 50%;
+  background-size: 100% 100%;
+`;
+
+const StyledLang = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  padding-top: 10px;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  color: ${({ theme }) => theme.fontColor};
+`;
+
 const Menubar = React.memo(
-  ({ isVisible, handleClose, profileData, signOut }) => (
-    <>
-      <StyledWrapper isVisible={isVisible}>
-        <AccountDetails profileData={profileData} signOut={signOut} />
-        <ReturnButton onClick={() => handleClose()} />
-        <nav>
-          <StyledLinkList>
-            <li>
-              <StyledNavLink exact to={routes.flashcards} activeclass="active">
-                flashcards
-              </StyledNavLink>
-            </li>
-            <li>
-              <StyledNavLink to={routes.quiz} activeclass="active">
-                quiz
-              </StyledNavLink>
-            </li>
-            <li>
-              <StyledNavLink to={routes.spelling} activeclass="active">
-                spelling check
-              </StyledNavLink>
-            </li>
-            <li>
-              <StyledNavLink to={routes.words} activeclass="active">
-                words list
-              </StyledNavLink>
-            </li>
-            <li>
-              <StyledNavLink to={routes.notes} activeclass="active">
-                notes
-              </StyledNavLink>
-            </li>
-          </StyledLinkList>
-        </nav>
-      </StyledWrapper>
-      <DarkerBackground isVisible={isVisible} onClick={() => handleClose()} />
-    </>
-  ),
+  ({ isVisible, handleClose, profileData, signOut }) => {
+    const { t, i18n } = useTranslation();
+
+    const handleChangeLangClick = (lang) => {
+      i18n.changeLanguage(lang);
+    };
+
+    return (
+      <>
+        <StyledWrapper isVisible={isVisible}>
+          <StyledLang>
+            <StyledIcon icon={polandIcon} onClick={() => handleChangeLangClick('pl')} />
+            |
+            <StyledIcon icon={ukIcon} onClick={() => handleChangeLangClick('en')} />
+          </StyledLang>
+          <AccountDetails profileData={profileData} signOut={signOut} />
+          <ReturnButton onClick={() => handleClose()} />
+          <nav>
+            <StyledLinkList>
+              <li>
+                <StyledNavLink exact to={routes.flashcards} activeclass="active">
+                  {t('title.flashcards')}
+                </StyledNavLink>
+              </li>
+              <li>
+                <StyledNavLink to={routes.quiz} activeclass="active">
+                  {t('title.quiz')}
+                </StyledNavLink>
+              </li>
+              <li>
+                <StyledNavLink to={routes.spelling} activeclass="active">
+                  {t('title.spelling_check')}
+                </StyledNavLink>
+              </li>
+              <li>
+                <StyledNavLink to={routes.words} activeclass="active">
+                  {t('title.words_list')}
+                </StyledNavLink>
+              </li>
+              <li>
+                <StyledNavLink to={routes.notes} activeclass="active">
+                  {t('title.notes')}
+                </StyledNavLink>
+              </li>
+            </StyledLinkList>
+          </nav>
+        </StyledWrapper>
+        <DarkerBackground isVisible={isVisible} onClick={() => handleClose()} />
+      </>
+    );
+  },
   (prevProps, nextProps) => {
     return prevProps.isVisible === nextProps.isVisible;
   },

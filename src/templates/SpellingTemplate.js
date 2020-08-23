@@ -12,6 +12,7 @@ import { pickNewWord } from 'utils/pick-new-word';
 import { COLLECTION_TYPES } from 'helpers/constants';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { Formik, Form } from 'formik';
+import { useTranslation } from 'react-i18next';
 
 import { addNewPoint as addNewPointAction } from 'actions';
 
@@ -63,6 +64,7 @@ const StyledToggleSection = styled.div`
 const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
   const [wordPosition, setWordPosition] = useState(0);
   const [isChecked, setCheckbox] = useState(false);
+  const { t } = useTranslation();
 
   useFirestoreConnect([{ collection: COLLECTION_TYPES.words, doc: userId }]);
   const words = useSelector(({ firestore: { data } }) => data.words && data.words[userId]);
@@ -84,14 +86,14 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
   return (
     <UserPageTemplate>
       <StyledWrapper>
-        <Title>Spelling check</Title>
-        <StyledParagraph>Write the correct translation of the word.</StyledParagraph>
+        <Title>{t('title.spelling_check')}</Title>
+        <StyledParagraph>{t('description.spelling_check')}.</StyledParagraph>
         {requesting[`words/${userId}`] ? (
           <LoadingSpinner grey />
         ) : (
           <>
             <StyledToggleSection>
-              <p>Switch language:</p>
+              <p>{t('switch')}:</p>
               <Toggle isChecked={isChecked} setCheckbox={() => setCheckbox(!isChecked)} />
             </StyledToggleSection>
             {isChecked ? (
@@ -131,7 +133,7 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
                     <StyledInput
                       type="text"
                       name="answer"
-                      placeholder="answer"
+                      placeholder={t('input.answer')}
                       value={values.answer}
                       autoComplete="off"
                       onChange={handleChange}
@@ -146,7 +148,7 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
                             wordsList[wordPosition].polish.toLowerCase().trim()
                         }
                       >
-                        DRAW A NEW WORD <br /> (+1 POINT)
+                        {t('buttons.draw')} <br /> (+1 {t('point')})
                       </Button>
                     ) : (
                       <Button
@@ -157,7 +159,7 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
                             wordsList[wordPosition].english.toLowerCase().trim()
                         }
                       >
-                        DRAW A NEW WORD <br /> (+1 POINT)
+                        {t('buttons.draw')} <br /> (+1 {t('point')})
                       </Button>
                     )}
 
@@ -166,7 +168,7 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
                       type="button"
                       onClick={() => setNewWord(wordsList.length)}
                     >
-                      DRAW A NEW WORD
+                      {t('buttons.draw')}
                     </Button>
                   </StyledForm>
                 )}

@@ -12,6 +12,7 @@ import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
 import { addItem as addItemAction } from 'actions';
 import { wordSchema, noteSchema } from 'validation';
+import { useTranslation } from 'react-i18next';
 import { COLLECTION_TYPES, PAGE_TYPES } from 'helpers/constants';
 
 const StyledWrapper = styled.div`
@@ -79,149 +80,151 @@ const StyledMessage = styled(Message)`
 `;
 
 const NewItemBar = React.memo(
-  ({ handleClose, isVisible, pageContext, addItem }) => (
-    <>
-      <StyledWrapper isVisible={isVisible}>
-        <ReturnButton onClick={() => handleClose()} />
-        <BarsTitle>Add new {pageContext === PAGE_TYPES.notes ? 'note' : 'word'}</BarsTitle>
+  ({ handleClose, isVisible, pageContext, addItem }) => {
+    const { t } = useTranslation();
 
-        {pageContext === PAGE_TYPES.notes ? (
-          <StyledParagraph>
-            The title can have a maximum of 25 letters and content can have a maximum of 300
-            letters.
-          </StyledParagraph>
-        ) : (
-          <StyledParagraph>
-            The word can have a maximum of 25 letters and be without special characters.
-          </StyledParagraph>
-        )}
-        <Formik
-          validationSchema={() => {
-            if (pageContext === PAGE_TYPES.notes) {
-              return noteSchema;
-            }
-            return wordSchema;
-          }}
-          initialValues={{ title: '', content: '', polish: '', english: '', description: '' }}
-          onSubmit={(values, { resetForm }) => {
-            if (pageContext === PAGE_TYPES.notes) {
-              addItem(pageContext, values);
-            } else {
-              addItem(COLLECTION_TYPES.words, values);
-            }
-            resetForm();
-          }}
-        >
-          {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
-            <StyledForm>
-              {pageContext === PAGE_TYPES.notes ? (
-                <>
-                  <div>
-                    <StyledInput
-                      autoComplete="off"
-                      type="text"
-                      name="title"
-                      placeholder="title"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.title}
-                    />
-                    {errors.title && touched.title ? (
-                      <StyledMessage error>{errors.title}</StyledMessage>
-                    ) : (
-                      <StyledMessage />
-                    )}
-                  </div>
-                  <div>
-                    <StyledTextArea
-                      autoComplete="off"
-                      as="textarea"
-                      type="text"
-                      name="content"
-                      placeholder="content"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.content}
-                    />
-                    {errors.content && touched.content ? (
-                      <StyledMessage error>{errors.content}</StyledMessage>
-                    ) : (
-                      <StyledMessage />
-                    )}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div>
-                    <StyledInput
-                      autoComplete="off"
-                      type="text"
-                      name="polish"
-                      placeholder="polish*"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.polish}
-                    />
-                    {errors.polish && touched.polish ? (
-                      <StyledMessage error>{errors.polish}</StyledMessage>
-                    ) : (
-                      <StyledMessage />
-                    )}
-                  </div>
-                  <div>
-                    <StyledInput
-                      autoComplete="off"
-                      type="text"
-                      name="english"
-                      placeholder="english*"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.english}
-                    />
-                    {errors.english && touched.english ? (
-                      <StyledMessage error>{errors.english}</StyledMessage>
-                    ) : (
-                      <StyledMessage />
-                    )}
-                  </div>
-                  <div>
-                    <StyledTextArea
-                      autoComplete="off"
-                      as="textarea"
-                      type="text"
-                      name="description"
-                      placeholder="description"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.description}
-                    />
-                    {errors.description && touched.description ? (
-                      <StyledMessage error>{errors.description}</StyledMessage>
-                    ) : (
-                      <StyledMessage />
-                    )}
-                  </div>
-                </>
-              )}
+    return (
+      <>
+        <StyledWrapper isVisible={isVisible}>
+          <ReturnButton onClick={() => handleClose()} />
+          <BarsTitle>
+            {t('bars_title.add')}{' '}
+            {pageContext === PAGE_TYPES.notes ? t('bars_title.note') : t('bars_title.word')}
+          </BarsTitle>
 
-              <StyledActionButton
-                secondary
-                disabled={!isValid}
-                type="submit"
-                onClick={() => handleClose()}
-              >
-                add
-              </StyledActionButton>
-              <StyledActionButton secondary disabled={!isValid} type="submit">
-                add & next
-              </StyledActionButton>
-            </StyledForm>
+          {pageContext === PAGE_TYPES.notes ? (
+            <StyledParagraph>{t('description.add_or_edit_note')}</StyledParagraph>
+          ) : (
+            <StyledParagraph>{t('description.add_or_edit_word')}</StyledParagraph>
           )}
-        </Formik>
-      </StyledWrapper>
-      <DarkerBackground isVisible={isVisible} onClick={() => handleClose()} />
-    </>
-  ),
+          <Formik
+            validationSchema={() => {
+              if (pageContext === PAGE_TYPES.notes) {
+                return noteSchema;
+              }
+              return wordSchema;
+            }}
+            initialValues={{ title: '', content: '', polish: '', english: '', description: '' }}
+            onSubmit={(values, { resetForm }) => {
+              if (pageContext === PAGE_TYPES.notes) {
+                addItem(pageContext, values);
+              } else {
+                addItem(COLLECTION_TYPES.words, values);
+              }
+              resetForm();
+            }}
+          >
+            {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
+              <StyledForm>
+                {pageContext === PAGE_TYPES.notes ? (
+                  <>
+                    <div>
+                      <StyledInput
+                        autoComplete="off"
+                        type="text"
+                        name="title"
+                        placeholder={t('input.title')}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.title}
+                      />
+                      {errors.title && touched.title ? (
+                        <StyledMessage error>{errors.title}</StyledMessage>
+                      ) : (
+                        <StyledMessage />
+                      )}
+                    </div>
+                    <div>
+                      <StyledTextArea
+                        autoComplete="off"
+                        as="textarea"
+                        type="text"
+                        name="content"
+                        placeholder={t('input.content')}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.content}
+                      />
+                      {errors.content && touched.content ? (
+                        <StyledMessage error>{errors.content}</StyledMessage>
+                      ) : (
+                        <StyledMessage />
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <StyledInput
+                        autoComplete="off"
+                        type="text"
+                        name="polish"
+                        placeholder={t('input.polish')}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.polish}
+                      />
+                      {errors.polish && touched.polish ? (
+                        <StyledMessage error>{errors.polish}</StyledMessage>
+                      ) : (
+                        <StyledMessage />
+                      )}
+                    </div>
+                    <div>
+                      <StyledInput
+                        autoComplete="off"
+                        type="text"
+                        name="english"
+                        placeholder={t('input.english')}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.english}
+                      />
+                      {errors.english && touched.english ? (
+                        <StyledMessage error>{errors.english}</StyledMessage>
+                      ) : (
+                        <StyledMessage />
+                      )}
+                    </div>
+                    <div>
+                      <StyledTextArea
+                        autoComplete="off"
+                        as="textarea"
+                        type="text"
+                        name="description"
+                        placeholder={t('input.description')}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.description}
+                      />
+                      {errors.description && touched.description ? (
+                        <StyledMessage error>{errors.description}</StyledMessage>
+                      ) : (
+                        <StyledMessage />
+                      )}
+                    </div>
+                  </>
+                )}
+
+                <StyledActionButton
+                  secondary
+                  disabled={!isValid}
+                  type="submit"
+                  onClick={() => handleClose()}
+                >
+                  {t('buttons.add')}
+                </StyledActionButton>
+                <StyledActionButton secondary disabled={!isValid} type="submit">
+                  {t('buttons.add_and_next')}
+                </StyledActionButton>
+              </StyledForm>
+            )}
+          </Formik>
+        </StyledWrapper>
+        <DarkerBackground isVisible={isVisible} onClick={() => handleClose()} />
+      </>
+    );
+  },
   (prevProps, nextProps) => {
     return prevProps.isVisible === nextProps.isVisible;
   },

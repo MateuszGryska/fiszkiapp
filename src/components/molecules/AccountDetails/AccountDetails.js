@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Avatar from 'components/atoms/Avatar/Avatar';
 import { Link } from 'react-router-dom';
 import { useFirebase } from 'react-redux-firebase';
+import { useTranslation } from 'react-i18next';
 
 const StyledWrapper = styled.section`
   width: 400px;
@@ -83,6 +84,7 @@ const StyledButtons = styled.nav`
 const AccountDetails = ({ profileData, signOut }) => {
   const [avatar, setAvatar] = useState(null);
   const firebase = useFirebase();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const storage = firebase.storage();
@@ -106,12 +108,12 @@ const AccountDetails = ({ profileData, signOut }) => {
       <Avatar alt="avatar" image={avatar} />
       <StyledAccountsDetails>
         <StyledTitle>
-          <StyledHello>Hello</StyledHello> {profileData.firstName}!
+          <StyledHello>{t('hello')}</StyledHello> {profileData.firstName}!
         </StyledTitle>
         <StyledButtons>
-          <StyledButton to="/account">My account</StyledButton>
+          <StyledButton to="/account">{t('title.account')}</StyledButton>
           <StyledButton to="/" onClick={() => signOut()}>
-            Log Out
+            {t('log_out')}
           </StyledButton>
         </StyledButtons>
       </StyledAccountsDetails>

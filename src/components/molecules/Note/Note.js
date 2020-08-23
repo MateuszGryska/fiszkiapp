@@ -7,8 +7,8 @@ import styled from 'styled-components';
 import ShowButton from 'components/atoms/ShowButton/ShowButton';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
 import { deleteItem as deleteItemAction, clean as cleanAction } from 'actions';
-
-const notes = 'notes';
+import { useTranslation } from 'react-i18next';
+import { COLLECTION_TYPES } from 'helpers/constants';
 
 const StyledWrapper = styled.article`
   background: ${({ theme }) => theme.background};
@@ -53,6 +53,7 @@ const StyledActionButtons = styled.nav`
 const Note = ({ title, content, id, deleteItem, deleteError, cleanUp }) => {
   const [isEditItemBarVisible, setEditItemBarVisible] = useState(false);
   const [isDeleteWarningVisible, setDeleteWarningVisible] = useState(false);
+  const { t } = useTranslation();
   const MAX_LENGTH = 70;
 
   return (
@@ -60,13 +61,15 @@ const Note = ({ title, content, id, deleteItem, deleteError, cleanUp }) => {
       <StyledTitle>{title}</StyledTitle>
       <StyledParagraph>{`${content.substring(0, MAX_LENGTH)}...`}</StyledParagraph>
       <ShowButton secondary="true" to={`notes/${id}`}>
-        Show more
+        {t('buttons.show_more')}
       </ShowButton>
       <StyledActionButtons>
         <ActionButton secondary onClick={() => setEditItemBarVisible(true)}>
-          Edit
+          {t('buttons.edit')}
         </ActionButton>
-        <ActionButton onClick={() => setDeleteWarningVisible(true)}>Remove</ActionButton>
+        <ActionButton onClick={() => setDeleteWarningVisible(true)}>
+          {t('buttons.remove')}
+        </ActionButton>
       </StyledActionButtons>
       <EditItemBar
         title={title}
@@ -80,7 +83,7 @@ const Note = ({ title, content, id, deleteItem, deleteError, cleanUp }) => {
         isVisible={isDeleteWarningVisible}
         handleClose={() => setDeleteWarningVisible()}
         id={id}
-        deleteAction={() => deleteItem(notes, id)}
+        deleteAction={() => deleteItem(COLLECTION_TYPES.notes, id)}
         error={deleteError}
         cleanUp={cleanUp}
       />
