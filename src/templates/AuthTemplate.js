@@ -36,7 +36,7 @@ const StyledWrapper = styled.main`
   background-repeat: no-repeat;
 
   @media (max-width: 1980px) {
-    background-size: auto 100vh;
+    background-size: cover 100vh;
   }
 `;
 
