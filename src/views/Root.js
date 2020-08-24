@@ -17,6 +17,7 @@ const NotesPage = React.lazy(() => import('./NotesPage'));
 const TablePage = React.lazy(() => import('./TablePage'));
 const DetailsPage = React.lazy(() => import('./DetailsPage'));
 const MyAccountPage = React.lazy(() => import('./MyAccountPage'));
+const AboutPage = React.lazy(() => import('./AboutPage'));
 
 const Root = ({ loggedIn, emailVerified }) => {
   let routesWhenLoggedIn;
@@ -43,6 +44,7 @@ const Root = ({ loggedIn, emailVerified }) => {
           <Route path={routes.note} component={DetailsPage} />
           <Route path={routes.words} component={TablePage} />
           <Route path={routes.word} component={DetailsPage} />
+          <Route path={routes.about} component={AboutPage} />
           <Redirect to={routes.home} />
         </Switch>
         <Route path={routes.note} component={DetailsPage} />
