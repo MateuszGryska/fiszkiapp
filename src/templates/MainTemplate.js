@@ -52,8 +52,10 @@ class MainTemplate extends Component {
     return (
       <div>
         <PageContext.Provider value={pageType}>
-          <GlobalStyle />
-          <ThemeProvider theme={currentTheme}>{children}</ThemeProvider>
+          <ThemeProvider theme={currentTheme}>
+            <GlobalStyle />
+            {children}
+          </ThemeProvider>
         </PageContext.Provider>
       </div>
     );
@@ -62,9 +64,14 @@ class MainTemplate extends Component {
 
 MainTemplate.propTypes = {
   children: PropTypes.element.isRequired,
+  isDarkMode: PropTypes.bool,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
+};
+
+MainTemplate.defaultProps = {
+  isDarkMode: false,
 };
 
 const mapStateToProps = ({ firebase }) => ({

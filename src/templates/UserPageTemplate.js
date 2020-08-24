@@ -13,7 +13,7 @@ const StyledWrapper = styled.main`
   padding-top: 70px;
   position: relative;
   background: ${({ theme }) => theme.background};
-  height: 100vh;
+  height: 100%;
 `;
 
 const AddButton = styled.button`
