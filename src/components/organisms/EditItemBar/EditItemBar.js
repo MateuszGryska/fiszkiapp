@@ -113,7 +113,7 @@ const EditItemBar = React.memo(
               if (pageContext === PAGE_TYPES.words || pageContext === PAGE_TYPES.flashcards) {
                 return wordSchema;
               }
-              if (pageContext === 'notes') {
+              if (pageContext === PAGE_TYPES.notes) {
                 return noteSchema;
               }
               return null;
@@ -144,7 +144,7 @@ const EditItemBar = React.memo(
                         value={values.title}
                       />
                       {errors.title && touched.title ? (
-                        <StyledMessage error>{errors.title}</StyledMessage>
+                        <StyledMessage error>{t(errors.title)}</StyledMessage>
                       ) : (
                         <StyledMessage />
                       )}
@@ -161,7 +161,7 @@ const EditItemBar = React.memo(
                         value={values.content}
                       />
                       {errors.content && touched.content ? (
-                        <StyledMessage error>{errors.content}</StyledMessage>
+                        <StyledMessage error>{t(errors.content)}</StyledMessage>
                       ) : (
                         <StyledMessage />
                       )}
@@ -182,7 +182,7 @@ const EditItemBar = React.memo(
                         value={values.polish}
                       />
                       {errors.polish && touched.polish ? (
-                        <StyledMessage error>{errors.polish}</StyledMessage>
+                        <StyledMessage error>{t(errors.polish)}</StyledMessage>
                       ) : (
                         <StyledMessage />
                       )}
@@ -198,7 +198,7 @@ const EditItemBar = React.memo(
                         value={values.english}
                       />
                       {errors.english && touched.english ? (
-                        <StyledMessage error>{errors.english}</StyledMessage>
+                        <StyledMessage error>{t(errors.english)}</StyledMessage>
                       ) : (
                         <StyledMessage />
                       )}
@@ -215,7 +215,7 @@ const EditItemBar = React.memo(
                         value={values.description}
                       />
                       {errors.description && touched.description ? (
-                        <StyledMessage error>{errors.description}</StyledMessage>
+                        <StyledMessage error>{t(errors.description)}</StyledMessage>
                       ) : (
                         <StyledMessage />
                       )}

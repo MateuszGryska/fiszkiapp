@@ -5,7 +5,8 @@
     "spelling_check": "Sprawdzanie pisowni",
     "words_list": "Lista słówek",
     "notes": "Notatki",
-    "account": "Moje konto"
+    "account": "Moje konto",
+    "about": "O aplikacji"
   },
   "description": {
     "flashcards": "Pamiętasz wszystkie słówka",
@@ -58,7 +59,9 @@
     "english": "Angielski*",
     "description": "Opis",
     "title": "Tytuł*",
-    "content": "Treść*"
+    "content": "Treść*",
+    "name": "Imię*",
+    "message": "Wiadomość*"
   },
   "table_head": {
     "polish": "Polski",
@@ -85,6 +88,33 @@
     "word": "słówko",
     "edit_profile": "Edytuj profil",
     "upload_avatar": "Dodaj nowy avatar"
+  },
+  "about_section": {
+    "header": "Czy masz problem, aby zapamiętać trudne słówka po angielsku? Chciałbyś je opanować? Spróbuj Fiszki App!",
+    "description": "Aplikacja pomaga nauczyć się słówek, z którymi masz problem. Działa to jak fiszki, ale z dodatkowymi opcjami! Masz wiele sposobów do nauki! ",
+    "flashcards": "Fiszki: Po prostu. Fiszki. Jeśli znasz słówko, dostaniesz jeden punkt.",
+    "spelling_check": "Sprawdzanie pisowni: Sprawdź czy potrafisz poprawnie zapisać słowo.",
+    "quiz": "Quiz: Masz tylko jedną prawidłową odpowiedź. Dostajesz punkt, jeśli zaznaczysz prawidłową odpowiedź.",
+    "database": "Lista słówek i notatek: Twoja baza słówek i notatek.",
+    "footer": "W sekcji Moje konto znajdziesz wszystkie statystyki i informacje dotyczące twojego konta.",
+    "send_email": "Zauwazyłeś błąd lub masz pomysł jak usprawnić aplikację? Wyślij do mnie wiadomość, a ja zrobię, co w mojej mocy:"
+  },
+  "validation": {
+    "email_invalid": "Email nieprawidłowy.",
+    "email_required": "Email jest wymagany.",
+    "password_required": "Hasło jest wymagane.",
+    "password_minimum": "Za krótkie. Hasło musi mieć 8 znaków.",
+    "password_not_match": "Hasła nie pasują.",
+    "password_confirm": "Musisz potwierdzić swoje hasło.",
+    "too_short": "Za krótkie.",
+    "too_long": "Za długie.",
+    "special_characters_not_allowed": "Znaki specjalne są nie dozwolone.",
+    "polish_required": "Polskie słówko jest wymagane.",
+    "english_required": "Angielskie słówko jest wymagane.",
+    "title_required": "Tytuł jest wymagany.",
+    "content_required": "Treść jest wymagana.",
+    "name_required": "Imię jest wymagane.",
+    "message_required": "Treść wiadomości jest wymagana."
   },
   "hello": "Cześć",
   "log_out": "Wyloguj",

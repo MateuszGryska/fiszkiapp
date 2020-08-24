@@ -104,6 +104,16 @@ const StyledLang = styled.div`
   color: ${({ theme }) => theme.fontColor};
 `;
 
+const StyledParagraph = styled(NavLink)`
+  text-decoration: none;
+  color: ${({ theme }) => theme.fontColor};
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 20px;
+  padding-left: 20px;
+`;
+
 const Menubar = React.memo(
   ({ isVisible, handleClose, profileData, signOut }) => {
     const { t, i18n } = useTranslation();
@@ -115,6 +125,7 @@ const Menubar = React.memo(
     return (
       <>
         <StyledWrapper isVisible={isVisible}>
+          <StyledParagraph to={routes.about}>{t('title.about')}</StyledParagraph>
           <StyledLang>
             <StyledIcon icon={polandIcon} onClick={() => handleChangeLangClick('pl')} />
             |

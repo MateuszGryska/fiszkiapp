@@ -131,7 +131,7 @@ const EditProfileBar = ({
                   value={values.firstName}
                 />
                 {errors.firstName && touched.firstName ? (
-                  <StyledMessage error>{errors.firstName}</StyledMessage>
+                  <StyledMessage error>{t(errors.firstName)}</StyledMessage>
                 ) : (
                   <StyledMessage error />
                 )}
@@ -147,7 +147,7 @@ const EditProfileBar = ({
                   value={values.lastName}
                 />
                 {errors.lastName && touched.lastName ? (
-                  <StyledMessage error>{errors.lastName}</StyledMessage>
+                  <StyledMessage error>{t(errors.lastName)}</StyledMessage>
                 ) : (
                   <StyledMessage error />
                 )}
@@ -163,7 +163,7 @@ const EditProfileBar = ({
                   value={values.email}
                 />
                 {errors.email && touched.email ? (
-                  <StyledMessage error>{errors.email}</StyledMessage>
+                  <StyledMessage error>{t(errors.email)}</StyledMessage>
                 ) : (
                   <StyledMessage error />
                 )}
@@ -179,7 +179,7 @@ const EditProfileBar = ({
                   value={values.password}
                 />
                 {errors.password && touched.password ? (
-                  <StyledMessage error>{errors.password}</StyledMessage>
+                  <StyledMessage error>{t(errors.password)}</StyledMessage>
                 ) : (
                   <StyledMessage error />
                 )}
@@ -194,7 +194,7 @@ const EditProfileBar = ({
                   value={values.confirmPassword}
                 />
                 {errors.confirmPassword && touched.confirmPassword ? (
-                  <StyledMessage error>{errors.confirmPassword}</StyledMessage>
+                  <StyledMessage error>{t(errors.confirmPassword)}</StyledMessage>
                 ) : (
                   <StyledMessage error />
                 )}

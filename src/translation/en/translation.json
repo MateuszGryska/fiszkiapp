@@ -5,7 +5,8 @@
     "spelling_check": "Spelling check",
     "words_list": "Words list",
     "notes": "Notes",
-    "account": "My account"
+    "account": "My account",
+    "about": "About"
   },
   "description": {
     "flashcards": "Do you remember all the words",
@@ -58,7 +59,9 @@
     "english": "English*",
     "description": "Description",
     "title": "Title*",
-    "content": "Content*"
+    "content": "Content*",
+    "name": "Name*",
+    "message": "Message*"
   },
   "table_head": {
     "polish": "Polish",
@@ -85,6 +88,33 @@
     "word": "word",
     "edit_profile": "Edit profile",
     "upload_avatar": "Upload new avatar"
+  },
+  "about_section": {
+    "header": "Do you have problems with hard words in the article or your English career? Do you want to master it? Try Fiszki App!",
+    "description": "Application help people learn words, which one they have a problem. It's like flashcards but with bonuses.  You have a lot of options to learn.",
+    "flashcards": "Flashcards: It's like flashcards. If you know this word, you get 1 point.",
+    "spelling_check": "Spelling check: Check your spelling skill.",
+    "quiz": "Quiz: You have only one correct answer. You get 1 point when you pick a good answer.",
+    "database": "Words list and notes: Your database of words and notes.",
+    "footer": "In My Account section, you have all statistics and information about your account.",
+    "send_email": "Do you see bugs or have some ideas to improve the application? Send me a message and I try my best:"
+  },
+  "validation": {
+    "email_invalid": "Invalid email.",
+    "email_required": "The email is required.",
+    "password_required": "The passoword is required.",
+    "password_minimum": "Too short. Password must be at least 8 characters.",
+    "password_not_match": "Password doesn't match.",
+    "password_confirm": "You need to confirm your password.",
+    "too_short": "Too short.",
+    "too_long": "Too long.",
+    "special_characters_not_allowed": "Special characters are not allowed.",
+    "polish_required": "The polish word is required.",
+    "english_required": "The english word is required.",
+    "title_required": "The title is required.",
+    "content_required": "The content is required.",
+    "name_required": "Name is required.",
+    "message_required": "The message is required."
   },
   "hello": "Hello",
   "log_out": "Log out",
