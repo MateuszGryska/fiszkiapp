@@ -244,6 +244,7 @@ NewItemBar.propTypes = {
     'reset-password',
     'quiz',
     'spelling',
+    'about',
   ]),
 };
 

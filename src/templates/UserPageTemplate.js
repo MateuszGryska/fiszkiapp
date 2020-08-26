@@ -59,7 +59,7 @@ const UserPageTemplate = ({ children, loggedIn, profileData, emailVerified, page
           {children}
           <AddButton
             loggedIn={loggedIn}
-            isButtonVisible={pageContext === PAGE_TYPES.account}
+            isButtonVisible={pageContext === PAGE_TYPES.account || pageContext === PAGE_TYPES.about}
             onClick={() => setNewItemBarVisibility(!newItemBarVisible)}
           />
           <NewItemBar
@@ -96,6 +96,7 @@ UserPageTemplate.propTypes = {
     'reset-password',
     'quiz',
     'spelling',
+    'about',
   ]),
 };
 

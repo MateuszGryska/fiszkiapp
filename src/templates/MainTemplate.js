@@ -31,6 +31,7 @@ class MainTemplate extends Component {
       'account',
       'reset-password',
       'spelling',
+      'about',
     ];
     const {
       location: { pathname },

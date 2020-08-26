@@ -98,7 +98,7 @@ const FlashcardsTemplate = ({ userId, requested, addNewPoint }) => {
     <UserPageTemplate>
       <StyledWrapper>
         <Title>{t('title.flashcards')}</Title>
-        <StyledParagraph>{t('description.flashcards')}</StyledParagraph>
+        <StyledParagraph>{t('description.flashcards')}?</StyledParagraph>
         <StyledToggleSection>
           <p>{t('switch')}:</p>
           <Toggle isChecked={isChecked} setCheckbox={() => setCheckbox(!isChecked)} />

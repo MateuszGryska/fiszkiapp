@@ -97,7 +97,7 @@
     "quiz": "Quiz: You have only one correct answer. You get 1 point when you pick a good answer.",
     "database": "Words list and notes: Your database of words and notes.",
     "footer": "In My Account section, you have all statistics and information about your account.",
-    "send_email": "Do you see bugs or have some ideas to improve the application? Send me a message and I try my best:"
+    "send_email": "Do you see bugs or have some ideas to improve the application? Send me a message and I try my best: matthew.gryska@gmail.com"
   },
   "validation": {
     "email_invalid": "Invalid email.",

@@ -97,7 +97,7 @@
     "quiz": "Quiz: Masz tylko jedną prawidłową odpowiedź. Dostajesz punkt, jeśli zaznaczysz prawidłową odpowiedź.",
     "database": "Lista słówek i notatek: Twoja baza słówek i notatek.",
     "footer": "W sekcji Moje konto znajdziesz wszystkie statystyki i informacje dotyczące twojego konta.",
-    "send_email": "Zauwazyłeś błąd lub masz pomysł jak usprawnić aplikację? Wyślij do mnie wiadomość, a ja zrobię, co w mojej mocy:"
+    "send_email": "Zauwazyłeś błąd lub masz pomysł jak usprawnić aplikację? Wyślij do mnie wiadomość, a ja zrobię, co w mojej mocy: matthew.gryska@gmail.com"
   },
   "validation": {
     "email_invalid": "Email nieprawidłowy.",
