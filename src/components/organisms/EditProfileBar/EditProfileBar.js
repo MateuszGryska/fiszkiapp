@@ -44,7 +44,7 @@ const StyledForm = styled(Form)`
 
 const StyledInput = styled(Input)`
   margin-top: 10px;
-  width: 370px;
+  width: 360px;
 
   @media (max-width: 480px) {
     width: 90vw;

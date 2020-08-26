@@ -45,7 +45,7 @@ const StyledForm = styled(Form)`
 
 const StyledInput = styled(Input)`
   margin-top: 10px;
-  width: 370px;
+  width: 360px;
 
   @media (max-width: 480px) {
     width: 90vw;
@@ -56,8 +56,8 @@ const StyledTextArea = styled(Input)`
   margin-top: 10px;
   height: 30vh;
   min-height: 10vh;
-  min-width: 370px;
-  max-width: 370px;
+  min-width: 360px;
+  max-width: 360px;
 
   @media (max-width: 480px) {
     min-width: 200px;

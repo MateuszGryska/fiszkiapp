@@ -15,7 +15,7 @@ import { wordSchema, noteSchema } from 'validation';
 import { useTranslation } from 'react-i18next';
 import { COLLECTION_TYPES, PAGE_TYPES } from 'helpers/constants';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.section`
   height: 100vh;
   width: 400px;
   position: fixed;
@@ -45,7 +45,7 @@ const StyledForm = styled(Form)`
 
 const StyledInput = styled(Input)`
   margin-top: 10px;
-  width: 370px;
+  width: 360px;
 
   @media (max-width: 480px) {
     width: 90vw;
@@ -56,8 +56,8 @@ const StyledTextArea = styled(Input)`
   margin-top: 10px;
   height: 30vh;
   min-height: 10vh;
-  min-width: 370px;
-  max-width: 370px;
+  min-width: 360px;
+  max-width: 360px;
 
   @media (max-width: 480px) {
     min-width: 200px;
@@ -91,7 +91,6 @@ const NewItemBar = React.memo(
             {t('bars_title.add')}{' '}
             {pageContext === PAGE_TYPES.notes ? t('bars_title.note') : t('bars_title.word')}
           </BarsTitle>
-
           {pageContext === PAGE_TYPES.notes ? (
             <StyledParagraph>{t('description.add_or_edit_note')}</StyledParagraph>
           ) : (

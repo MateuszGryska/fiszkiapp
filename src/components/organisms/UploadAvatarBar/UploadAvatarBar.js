@@ -13,7 +13,7 @@ import withContext from 'hoc/withContext';
 import { uploadAvatar as uploadAvatarAction } from 'actions';
 import { useTranslation } from 'react-i18next';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.section`
   height: 100vh;
   width: 400px;
   position: fixed;
