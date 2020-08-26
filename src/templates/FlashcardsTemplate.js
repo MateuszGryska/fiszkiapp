@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Button from 'components/atoms/Button/Button';
 import Toggle from 'components/atoms/Toggle/Toggle';
 import Tooltip from 'components/atoms/Tooltip/Tooltip';
+import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { pickNewWord } from 'utils/pick-new-word';
 import { COLLECTION_TYPES } from 'helpers/constants';
@@ -65,7 +66,7 @@ const StyledToggleSection = styled.section`
   width: 200px;
 `;
 
-const FlashcardsTemplate = ({ userId, requested, addNewPoint }) => {
+const FlashcardsTemplate = ({ userId, requested, requesting, addNewPoint }) => {
   const [isSmallerWordVisible, setSmallerWordVisible] = useState(false);
   const [flashcardPosition, setFlashcardPosition] = useState(0);
   const [isChecked, setCheckbox] = useState(false);
@@ -99,53 +100,59 @@ const FlashcardsTemplate = ({ userId, requested, addNewPoint }) => {
       <StyledWrapper>
         <Title>{t('title.flashcards')}</Title>
         <StyledParagraph>{t('description.flashcards')}?</StyledParagraph>
-        <StyledToggleSection>
-          <p>{t('switch')}:</p>
-          <Toggle isChecked={isChecked} setCheckbox={() => setCheckbox(!isChecked)} />
-        </StyledToggleSection>
-        {isChecked ? (
-          <>
-            <StyledBiggerWord>
-              {wordsList.length > 0
-                ? wordsList[flashcardPosition].english
-                : 'No words, add new ones!'}
-            </StyledBiggerWord>
-            <StyledSmallerWord isVisible={isSmallerWordVisible}>
-              {wordsList.length > 0
-                ? wordsList[flashcardPosition].polish
-                : 'Brak słówek, dodaj nowe!'}
-            </StyledSmallerWord>
-          </>
+        {requesting[`words/${userId}`] ? (
+          <LoadingSpinner grey />
         ) : (
           <>
-            <StyledBiggerWord>
-              {wordsList.length > 0
-                ? wordsList[flashcardPosition].polish
-                : 'Brak słówek, dodaj nowe!'}
-            </StyledBiggerWord>
-            <StyledSmallerWord isVisible={isSmallerWordVisible}>
-              {wordsList.length > 0
-                ? wordsList[flashcardPosition].english
-                : 'No words, add new ones!'}
-            </StyledSmallerWord>
+            <StyledToggleSection>
+              <p>{t('switch')}:</p>
+              <Toggle isChecked={isChecked} setCheckbox={() => setCheckbox(!isChecked)} />
+            </StyledToggleSection>
+            {isChecked ? (
+              <>
+                <StyledBiggerWord>
+                  {wordsList.length > 0
+                    ? wordsList[flashcardPosition].english
+                    : 'No words, add new ones!'}
+                </StyledBiggerWord>
+                <StyledSmallerWord isVisible={isSmallerWordVisible}>
+                  {wordsList.length > 0
+                    ? wordsList[flashcardPosition].polish
+                    : 'Brak słówek, dodaj nowe!'}
+                </StyledSmallerWord>
+              </>
+            ) : (
+              <>
+                <StyledBiggerWord>
+                  {wordsList.length > 0
+                    ? wordsList[flashcardPosition].polish
+                    : 'Brak słówek, dodaj nowe!'}
+                </StyledBiggerWord>
+                <StyledSmallerWord isVisible={isSmallerWordVisible}>
+                  {wordsList.length > 0
+                    ? wordsList[flashcardPosition].english
+                    : 'No words, add new ones!'}
+                </StyledSmallerWord>
+              </>
+            )}
+
+            <StyledShowButton onClick={() => setSmallerWordVisible(true)}>
+              {t('buttons.show')}
+            </StyledShowButton>
+            {wordsList.length > 0 ? (
+              <Tooltip description={wordsList[flashcardPosition].description} flashcards />
+            ) : null}
+            <Button
+              disabled={wordsList.length === 0}
+              onClick={() => addPointAndPickNewWord(wordsList.length)}
+            >
+              {t('buttons.flashcards_with_point')} <br /> (+1 {t('point')})
+            </Button>
+            <Button disabled={wordsList.length === 0} onClick={() => setNewWord(wordsList.length)}>
+              {t('buttons.draw')}
+            </Button>
           </>
         )}
-
-        <StyledShowButton onClick={() => setSmallerWordVisible(true)}>
-          {t('buttons.show')}
-        </StyledShowButton>
-        {wordsList.length > 0 ? (
-          <Tooltip description={wordsList[flashcardPosition].description} flashcards />
-        ) : null}
-        <Button
-          disabled={wordsList.length === 0}
-          onClick={() => addPointAndPickNewWord(wordsList.length)}
-        >
-          {t('buttons.flashcards_with_point')} <br /> (+1 {t('point')})
-        </Button>
-        <Button disabled={wordsList.length === 0} onClick={() => setNewWord(wordsList.length)}>
-          {t('buttons.draw')}
-        </Button>
       </StyledWrapper>
     </UserPageTemplate>
   );
@@ -155,11 +162,13 @@ FlashcardsTemplate.propTypes = {
   userId: PropTypes.string.isRequired,
   addNewPoint: PropTypes.func.isRequired,
   requested: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+  requesting: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
 };
 
 const mapStateToProps = ({ firebase, firestore }) => ({
   userId: firebase.auth.uid,
   requested: firestore.status.requested,
+  requesting: firestore.status.requesting,
 });
 
 const mapDispatchToProps = (dispatch) => ({
