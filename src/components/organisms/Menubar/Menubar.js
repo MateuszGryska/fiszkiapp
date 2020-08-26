@@ -48,6 +48,7 @@ const StyledLinkList = styled.ul`
 
   li {
     margin-top: 20px;
+    text-align: center;
   }
 `;
 
