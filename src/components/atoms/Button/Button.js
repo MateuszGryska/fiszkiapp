@@ -15,6 +15,10 @@ const StyledWrapper = styled.button`
   transition: all 0.3s ease 0s;
   cursor: pointer;
 
+  @media (max-width: 480px) {
+    outline: none;
+  }
+
   &:hover {
     box-shadow: 0px 15px 20px ${({ theme }) => theme.hover};
     transform: translateY(-7px);

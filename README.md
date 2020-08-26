@@ -21,6 +21,14 @@ Formik & Yup <br />
 Styled Components <br />
 Firebase & Firestore <br />
 
+## Installing
+
+Clone the repository and use this command in your project:
+
+```
+yarn install
+```
+
 ## Authors
 
 Mateusz Gryska
