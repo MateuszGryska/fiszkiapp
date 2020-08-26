@@ -30,7 +30,7 @@ const StyledWrapper = styled.main`
   justify-content: center;
   align-items: center;
   background: url(${background});
-  background-size: 100vw;
+  background-size: cover 100vw;
   background-color: transparent;
   background-position: 50% 20%;
   background-repeat: no-repeat;
