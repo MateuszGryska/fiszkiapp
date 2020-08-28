@@ -116,11 +116,9 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
                   if (
                     values.answer.toLowerCase().trim() ===
                       wordsList[wordPosition].english.toLowerCase().trim() ||
-                    (
-                      isChecked &&
+                    (isChecked &&
                       values.answer.toLowerCase().trim() ===
-                        wordsList[wordPosition].polish.toLowerCase()
-                    ).trim()
+                        wordsList[wordPosition].polish.toLowerCase().trim())
                   ) {
                     addNewPoint();
                     setNewWord(wordsList.length);
