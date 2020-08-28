@@ -107,7 +107,11 @@ const EditProfileBar = ({
           initialValues={{
             firstName: profile.firstName,
             lastName: profile.lastName,
+            isDarkMode: profile.isDarkMode,
+            points: profile.points,
             email: auth.email,
+            socialLogIn: profile.socialLogIn,
+            avatar: profile.avatar,
             password: '',
             confirmPassword: '',
           }}

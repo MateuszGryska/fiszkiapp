@@ -164,6 +164,10 @@ export const editProfile = (data) => async (dispatch, getState, { getFirebase })
     await firestore.collection('users').doc(userId).set({
       firstName: data.firstName,
       lastName: data.lastName,
+      isDarkMode: data.isDarkMode,
+      points: data.points,
+      socialLogIn: data.socialLogIn,
+      avatar: data.avatar,
     });
 
     if (data.password.length > 0) {

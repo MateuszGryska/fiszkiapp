@@ -374,7 +374,7 @@ AuthTemplate.propTypes = {
     'notes',
     'words',
     'flashcards',
-  ]).isRequired,
+  ]),
   signUp: PropTypes.func.isRequired,
   signIn: PropTypes.func.isRequired,
   socialSignIn: PropTypes.func.isRequired,
@@ -389,6 +389,7 @@ AuthTemplate.propTypes = {
 AuthTemplate.defaultProps = {
   recoverError: null,
   error: null,
+  pageContext: 'login',
 };
 
 const mapStateToProps = ({ auth }) => ({
