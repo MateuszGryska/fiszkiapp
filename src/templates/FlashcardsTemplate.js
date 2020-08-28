@@ -6,9 +6,11 @@ import styled from 'styled-components';
 import Button from 'components/atoms/Button/Button';
 import Toggle from 'components/atoms/Toggle/Toggle';
 import Tooltip from 'components/atoms/Tooltip/Tooltip';
+import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { pickNewWord } from 'utils/pick-new-word';
 import { COLLECTION_TYPES } from 'helpers/constants';
+import { useTranslation } from 'react-i18next';
 
 import { addNewPoint as addNewPointAction } from 'actions';
 
@@ -16,6 +18,7 @@ import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.section`
   padding: 50px 150px 25px 150px;
+  color: ${({ theme }) => theme.fontColor};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,10 +66,11 @@ const StyledToggleSection = styled.section`
   width: 200px;
 `;
 
-const FlashcardsTemplate = ({ userId, requested, addNewPoint }) => {
+const FlashcardsTemplate = ({ userId, requested, requesting, addNewPoint }) => {
   const [isSmallerWordVisible, setSmallerWordVisible] = useState(false);
   const [flashcardPosition, setFlashcardPosition] = useState(0);
   const [isChecked, setCheckbox] = useState(false);
+  const { t } = useTranslation();
 
   useFirestoreConnect([{ collection: COLLECTION_TYPES.words, doc: userId }]);
   const words = useSelector(({ firestore: { data } }) => data.words && data.words[userId]);
@@ -94,54 +98,61 @@ const FlashcardsTemplate = ({ userId, requested, addNewPoint }) => {
   return (
     <UserPageTemplate>
       <StyledWrapper>
-        <Title>Flashcards</Title>
-        <StyledParagraph>Do you remember all the words?</StyledParagraph>
-        <StyledToggleSection>
-          <p>Switch language:</p>
-          <Toggle isChecked={isChecked} setCheckbox={() => setCheckbox(!isChecked)} />
-        </StyledToggleSection>
-        {isChecked ? (
-          <>
-            <StyledBiggerWord>
-              {wordsList.length > 0
-                ? wordsList[flashcardPosition].english
-                : 'No words, add new ones!'}
-            </StyledBiggerWord>
-            <StyledSmallerWord isVisible={isSmallerWordVisible}>
-              {wordsList.length > 0
-                ? wordsList[flashcardPosition].polish
-                : 'Brak słówek, dodaj nowe!'}
-            </StyledSmallerWord>
-          </>
+        <Title>{t('title.flashcards')}</Title>
+        <StyledParagraph>{t('description.flashcards')}?</StyledParagraph>
+        {requesting[`words/${userId}`] ? (
+          <LoadingSpinner grey />
         ) : (
           <>
-            <StyledBiggerWord>
-              {wordsList.length > 0
-                ? wordsList[flashcardPosition].polish
-                : 'Brak słówek, dodaj nowe!'}
-            </StyledBiggerWord>
-            <StyledSmallerWord isVisible={isSmallerWordVisible}>
-              {wordsList.length > 0
-                ? wordsList[flashcardPosition].english
-                : 'No words, add new ones!'}
-            </StyledSmallerWord>
+            <StyledToggleSection>
+              <p>{t('switch')}:</p>
+              <Toggle isChecked={isChecked} setCheckbox={() => setCheckbox(!isChecked)} />
+            </StyledToggleSection>
+            {isChecked ? (
+              <>
+                <StyledBiggerWord>
+                  {wordsList.length > 0
+                    ? wordsList[flashcardPosition].english
+                    : 'No words, add new ones!'}
+                </StyledBiggerWord>
+                <StyledSmallerWord isVisible={isSmallerWordVisible}>
+                  {wordsList.length > 0
+                    ? wordsList[flashcardPosition].polish
+                    : 'Brak słówek, dodaj nowe!'}
+                </StyledSmallerWord>
+              </>
+            ) : (
+              <>
+                <StyledBiggerWord>
+                  {wordsList.length > 0
+                    ? wordsList[flashcardPosition].polish
+                    : 'Brak słówek, dodaj nowe!'}
+                </StyledBiggerWord>
+                <StyledSmallerWord isVisible={isSmallerWordVisible}>
+                  {wordsList.length > 0
+                    ? wordsList[flashcardPosition].english
+                    : 'No words, add new ones!'}
+                </StyledSmallerWord>
+              </>
+            )}
+
+            <StyledShowButton onClick={() => setSmallerWordVisible(true)}>
+              {t('buttons.show')}
+            </StyledShowButton>
+            {wordsList.length > 0 ? (
+              <Tooltip description={wordsList[flashcardPosition].description} flashcards />
+            ) : null}
+            <Button
+              disabled={wordsList.length === 0}
+              onClick={() => addPointAndPickNewWord(wordsList.length)}
+            >
+              {t('buttons.flashcards_with_point')} <br /> (+1 {t('point')})
+            </Button>
+            <Button disabled={wordsList.length === 0} onClick={() => setNewWord(wordsList.length)}>
+              {t('buttons.draw')}
+            </Button>
           </>
         )}
-
-        <StyledShowButton onClick={() => setSmallerWordVisible(true)}>Show</StyledShowButton>
-        {wordsList.length > 0 ? (
-          <Tooltip description={wordsList[flashcardPosition].description} flashcards />
-        ) : null}
-        <Button
-          disabled={wordsList.length === 0}
-          onClick={() => addPointAndPickNewWord(wordsList.length)}
-        >
-          I KNOW THIS WORD <br />
-          (+1 POINT)
-        </Button>
-        <Button disabled={wordsList.length === 0} onClick={() => setNewWord(wordsList.length)}>
-          DRAW A NEW WORD
-        </Button>
       </StyledWrapper>
     </UserPageTemplate>
   );
@@ -151,11 +162,13 @@ FlashcardsTemplate.propTypes = {
   userId: PropTypes.string.isRequired,
   addNewPoint: PropTypes.func.isRequired,
   requested: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+  requesting: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
 };
 
 const mapStateToProps = ({ firebase, firestore }) => ({
   userId: firebase.auth.uid,
   requested: firestore.status.requested,
+  requesting: firestore.status.requesting,
 });
 
 const mapDispatchToProps = (dispatch) => ({

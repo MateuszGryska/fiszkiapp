@@ -12,6 +12,7 @@ import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
 import { updateItem as editItemAction } from 'actions';
 import { wordSchema, noteSchema } from 'validation';
+import { useTranslation } from 'react-i18next';
 import { COLLECTION_TYPES, PAGE_TYPES } from 'helpers/constants';
 
 const StyledWrapper = styled.section`
@@ -20,7 +21,7 @@ const StyledWrapper = styled.section`
   position: fixed;
   top: 0;
   right: 0;
-  background-color: ${({ theme }) => theme.white};
+  background-color: ${({ theme }) => theme.background};
   border-left: 8px solid ${({ theme }) => theme.main};
   box-shadow: ${({ isVisible }) =>
     isVisible ? '-10px 3px 20px 0px rgba(0, 0, 0, 0.16);' : 'none'};
@@ -28,6 +29,7 @@ const StyledWrapper = styled.section`
   z-index: 1000;
   transform: translate(${({ isVisible }) => (isVisible ? '0' : '100%')});
   transition: transform 0.4s ease-in-out;
+  color: ${({ theme }) => theme.fontColor};
 
   @media (max-width: 480px) {
     width: 100vw;
@@ -43,7 +45,7 @@ const StyledForm = styled(Form)`
 
 const StyledInput = styled(Input)`
   margin-top: 10px;
-  width: 370px;
+  width: 360px;
 
   @media (max-width: 480px) {
     width: 90vw;
@@ -54,8 +56,8 @@ const StyledTextArea = styled(Input)`
   margin-top: 10px;
   height: 30vh;
   min-height: 10vh;
-  min-width: 370px;
-  max-width: 370px;
+  min-width: 360px;
+  max-width: 360px;
 
   @media (max-width: 480px) {
     min-width: 200px;
@@ -89,147 +91,148 @@ const EditItemBar = React.memo(
     content,
     id,
     description,
-  }) => (
-    <>
-      <StyledWrapper isVisible={isVisible}>
-        <ReturnButton onClick={() => handleClose(false)} />
-        <BarsTitle>Edit {pageContext === PAGE_TYPES.notes ? 'note' : 'word'}</BarsTitle>
-        {pageContext === PAGE_TYPES.flashcards || pageContext === PAGE_TYPES.words ? (
-          <StyledParagraph>
-            The word can have a maximum of 25 letters and be without special characters.
-          </StyledParagraph>
-        ) : null}
-        {pageContext === PAGE_TYPES.notes ? (
-          <StyledParagraph>
-            The title can have a maximum of 25 letters and content can have a maximum of 300
-            letters.
-          </StyledParagraph>
-        ) : null}
+  }) => {
+    const { t } = useTranslation();
 
-        <Formik
-          validationSchema={() => {
-            if (pageContext === PAGE_TYPES.words || pageContext === PAGE_TYPES.flashcards) {
-              return wordSchema;
-            }
-            if (pageContext === 'notes') {
-              return noteSchema;
-            }
-            return null;
-          }}
-          initialValues={{ title, content, polish, english, description }}
-          onSubmit={async (values) => {
-            if (pageContext === PAGE_TYPES.flashcards) {
-              await updateItem(COLLECTION_TYPES.words, id, values);
-              handleClose(false);
-            } else {
-              await updateItem(pageContext, id, values);
-              handleClose(false);
-            }
-          }}
-        >
-          {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
-            <StyledForm>
-              {pageContext === PAGE_TYPES.notes ? (
-                <>
-                  <div>
-                    <StyledInput
-                      autoComplete="off"
-                      type="text"
-                      name="title"
-                      placeholder="title"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.title}
-                    />
-                    {errors.title && touched.title ? (
-                      <StyledMessage error>{errors.title}</StyledMessage>
-                    ) : (
-                      <StyledMessage />
-                    )}
-                  </div>
-                  <div>
-                    <StyledTextArea
-                      autoComplete="off"
-                      as="textarea"
-                      type="text"
-                      name="content"
-                      placeholder="content"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.content}
-                    />
-                    {errors.content && touched.content ? (
-                      <StyledMessage error>{errors.content}</StyledMessage>
-                    ) : (
-                      <StyledMessage />
-                    )}
-                  </div>
-                </>
-              ) : null}
-
-              {pageContext === PAGE_TYPES.words || pageContext === PAGE_TYPES.flashcards ? (
-                <>
-                  <div>
-                    <StyledInput
-                      autoComplete="off"
-                      type="text"
-                      name="polish"
-                      placeholder="polish"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.polish}
-                    />
-                    {errors.polish && touched.polish ? (
-                      <StyledMessage error>{errors.polish}</StyledMessage>
-                    ) : (
-                      <StyledMessage />
-                    )}
-                  </div>
-                  <div>
-                    <StyledInput
-                      autoComplete="off"
-                      type="text"
-                      name="english"
-                      placeholder="english"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.english}
-                    />
-                    {errors.english && touched.english ? (
-                      <StyledMessage error>{errors.english}</StyledMessage>
-                    ) : (
-                      <StyledMessage />
-                    )}
-                  </div>
-                  <div>
-                    <StyledTextArea
-                      autoComplete="off"
-                      as="textarea"
-                      type="text"
-                      name="description"
-                      placeholder="description"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.description}
-                    />
-                    {errors.description && touched.description ? (
-                      <StyledMessage error>{errors.description}</StyledMessage>
-                    ) : (
-                      <StyledMessage />
-                    )}
-                  </div>
-                </>
-              ) : null}
-              <StyledActionButton secondary disabled={!isValid} type="submit">
-                update
-              </StyledActionButton>
-            </StyledForm>
+    return (
+      <>
+        <StyledWrapper isVisible={isVisible}>
+          <ReturnButton onClick={() => handleClose(false)} />
+          <BarsTitle>
+            {t('bars_title.edit')}{' '}
+            {pageContext === PAGE_TYPES.notes ? t('bars_title.note') : t('bars_title.word')}
+          </BarsTitle>
+          {pageContext === PAGE_TYPES.notes ? (
+            <StyledParagraph>{t('description.add_or_edit_note')}</StyledParagraph>
+          ) : (
+            <StyledParagraph>{t('description.add_or_edit_word')}</StyledParagraph>
           )}
-        </Formik>
-      </StyledWrapper>
-      <DarkerBackground isVisible={isVisible} onClick={() => handleClose(false)} />
-    </>
-  ),
+
+          <Formik
+            validationSchema={() => {
+              if (pageContext === PAGE_TYPES.words || pageContext === PAGE_TYPES.flashcards) {
+                return wordSchema;
+              }
+              if (pageContext === PAGE_TYPES.notes) {
+                return noteSchema;
+              }
+              return null;
+            }}
+            initialValues={{ title, content, polish, english, description }}
+            onSubmit={async (values) => {
+              if (pageContext === PAGE_TYPES.flashcards) {
+                await updateItem(COLLECTION_TYPES.words, id, values);
+                handleClose(false);
+              } else {
+                await updateItem(pageContext, id, values);
+                handleClose(false);
+              }
+            }}
+          >
+            {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
+              <StyledForm>
+                {pageContext === PAGE_TYPES.notes ? (
+                  <>
+                    <div>
+                      <StyledInput
+                        autoComplete="off"
+                        type="text"
+                        name="title"
+                        placeholder={t('input.title')}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.title}
+                      />
+                      {errors.title && touched.title ? (
+                        <StyledMessage error>{t(errors.title)}</StyledMessage>
+                      ) : (
+                        <StyledMessage />
+                      )}
+                    </div>
+                    <div>
+                      <StyledTextArea
+                        autoComplete="off"
+                        as="textarea"
+                        type="text"
+                        name="content"
+                        placeholder={t('input.content')}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.content}
+                      />
+                      {errors.content && touched.content ? (
+                        <StyledMessage error>{t(errors.content)}</StyledMessage>
+                      ) : (
+                        <StyledMessage />
+                      )}
+                    </div>
+                  </>
+                ) : null}
+
+                {pageContext === PAGE_TYPES.words || pageContext === PAGE_TYPES.flashcards ? (
+                  <>
+                    <div>
+                      <StyledInput
+                        autoComplete="off"
+                        type="text"
+                        name="polish"
+                        placeholder={t('input.polish')}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.polish}
+                      />
+                      {errors.polish && touched.polish ? (
+                        <StyledMessage error>{t(errors.polish)}</StyledMessage>
+                      ) : (
+                        <StyledMessage />
+                      )}
+                    </div>
+                    <div>
+                      <StyledInput
+                        autoComplete="off"
+                        type="text"
+                        name="english"
+                        placeholder={t('input.english')}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.english}
+                      />
+                      {errors.english && touched.english ? (
+                        <StyledMessage error>{t(errors.english)}</StyledMessage>
+                      ) : (
+                        <StyledMessage />
+                      )}
+                    </div>
+                    <div>
+                      <StyledTextArea
+                        autoComplete="off"
+                        as="textarea"
+                        type="text"
+                        name="description"
+                        placeholder={t('input.description')}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.description}
+                      />
+                      {errors.description && touched.description ? (
+                        <StyledMessage error>{t(errors.description)}</StyledMessage>
+                      ) : (
+                        <StyledMessage />
+                      )}
+                    </div>
+                  </>
+                ) : null}
+                <StyledActionButton secondary disabled={!isValid} type="submit">
+                  {t('buttons.update')}
+                </StyledActionButton>
+              </StyledForm>
+            )}
+          </Formik>
+        </StyledWrapper>
+        <DarkerBackground isVisible={isVisible} onClick={() => handleClose(false)} />
+      </>
+    );
+  },
   (prevProps, nextProps) => {
     return prevProps.isVisible === nextProps.isVisible;
   },

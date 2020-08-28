@@ -15,18 +15,22 @@ const StyledWrapper = styled.button`
   transition: all 0.3s ease 0s;
   cursor: pointer;
 
+  @media (max-width: 480px) {
+    outline: none;
+  }
+
   &:hover {
     box-shadow: 0px 15px 20px ${({ theme }) => theme.hover};
     transform: translateY(-7px);
   }
 
   &:disabled {
-    background: ${({ theme }) => theme.fontGrey};
+    background: ${({ theme }) => theme.greyButton};
     transition: none;
     cursor: not-allowed;
-    color: black;
+    color: ${({ theme }) => theme.fontColor};
     &:hover {
-      background: ${({ theme }) => theme.fontGrey};
+      background: ${({ theme }) => theme.greyButton};
       box-shadow: none;
       transform: translateY(0px);
     }

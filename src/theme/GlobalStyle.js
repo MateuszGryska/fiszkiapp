@@ -17,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
     overflow-y: scroll;
     font-size: 1.6rem;
     font-family: "Montserrat", sans-serif;
+    background: ${({ theme }) => theme.background};
     padding: 0;
     margin: 0;
   }

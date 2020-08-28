@@ -18,7 +18,7 @@ export const registerSchema = Yup.object().shape({
     .trim()
     .matches(
       /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
+      'Special characters are not allowed.',
     )
     .required('The first name is required.'),
   lastName: Yup.string()
@@ -27,7 +27,7 @@ export const registerSchema = Yup.object().shape({
     .trim()
     .matches(
       /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
+      'Special characters are not allowed.',
     )
     .required('The last name is required.'),
   confirmPassword: Yup.string()
@@ -41,54 +41,57 @@ export const resetSchema = Yup.object().shape({
 
 export const wordSchema = Yup.object().shape({
   polish: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
+    .min(2, 'validation.too_short')
+    .max(25, 'validation.too_long')
     .trim()
     .matches(
       /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
+      'validation.special_characters_not_allowed',
     )
-    .required('The polish word is required.'),
+    .required('validation.polish_required'),
   english: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
+    .min(2, 'validation.too_short')
+    .max(25, 'validation.too_long')
     .trim()
     .matches(
       /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
+      'validation.special_characters_not_allowed',
     )
-    .required('The english word is required.'),
-  description: Yup.string().min(2, 'Too short.').max(100, 'Too long.'),
+    .required('validation.english_required'),
+  description: Yup.string().min(2, 'validation.too_short').max(100, 'validation.too_long'),
 });
 
 export const noteSchema = Yup.object().shape({
-  title: Yup.string().min(2, 'Too short.').max(25, 'Too long.').required('The title is required.'),
+  title: Yup.string()
+    .min(2, 'validation.too_short')
+    .max(25, 'validation.too_long')
+    .required('validation.title_required'),
   content: Yup.string()
-    .min(2, 'Too short.')
-    .max(300, 'Too long.')
-    .required('The content is required.'),
+    .min(2, 'validation.too_short')
+    .max(300, 'validation.too_long')
+    .required('validation.content_required'),
 });
 
 export const editProfileSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email.'),
-  password: Yup.string().min(8, 'Too short. Password must be at least 8 characters.'),
+  email: Yup.string().email('validation.email_invalid'),
+  password: Yup.string().min(8, 'validation.password_minimum'),
   firstName: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
+    .min(2, 'validation.too_short')
+    .max(25, 'validation.too_long')
     .trim()
     .matches(
       /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
+      'validation.special_characters_not_allowed',
     ),
   lastName: Yup.string()
-    .min(2, 'Too short.')
-    .max(25, 'Too long.')
+    .min(2, 'validation.too_short')
+    .max(25, 'validation.too_long')
     .trim()
     .matches(
       /^[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]*((-|\s)*[_A-zĄĆĘŁŃÓŚŹŻąćęłńóśźż])*$/g,
-      'Special characters are not allowed',
+      'validation.special_characters_not_allowed',
     ),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], `Password doesn't match`)
-    .required('You need to confirm your password.'),
+    .oneOf([Yup.ref('password'), null], 'validation.password_not_match')
+    .required('validation.password_confirm'),
 });

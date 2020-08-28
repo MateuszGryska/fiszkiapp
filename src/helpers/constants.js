@@ -20,4 +20,5 @@ export const PAGE_TYPES = {
   account: 'account',
   resetPassword: 'reset-password',
   spelling: 'spelling',
+  about: 'about',
 };

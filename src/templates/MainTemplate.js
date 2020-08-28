@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PageContext from 'context';
 import GlobalStyle from 'theme/GlobalStyle';
 import { ThemeProvider } from 'styled-components';
-import { theme } from 'theme/mainTheme';
+import { theme, darkTheme } from 'theme/mainTheme';
 
 class MainTemplate extends Component {
   state = {
@@ -30,6 +31,7 @@ class MainTemplate extends Component {
       'account',
       'reset-password',
       'spelling',
+      'about',
     ];
     const {
       location: { pathname },
@@ -43,14 +45,18 @@ class MainTemplate extends Component {
   };
 
   render() {
-    const { children } = this.props;
+    const { children, isDarkMode } = this.props;
     const { pageType } = this.state;
+
+    const currentTheme = isDarkMode ? darkTheme : theme;
 
     return (
       <div>
         <PageContext.Provider value={pageType}>
-          <GlobalStyle />
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          <ThemeProvider theme={currentTheme}>
+            <GlobalStyle />
+            {children}
+          </ThemeProvider>
         </PageContext.Provider>
       </div>
     );
@@ -59,9 +65,18 @@ class MainTemplate extends Component {
 
 MainTemplate.propTypes = {
   children: PropTypes.element.isRequired,
+  isDarkMode: PropTypes.bool,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default withRouter(MainTemplate);
+MainTemplate.defaultProps = {
+  isDarkMode: false,
+};
+
+const mapStateToProps = ({ firebase }) => ({
+  isDarkMode: firebase.profile.isDarkMode,
+});
+
+export default withRouter(connect(mapStateToProps)(MainTemplate));

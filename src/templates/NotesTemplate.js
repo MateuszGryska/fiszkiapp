@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Title from 'components/atoms/Title/Title';
 import Input from 'components/atoms/Input/Input';
+import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
 import Note from 'components/molecules/Note/Note';
+import { useTranslation } from 'react-i18next';
 
 import UserPageTemplate from './UserPageTemplate';
 
 const StyledWrapper = styled.section`
   padding: 50px 70px;
+  color: ${({ theme }) => theme.fontColor};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,8 +47,14 @@ const StyledInput = styled(Input)`
   }
 `;
 
+const StyledParagraph = styled.p`
+  width: 300px;
+  text-align: center;
+`;
+
 const NotesTemplate = ({ notes, loading }) => {
   const [searchNote, setSearchNote] = useState('');
+  const { t } = useTranslation();
 
   const handleInputChange = (e) => {
     setSearchNote(e.target.value);
@@ -54,10 +63,11 @@ const NotesTemplate = ({ notes, loading }) => {
   return (
     <UserPageTemplate>
       <StyledWrapper>
-        <Title>Notes</Title>
+        <Title>{t('title.notes')}</Title>
+        <StyledParagraph>{t('description.notes')}.</StyledParagraph>
         <StyledInput
           search
-          placeholder="Search by title"
+          placeholder={t('input.search_by_title')}
           value={searchNote}
           onChange={handleInputChange}
         />
@@ -69,9 +79,7 @@ const NotesTemplate = ({ notes, loading }) => {
             ))}
         </StyledGrid>
         {notes.length === 0 ? (
-          <StyledInfo>
-            {loading ? 'Loading...' : `You don't have any notes yet! Add new one!`}
-          </StyledInfo>
+          <StyledInfo>{loading ? <LoadingSpinner grey /> : t('info.no_notes')}</StyledInfo>
         ) : null}
       </StyledWrapper>
     </UserPageTemplate>

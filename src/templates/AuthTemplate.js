@@ -30,13 +30,13 @@ const StyledWrapper = styled.main`
   justify-content: center;
   align-items: center;
   background: url(${background});
-  background-size: 100vw;
+  background-size: cover 100vw;
   background-color: transparent;
   background-position: 50% 20%;
   background-repeat: no-repeat;
 
   @media (max-width: 1980px) {
-    background-size: auto 100vh;
+    background-size: cover 100vh;
   }
 `;
 
@@ -86,7 +86,7 @@ const StyledInput = styled(Input)`
 `;
 
 const StyledLink = styled(Link)`
-  color: ${({ theme }) => theme.black};
+  color: ${({ theme }) => theme.fontColor};
   margin: 10px 30px 0px 30px;
 
   &:last-child {
@@ -374,7 +374,7 @@ AuthTemplate.propTypes = {
     'notes',
     'words',
     'flashcards',
-  ]).isRequired,
+  ]),
   signUp: PropTypes.func.isRequired,
   signIn: PropTypes.func.isRequired,
   socialSignIn: PropTypes.func.isRequired,
@@ -389,6 +389,7 @@ AuthTemplate.propTypes = {
 AuthTemplate.defaultProps = {
   recoverError: null,
   error: null,
+  pageContext: 'login',
 };
 
 const mapStateToProps = ({ auth }) => ({

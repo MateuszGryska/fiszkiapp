@@ -7,11 +7,11 @@ import styled from 'styled-components';
 import ShowButton from 'components/atoms/ShowButton/ShowButton';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
 import { deleteItem as deleteItemAction, clean as cleanAction } from 'actions';
-
-const notes = 'notes';
+import { useTranslation } from 'react-i18next';
+import { COLLECTION_TYPES } from 'helpers/constants';
 
 const StyledWrapper = styled.article`
-  background: ${({ theme }) => theme.white};
+  background: ${({ theme }) => theme.background};
   min-height: 250px;
   min-width: 400px;
   box-shadow: 0px 15px 20px 0 rgba(0, 0, 0, 0.16);
@@ -39,6 +39,7 @@ const StyledParagraph = styled.p`
   padding-top: 50px;
   margin-bottom: 20px;
   font-size: ${({ theme }) => theme.fontSize.s};
+  color: ${({ theme }) => theme.fontColor};
 `;
 
 const StyledActionButtons = styled.nav`
@@ -52,6 +53,7 @@ const StyledActionButtons = styled.nav`
 const Note = ({ title, content, id, deleteItem, deleteError, cleanUp }) => {
   const [isEditItemBarVisible, setEditItemBarVisible] = useState(false);
   const [isDeleteWarningVisible, setDeleteWarningVisible] = useState(false);
+  const { t } = useTranslation();
   const MAX_LENGTH = 70;
 
   return (
@@ -59,13 +61,15 @@ const Note = ({ title, content, id, deleteItem, deleteError, cleanUp }) => {
       <StyledTitle>{title}</StyledTitle>
       <StyledParagraph>{`${content.substring(0, MAX_LENGTH)}...`}</StyledParagraph>
       <ShowButton secondary="true" to={`notes/${id}`}>
-        Show more
+        {t('buttons.show_more')}
       </ShowButton>
       <StyledActionButtons>
         <ActionButton secondary onClick={() => setEditItemBarVisible(true)}>
-          Edit
+          {t('buttons.edit')}
         </ActionButton>
-        <ActionButton onClick={() => setDeleteWarningVisible(true)}>Remove</ActionButton>
+        <ActionButton onClick={() => setDeleteWarningVisible(true)}>
+          {t('buttons.remove')}
+        </ActionButton>
       </StyledActionButtons>
       <EditItemBar
         title={title}
@@ -79,7 +83,7 @@ const Note = ({ title, content, id, deleteItem, deleteError, cleanUp }) => {
         isVisible={isDeleteWarningVisible}
         handleClose={() => setDeleteWarningVisible()}
         id={id}
-        deleteAction={() => deleteItem(notes, id)}
+        deleteAction={() => deleteItem(COLLECTION_TYPES.notes, id)}
         error={deleteError}
         cleanUp={cleanUp}
       />

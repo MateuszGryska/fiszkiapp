@@ -5,6 +5,7 @@ import SadPhoto from 'assets/img/delete-profile-photo.jpg';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
 import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
 import Message from 'components/atoms/Message/Message';
+import { useTranslation } from 'react-i18next';
 
 const StyledWrapper = styled.article`
   position: fixed;
@@ -14,7 +15,8 @@ const StyledWrapper = styled.article`
   width: 400px;
   height: ${({ item }) => (item ? '200px' : '400px')};
   padding: 20px 30px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.inputHover};
+  color: ${({ theme }) => theme.fontColor};
   border-radius: 20px;
   border: none;
   z-index: 1000;
@@ -45,6 +47,8 @@ const StyledButtons = styled.nav`
 
 const WarningModal = React.memo(
   ({ isVisible, handleClose, error, deleteAction, cleanUp, item }) => {
+    const { t } = useTranslation();
+
     useEffect(() => {
       return () => {
         cleanUp();
@@ -54,16 +58,16 @@ const WarningModal = React.memo(
     return (
       <>
         <StyledWrapper isVisible={isVisible} item={item}>
-          <StyledInfo>{!item ? 'Oh no! Are you sure?' : 'Are you sure?'}</StyledInfo>
+          <StyledInfo>{!item ? t('info.no_sure') : t('info.sure')}</StyledInfo>
           {!item ? <StyledImg src={SadPhoto} alt="sad child" /> : null}
           <StyledButtons>
             <ActionButton secondary onClick={() => deleteAction()}>
-              DO IT!
+              {t('buttons.do_it')}
             </ActionButton>
-            <ActionButton onClick={() => handleClose(false)}>Cancel</ActionButton>
+            <ActionButton onClick={() => handleClose(false)}>{t('buttons.cancel')}</ActionButton>
           </StyledButtons>
           {error ? <Message error>{error}</Message> : null}
-          {error === false ? <Message>Delete user successfully!</Message> : null}
+          {error === false ? <Message>{t('info.delete_user_success')}</Message> : null}
         </StyledWrapper>
         <DarkerBackground isVisible={isVisible} onClick={() => handleClose(false)} />
       </>

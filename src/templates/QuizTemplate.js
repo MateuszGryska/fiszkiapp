@@ -6,11 +6,13 @@ import Message from 'components/atoms/Message/Message';
 import styled from 'styled-components';
 import Button from 'components/atoms/Button/Button';
 import Tooltip from 'components/atoms/Tooltip/Tooltip';
+import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { Formik, Field, Form } from 'formik';
 import { shuffle } from 'helpers/shuffle';
 import { COLLECTION_TYPES } from 'helpers/constants';
 import { addNewPoint as addNewPointAction } from 'actions';
+import { useTranslation } from 'react-i18next';
 
 import UserPageTemplate from './UserPageTemplate';
 
@@ -20,6 +22,7 @@ const StyledWrapper = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: ${({ theme }) => theme.fontColor};
 `;
 
 const StyledMainWord = styled.h1`
@@ -55,8 +58,8 @@ const StyledRadioSection = styled.ul`
     border-radius: 10px;
     border: 1px solid ${({ theme }) => theme.main};
     margin-top: 30px;
-    background: ${({ theme }) => theme.white};
-    color: ${({ theme }) => theme.black};
+    background: ${({ theme }) => theme.background};
+    color: ${({ theme }) => theme.fontColor};
     font-size: ${({ theme }) => theme.fontSize.s};
     letter-spacing: 1.5px;
     cursor: pointer;
@@ -88,6 +91,7 @@ const QuizTemplate = ({ userId, requested, requesting, addNewPoint }) => {
   const [secondWordPosition, setSecondWordPosition] = useState(2);
   const [answers, setAnswers] = useState([]);
   const [falseAnswer, setFalseAnswer] = useState(null);
+  const { t } = useTranslation();
 
   useFirestoreConnect([{ collection: COLLECTION_TYPES.words, doc: userId }]);
   const words = useSelector(({ firestore: { data } }) => data.words && data.words[userId]);
@@ -138,17 +142,15 @@ const QuizTemplate = ({ userId, requested, requesting, addNewPoint }) => {
   return (
     <UserPageTemplate>
       <StyledWrapper>
-        <Title>Quiz</Title>
-        <StyledParagraph>Choose a good translation.</StyledParagraph>
+        <Title>{t('title.quiz')}</Title>
+        <StyledParagraph>{t('description.quiz')}.</StyledParagraph>
         {requesting[`words/${userId}`] ? (
-          <h1>Loading...</h1>
+          <LoadingSpinner grey />
         ) : (
           <>
             {' '}
             <StyledMainWord>
-              {wordsList.length >= 3
-                ? wordsList[wordPosition].english
-                : 'You must add at least 3 words!'}
+              {wordsList.length >= 3 ? wordsList[wordPosition].english : t('info.min_three_words')}
             </StyledMainWord>
             {wordsList.length >= 3 ? (
               <Tooltip description={wordsList[wordPosition].description} />
@@ -165,7 +167,7 @@ const QuizTemplate = ({ userId, requested, requesting, addNewPoint }) => {
                     pickNewWord(wordsList.length);
                     setFalseAnswer(null);
                   } else {
-                    setFalseAnswer('Incorrect answer.');
+                    setFalseAnswer(t('info.incorrect_answers'));
                   }
                 }}
               >
@@ -190,7 +192,7 @@ const QuizTemplate = ({ userId, requested, requesting, addNewPoint }) => {
                     </StyledRadioSection>
 
                     <Button type="submit" disabled={wordsList.length < 3}>
-                      CHECK <br /> (+1 POINT)
+                      {t('buttons.check')} <br /> (+1 {t('point')})
                     </Button>
                     {falseAnswer ? (
                       <StyledMessage error>{falseAnswer}</StyledMessage>

@@ -7,7 +7,7 @@ const ActionButton = styled.button`
   width: 120px;
   height: 30px;
   text-decoration: none;
-  color: black;
+  color: ${({ theme }) => theme.white};
   border: none;
   font-size: 1.3rem;
   background: ${({ theme }) => theme.greyButton};

@@ -6,23 +6,24 @@ const Input = styled.input`
   -moz-appearance: none;
   appearance: none;
   position: relative;
-  background-color: ${({ theme }) => theme.white};
+  background-color: ${({ theme }) => theme.input};
   padding: 10px 20px 10px 20px;
   width: 400px;
   border-radius: 10px;
-  border: 1px solid ${({ theme }) => theme.input};
+  border: 1px solid ${({ theme }) => theme.inputHover};
   font-size: ${({ theme }) => theme.fontSize.s};
   outline: none;
   transition: all 0.5s ease-out;
+  color: ${({ theme }) => theme.fontColor};
 
   ::placeholder {
     text-transform: capitalize;
     letter-spacing: 1px;
-    color: ${({ theme }) => theme.fontGrey};
+    color: ${({ theme }) => theme.fontColor};
   }
 
   :focus {
-    background-color: ${({ theme }) => theme.input};
+    background-color: ${({ theme }) => theme.inputHover};
     transition: all 0.5s ease-out;
   }
 

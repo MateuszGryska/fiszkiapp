@@ -12,6 +12,7 @@ import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
 import { editProfile as editProfileAction, clean as cleanAction } from 'actions';
 import { editProfileSchema } from 'validation';
+import { useTranslation } from 'react-i18next';
 
 const StyledWrapper = styled.section`
   height: 100vh;
@@ -19,7 +20,7 @@ const StyledWrapper = styled.section`
   position: fixed;
   top: 0;
   right: 0;
-  background-color: ${({ theme }) => theme.white};
+  background-color: ${({ theme }) => theme.background};
   border-left: 8px solid ${({ theme }) => theme.main};
   box-shadow: ${({ isVisible }) =>
     isVisible ? '-10px 3px 20px 0px rgba(0, 0, 0, 0.16);' : 'none'};
@@ -27,6 +28,7 @@ const StyledWrapper = styled.section`
   z-index: 1000;
   transform: translate(${({ isVisible }) => (isVisible ? '0' : '100%')});
   transition: transform 0.4s ease-in-out;
+  color: ${({ theme }) => theme.fontColor};
 
   @media (max-width: 480px) {
     width: 100vw;
@@ -42,7 +44,7 @@ const StyledForm = styled(Form)`
 
 const StyledInput = styled(Input)`
   margin-top: 10px;
-  width: 370px;
+  width: 360px;
 
   @media (max-width: 480px) {
     width: 90vw;
@@ -73,6 +75,7 @@ const EditProfileBar = ({
   cleanUp,
 }) => {
   const [isEditProfileVisible, setVisible] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setVisible(isVisible);
@@ -95,18 +98,20 @@ const EditProfileBar = ({
             handleClose(false);
           }}
         />
-        <BarsTitle>Edit profile</BarsTitle>
+        <BarsTitle>{t('bars_title.edit_profile')}</BarsTitle>
         <StyledParagraph>
-          Edit what you want to change. <br />
-          First and last name can have a maximum of 25 letters. Password must be at least 8
-          characters. <br /> Special characters are not allowed.
+          {t('description.edit_profile')} <br /> {t('info.special_characters')}
         </StyledParagraph>
         <Formik
           validationSchema={editProfileSchema}
           initialValues={{
             firstName: profile.firstName,
             lastName: profile.lastName,
+            isDarkMode: profile.isDarkMode,
+            points: profile.points,
             email: auth.email,
+            socialLogIn: profile.socialLogIn,
+            avatar: profile.avatar,
             password: '',
             confirmPassword: '',
           }}
@@ -124,13 +129,13 @@ const EditProfileBar = ({
                   autoComplete="off"
                   type="text"
                   name="firstName"
-                  placeholder="First name"
+                  placeholder={t('account_info.first_name')}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.firstName}
                 />
                 {errors.firstName && touched.firstName ? (
-                  <StyledMessage error>{errors.firstName}</StyledMessage>
+                  <StyledMessage error>{t(errors.firstName)}</StyledMessage>
                 ) : (
                   <StyledMessage error />
                 )}
@@ -140,13 +145,13 @@ const EditProfileBar = ({
                   autoComplete="off"
                   type="text"
                   name="lastName"
-                  placeholder="Last name"
+                  placeholder={t('account_info.last_name')}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.lastName}
                 />
                 {errors.lastName && touched.lastName ? (
-                  <StyledMessage error>{errors.lastName}</StyledMessage>
+                  <StyledMessage error>{t(errors.lastName)}</StyledMessage>
                 ) : (
                   <StyledMessage error />
                 )}
@@ -156,13 +161,13 @@ const EditProfileBar = ({
                   autoComplete="off"
                   type="email"
                   name="email"
-                  placeholder="email"
+                  placeholder={t('account_info.email')}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
                 />
                 {errors.email && touched.email ? (
-                  <StyledMessage error>{errors.email}</StyledMessage>
+                  <StyledMessage error>{t(errors.email)}</StyledMessage>
                 ) : (
                   <StyledMessage error />
                 )}
@@ -172,13 +177,13 @@ const EditProfileBar = ({
                   autoComplete="off"
                   type="password"
                   name="password"
-                  placeholder="password"
+                  placeholder={t('account_info.password')}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.password}
                 />
                 {errors.password && touched.password ? (
-                  <StyledMessage error>{errors.password}</StyledMessage>
+                  <StyledMessage error>{t(errors.password)}</StyledMessage>
                 ) : (
                   <StyledMessage error />
                 )}
@@ -187,22 +192,22 @@ const EditProfileBar = ({
                 <StyledInput
                   type="password"
                   name="confirmPassword"
-                  placeholder="confirm password"
+                  placeholder={t('account_info.confirm_password')}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.confirmPassword}
                 />
                 {errors.confirmPassword && touched.confirmPassword ? (
-                  <StyledMessage error>{errors.confirmPassword}</StyledMessage>
+                  <StyledMessage error>{t(errors.confirmPassword)}</StyledMessage>
                 ) : (
                   <StyledMessage error />
                 )}
               </div>
               <StyledActionButton secondary disabled={!isValid} type="submit">
-                update
+                {t('buttons.update')}
               </StyledActionButton>
               <Message error>{error}</Message>
-              {error === false ? <Message>Profile was updated!</Message> : null}
+              {error === false ? <Message>{t('info.profile_updated_success')}</Message> : null}
             </StyledForm>
           )}
         </Formik>

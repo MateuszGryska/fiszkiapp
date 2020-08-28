@@ -21,10 +21,10 @@ const Tooltip = styled.div`
     min-width: 100px; 
     text-align: center;
     content: '${({ description }) => description || 'No description'}';
-    color: ${({ theme }) => theme.black};
+    color: ${({ theme }) => theme.fontColor};
     font-size: 0.8em;
     line-height: 1.7em;
-    background-color: ${({ theme }) => theme.white};
+    background-color: ${({ theme }) => theme.background};
     opacity: 0;
     transform: translate(-50%, 0);
     border-radius: 4px;
@@ -42,7 +42,7 @@ const Tooltip = styled.div`
     height: 10px;
     margin-bottom: -4px;
     content: '';
-    background-color: ${({ theme }) => theme.white};
+    background-color: ${({ theme }) => theme.background};
     opacity: 0;
     transform: translate(-50%, 0) rotate(45deg);
     transition: transform 0.2s ease-out;

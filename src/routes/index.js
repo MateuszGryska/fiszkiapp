@@ -12,4 +12,5 @@ export const routes = {
   account: '/account',
   reset: '/reset-password',
   notverified: '/notverified',
+  about: '/about',
 };
