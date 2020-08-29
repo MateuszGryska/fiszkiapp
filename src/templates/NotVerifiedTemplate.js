@@ -22,7 +22,8 @@ const StyledWrapper = styled.section`
 `;
 
 const StyledModal = styled.article`
-  width: 700px;
+  width: 90vw;
+  max-width: 700px;
   height: 500px;
   padding: 30px 20px;
   border: none;
