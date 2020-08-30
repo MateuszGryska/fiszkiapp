@@ -44,7 +44,7 @@ const StyledHello = styled.p`
   color: ${({ theme }) => theme.main};
 `;
 
-const StyledButton = styled(Link)`
+const StyledLink = styled(Link)`
   text-decoration: none;
   color: ${({ theme }) => theme.fontColor};
   border: none;
@@ -113,10 +113,10 @@ const AccountDetails = ({ profileData, signOut }) => {
           <StyledHello>{t('hello')}</StyledHello> {profileData.firstName}!
         </StyledTitle>
         <StyledButtons>
-          <StyledButton to="/account">{t('title.account')}</StyledButton>
-          <StyledButton to="/" onClick={() => signOut()}>
+          <StyledLink to="/account">{t('title.account')}</StyledLink>
+          <StyledLink to="/" onClick={() => signOut()}>
             {t('log_out')}
-          </StyledButton>
+          </StyledLink>
         </StyledButtons>
       </StyledAccountsDetails>
     </StyledWrapper>

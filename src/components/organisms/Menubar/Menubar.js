@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
 import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import AccountDetails from 'components/molecules/AccountDetails/AccountDetails';
 import { signOut as signOutAction } from 'actions';
 import { routes } from 'routes';
@@ -105,7 +105,7 @@ const StyledLang = styled.div`
   color: ${({ theme }) => theme.fontColor};
 `;
 
-const StyledParagraph = styled(NavLink)`
+const StyledAbout = styled(Link)`
   text-decoration: none;
   color: ${({ theme }) => theme.fontColor};
   position: absolute;
@@ -126,7 +126,9 @@ const Menubar = React.memo(
     return (
       <>
         <StyledWrapper isVisible={isVisible}>
-          <StyledParagraph to={routes.about}>{t('title.about')}</StyledParagraph>
+          <StyledAbout rel="author" to={routes.about}>
+            {t('title.about')}
+          </StyledAbout>
           <StyledLang>
             <StyledIcon icon={polandIcon} onClick={() => handleChangeLangClick('pl')} />
             |
@@ -147,7 +149,7 @@ const Menubar = React.memo(
                 </StyledNavLink>
               </li>
               <li>
-                <StyledNavLink to={routes.spelling} activeclass="active">
+                <StyledNavLink to={routes.spelling} activeclass="active" rel="spelling_check">
                   {t('title.spelling_check')}
                 </StyledNavLink>
               </li>

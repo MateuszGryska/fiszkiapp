@@ -66,7 +66,7 @@ const Topbar = ({ handleOpen, emailVerified }) => (
   <>
     <StyledWrapper>
       <StyledNav>
-        <StyledLogo to="/" />
+        <StyledLogo rel="index" to="/" />
         <StyledMenu onClick={() => handleOpen()} />
       </StyledNav>
     </StyledWrapper>
