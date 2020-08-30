@@ -23,7 +23,7 @@ import { PAGE_TYPES, SOCIAL_TYPES } from 'helpers/constants';
 import { routes } from 'routes';
 
 const StyledWrapper = styled.main`
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
