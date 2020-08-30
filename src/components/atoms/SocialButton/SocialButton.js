@@ -9,6 +9,7 @@ import { SOCIAL_TYPES } from 'helpers/constants';
 const StyledWrapper = styled.button`
     position: relative;
     width: 270px;
+    min-height: 50px;
     border-radius: 5px;
     border: none;
     color: ${({ theme }) => theme.white};
@@ -18,6 +19,7 @@ const StyledWrapper = styled.button`
     padding-left: 80px;
     margin-top: 10px;
     font-weight: bold;
+
 
   ${({ facebook }) =>
     facebook &&

@@ -30,7 +30,7 @@ const StyledTitle = styled.h1`
   margin: 0;
 `;
 
-const DataInfo = styled.p`
+const DataInfo = styled.time`
   font-size: 1rem;
   margin-top: 10px;
 `;

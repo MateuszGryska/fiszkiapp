@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
+import InputSection from 'components/molecules/InputSection/InputSection';
 import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
 import BarsTitle from 'components/atoms/BarsTitle/BarsTitle';
-import Input from 'components/atoms/Input/Input';
 import Message from 'components/atoms/Message/Message';
 import { connect } from 'react-redux';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
@@ -14,7 +14,7 @@ import { editProfile as editProfileAction, clean as cleanAction } from 'actions'
 import { editProfileSchema } from 'validation';
 import { useTranslation } from 'react-i18next';
 
-const StyledWrapper = styled.section`
+const StyledWrapper = styled.aside`
   height: 100vh;
   width: 400px;
   position: fixed;
@@ -42,27 +42,12 @@ const StyledForm = styled(Form)`
   align-items: center;
 `;
 
-const StyledInput = styled(Input)`
-  margin-top: 10px;
-  width: 360px;
-
-  @media (max-width: 480px) {
-    width: 90vw;
-  }
-`;
-
 const StyledActionButton = styled(ActionButton)`
   margin-top: 20px;
 `;
 
 const StyledParagraph = styled.p`
   font-size: 1.2rem;
-`;
-
-const StyledMessage = styled(Message)`
-  margin-top: 0px;
-  padding-left: 20px;
-  margin-bottom: 5px;
 `;
 
 const EditProfileBar = ({
@@ -124,85 +109,66 @@ const EditProfileBar = ({
         >
           {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
             <StyledForm>
-              <div>
-                <StyledInput
-                  autoComplete="off"
-                  type="text"
-                  name="firstName"
-                  placeholder={t('account_info.first_name')}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.firstName}
-                />
-                {errors.firstName && touched.firstName ? (
-                  <StyledMessage error>{t(errors.firstName)}</StyledMessage>
-                ) : (
-                  <StyledMessage error />
-                )}
-              </div>
-              <div>
-                <StyledInput
-                  autoComplete="off"
-                  type="text"
-                  name="lastName"
-                  placeholder={t('account_info.last_name')}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.lastName}
-                />
-                {errors.lastName && touched.lastName ? (
-                  <StyledMessage error>{t(errors.lastName)}</StyledMessage>
-                ) : (
-                  <StyledMessage error />
-                )}
-              </div>
-              <div>
-                <StyledInput
-                  autoComplete="off"
-                  type="email"
-                  name="email"
-                  placeholder={t('account_info.email')}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.email}
-                />
-                {errors.email && touched.email ? (
-                  <StyledMessage error>{t(errors.email)}</StyledMessage>
-                ) : (
-                  <StyledMessage error />
-                )}
-              </div>
-              <div>
-                <StyledInput
-                  autoComplete="off"
-                  type="password"
-                  name="password"
-                  placeholder={t('account_info.password')}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.password}
-                />
-                {errors.password && touched.password ? (
-                  <StyledMessage error>{t(errors.password)}</StyledMessage>
-                ) : (
-                  <StyledMessage error />
-                )}
-              </div>
-              <div>
-                <StyledInput
-                  type="password"
-                  name="confirmPassword"
-                  placeholder={t('account_info.confirm_password')}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.confirmPassword}
-                />
-                {errors.confirmPassword && touched.confirmPassword ? (
-                  <StyledMessage error>{t(errors.confirmPassword)}</StyledMessage>
-                ) : (
-                  <StyledMessage error />
-                )}
-              </div>
+              <InputSection
+                type="text"
+                name="firstName"
+                placeholder="account_info.first_name"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.firstName}
+                label="account_info.first_name"
+                error={errors.firstName}
+                touched={touched.firstName}
+                ariaDescribedBy="firstName_error"
+              />
+              <InputSection
+                type="text"
+                name="lastName"
+                placeholder="account_info.last_name"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.lastName}
+                label="account_info.last_name"
+                error={errors.lastName}
+                touched={touched.lastName}
+                ariaDescribedBy="lastName_error"
+              />
+              <InputSection
+                type="email"
+                name="email"
+                placeholder="account_info.email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+                label="account_info.email"
+                error={errors.email}
+                touched={touched.email}
+                ariaDescribedBy="email_error"
+              />
+              <InputSection
+                type="password"
+                name="password"
+                placeholder="account_info.password"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.password}
+                label="account_info.password"
+                error={errors.password}
+                touched={touched.password}
+                ariaDescribedBy="password_error"
+              />
+              <InputSection
+                type="password"
+                name="confirmPassword"
+                placeholder="account_info.confirm_password"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.confirmPassword}
+                label="account_info.confirm_password"
+                error={errors.confirmPassword}
+                touched={touched.confirmPassword}
+                ariaDescribedBy="confirmPassword_error"
+              />
               <StyledActionButton secondary disabled={!isValid} type="submit">
                 {t('buttons.update')}
               </StyledActionButton>

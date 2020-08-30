@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ReturnButton from 'components/atoms/ReturnButton/ReturnButton';
 import DarkerBackground from 'components/atoms/DarkerBackground/DarkerBackground';
-import Message from 'components/atoms/Message/Message';
 import BarsTitle from 'components/atoms/BarsTitle/BarsTitle';
-import Input from 'components/atoms/Input/Input';
+import InputSection from 'components/molecules/InputSection/InputSection';
 import { connect } from 'react-redux';
 import ActionButton from 'components/atoms/ActionButton/ActionButton';
 import withContext from 'hoc/withContext';
@@ -15,7 +14,7 @@ import { wordSchema, noteSchema } from 'validation';
 import { useTranslation } from 'react-i18next';
 import { COLLECTION_TYPES, PAGE_TYPES } from 'helpers/constants';
 
-const StyledWrapper = styled.section`
+const StyledWrapper = styled.aside`
   height: 100vh;
   width: 400px;
   position: fixed;
@@ -43,26 +42,8 @@ const StyledForm = styled(Form)`
   align-items: center;
 `;
 
-const StyledInput = styled(Input)`
-  margin-top: 10px;
-  width: 360px;
-
-  @media (max-width: 480px) {
-    width: 90vw;
-  }
-`;
-
-const StyledTextArea = styled(Input)`
-  margin-top: 10px;
-  height: 30vh;
-  min-height: 10vh;
-  min-width: 360px;
-  max-width: 360px;
-
-  @media (max-width: 480px) {
-    min-width: 200px;
-    width: 90vw;
-  }
+const StyledFieldset = styled.fieldset`
+  border: none;
 `;
 
 const StyledActionButton = styled(ActionButton)`
@@ -71,12 +52,6 @@ const StyledActionButton = styled(ActionButton)`
 
 const StyledParagraph = styled.p`
   font-size: 1.2rem;
-`;
-
-const StyledMessage = styled(Message)`
-  margin-top: 0px;
-  padding-left: 20px;
-  margin-bottom: 5px;
 `;
 
 const EditItemBar = React.memo(
@@ -132,95 +107,75 @@ const EditItemBar = React.memo(
             {({ values, handleChange, handleBlur, isValid, errors, touched }) => (
               <StyledForm>
                 {pageContext === PAGE_TYPES.notes ? (
-                  <>
-                    <div>
-                      <StyledInput
-                        autoComplete="off"
-                        type="text"
-                        name="title"
-                        placeholder={t('input.title')}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.title}
-                      />
-                      {errors.title && touched.title ? (
-                        <StyledMessage error>{t(errors.title)}</StyledMessage>
-                      ) : (
-                        <StyledMessage />
-                      )}
-                    </div>
-                    <div>
-                      <StyledTextArea
-                        autoComplete="off"
-                        as="textarea"
-                        type="text"
-                        name="content"
-                        placeholder={t('input.content')}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.content}
-                      />
-                      {errors.content && touched.content ? (
-                        <StyledMessage error>{t(errors.content)}</StyledMessage>
-                      ) : (
-                        <StyledMessage />
-                      )}
-                    </div>
-                  </>
+                  <StyledFieldset>
+                    <InputSection
+                      type="text"
+                      name="title"
+                      placeholder="input.title"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.title}
+                      label="input.title"
+                      error={errors.title}
+                      touched={touched.title}
+                      ariaDescribedBy="title_error"
+                    />
+                    <InputSection
+                      type="text"
+                      name="content"
+                      as="textarea"
+                      placeholder="input.content"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.content}
+                      label="input.content"
+                      error={errors.content}
+                      touched={touched.content}
+                      ariaDescribedBy="content_error"
+                    />
+                  </StyledFieldset>
                 ) : null}
 
                 {pageContext === PAGE_TYPES.words || pageContext === PAGE_TYPES.flashcards ? (
-                  <>
-                    <div>
-                      <StyledInput
-                        autoComplete="off"
-                        type="text"
-                        name="polish"
-                        placeholder={t('input.polish')}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.polish}
-                      />
-                      {errors.polish && touched.polish ? (
-                        <StyledMessage error>{t(errors.polish)}</StyledMessage>
-                      ) : (
-                        <StyledMessage />
-                      )}
-                    </div>
-                    <div>
-                      <StyledInput
-                        autoComplete="off"
-                        type="text"
-                        name="english"
-                        placeholder={t('input.english')}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.english}
-                      />
-                      {errors.english && touched.english ? (
-                        <StyledMessage error>{t(errors.english)}</StyledMessage>
-                      ) : (
-                        <StyledMessage />
-                      )}
-                    </div>
-                    <div>
-                      <StyledTextArea
-                        autoComplete="off"
-                        as="textarea"
-                        type="text"
-                        name="description"
-                        placeholder={t('input.description')}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.description}
-                      />
-                      {errors.description && touched.description ? (
-                        <StyledMessage error>{t(errors.description)}</StyledMessage>
-                      ) : (
-                        <StyledMessage />
-                      )}
-                    </div>
-                  </>
+                  <StyledFieldset>
+                    <InputSection
+                      type="text"
+                      name="polish"
+                      placeholder="input.polish"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.polish}
+                      label="input.polish"
+                      error={errors.polish}
+                      touched={touched.polish}
+                      ariaDescribedBy="polish_error"
+                    />
+                    <InputSection
+                      type="text"
+                      name="english"
+                      placeholder="input.english"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.english}
+                      label="input.english"
+                      error={errors.english}
+                      touched={touched.english}
+                      ariaDescribedBy="english_error"
+                    />
+                    <InputSection
+                      type="text"
+                      name="description"
+                      as="textarea"
+                      placeholder="input.description"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.description}
+                      label="input.description"
+                      error={errors.description}
+                      touched={touched.description}
+                      ariaDescribedBy="description_error"
+                    />
+                  </StyledFieldset>
                 ) : null}
                 <StyledActionButton secondary disabled={!isValid} type="submit">
                   {t('buttons.update')}

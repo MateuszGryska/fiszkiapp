@@ -28,7 +28,7 @@ const StyledAccountsDetails = styled.article`
   margin-left: 20px;
 `;
 
-const StyledTitle = styled.aside`
+const StyledTitle = styled.header`
   padding: 0;
   margin: 0;
   font-size: ${({ theme }) => theme.fontSize.l};
@@ -44,7 +44,7 @@ const StyledHello = styled.p`
   color: ${({ theme }) => theme.main};
 `;
 
-const StyledButton = styled(Link)`
+const StyledLink = styled(Link)`
   text-decoration: none;
   color: ${({ theme }) => theme.fontColor};
   border: none;
@@ -105,16 +105,18 @@ const AccountDetails = ({ profileData, signOut }) => {
 
   return (
     <StyledWrapper>
-      <Avatar alt="avatar" image={avatar} />
+      <picture>
+        <Avatar alt="avatar" image={avatar} />
+      </picture>
       <StyledAccountsDetails>
         <StyledTitle>
           <StyledHello>{t('hello')}</StyledHello> {profileData.firstName}!
         </StyledTitle>
         <StyledButtons>
-          <StyledButton to="/account">{t('title.account')}</StyledButton>
-          <StyledButton to="/" onClick={() => signOut()}>
+          <StyledLink to="/account">{t('title.account')}</StyledLink>
+          <StyledLink to="/" onClick={() => signOut()}>
             {t('log_out')}
-          </StyledButton>
+          </StyledLink>
         </StyledButtons>
       </StyledAccountsDetails>
     </StyledWrapper>

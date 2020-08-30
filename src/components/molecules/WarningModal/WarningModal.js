@@ -59,7 +59,11 @@ const WarningModal = React.memo(
       <>
         <StyledWrapper isVisible={isVisible} item={item}>
           <StyledInfo>{!item ? t('info.no_sure') : t('info.sure')}</StyledInfo>
-          {!item ? <StyledImg src={SadPhoto} alt="sad child" /> : null}
+          {!item ? (
+            <picture>
+              <StyledImg src={SadPhoto} alt="sad child" />
+            </picture>
+          ) : null}
           <StyledButtons>
             <ActionButton secondary onClick={() => deleteAction()}>
               {t('buttons.do_it')}

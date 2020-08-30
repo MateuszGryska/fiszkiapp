@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 const StyledWrapper = styled.button`
-  height: 50px;
+  min-height: 50px;
   width: 270px;
   border-radius: 10px;
   border: none;
@@ -58,7 +58,6 @@ const Button = ({
   ...rest
 }) => (
   <StyledWrapper
-    data-testid="button"
     disabled={disabled}
     loginButton={loginButton ? 'loginButton' : null}
     recoverButton={recoverButton ? 'recoverButton' : null}

@@ -5,10 +5,10 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Button from 'components/atoms/Button/Button';
 import SocialButton from 'components/atoms/SocialButton/SocialButton';
+import InputSection from 'components/molecules/InputSection/InputSection';
 import Message from 'components/atoms/Message/Message';
 import withContext from 'hoc/withContext';
 import { Formik, Form } from 'formik';
-import Input from 'components/atoms/Input/Input';
 import background from 'assets/img/bg.png';
 import logoIcon from 'assets/icons/logo.svg';
 import {
@@ -23,7 +23,7 @@ import { PAGE_TYPES, SOCIAL_TYPES } from 'helpers/constants';
 import { routes } from 'routes';
 
 const StyledWrapper = styled.main`
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -79,12 +79,6 @@ const StyledForm = styled(Form)`
   align-items: center;
 `;
 
-const StyledInput = styled(Input)`
-  @media (max-width: 480px) {
-    width: 80vw;
-  }
-`;
-
 const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.fontColor};
   margin: 10px 30px 0px 30px;
@@ -94,15 +88,13 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const StyledMessage = styled(Message)`
-  margin-top: 5px;
-  padding-left: 20px;
-  margin-bottom: 10px;
-`;
-
 const StyledOr = styled.p`
   padding-bottom: 40px;
   margin: 0;
+`;
+
+const StyledFieldset = styled.fieldset`
+  border: none;
 `;
 
 const AuthTemplate = ({
@@ -166,136 +158,112 @@ const AuthTemplate = ({
           {({ values, handleChange, handleBlur, errors, touched, isValid }) => (
             <StyledForm>
               {pageContext === PAGE_TYPES.login ? (
-                <>
-                  <div>
-                    <StyledInput
-                      type="email"
-                      name="email"
-                      placeholder="email"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.email}
-                    />
-                    {errors.email && touched.email ? (
-                      <StyledMessage error>{errors.email}</StyledMessage>
-                    ) : (
-                      <StyledMessage error />
-                    )}
-                  </div>
-                  <div>
-                    <StyledInput
-                      type="password"
-                      name="password"
-                      placeholder="password"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.password}
-                    />
-                    {errors.password && touched.password ? (
-                      <StyledMessage error>{errors.password}</StyledMessage>
-                    ) : (
-                      <StyledMessage error />
-                    )}
-                  </div>
-                </>
+                <StyledFieldset>
+                  <InputSection
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                    label="Email"
+                    error={errors.email}
+                    touched={touched.email}
+                    ariaDescribedBy="email_error"
+                  />
+                  <InputSection
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                    label="Password"
+                    error={errors.password}
+                    touched={touched.password}
+                    ariaDescribedBy="password_error"
+                  />
+                </StyledFieldset>
               ) : null}
               {pageContext === PAGE_TYPES.resetPassword ? (
-                <>
-                  <div>
-                    <StyledInput
-                      type="email"
-                      name="email"
-                      placeholder="email"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.email}
-                    />
-                    {errors.email && touched.email ? (
-                      <StyledMessage error>{errors.email}</StyledMessage>
-                    ) : (
-                      <StyledMessage error />
-                    )}
-                  </div>
-                </>
+                <StyledFieldset>
+                  <InputSection
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                    label="Email"
+                    error={errors.email}
+                    touched={touched.email}
+                    ariaDescribedBy="email_error"
+                  />
+                </StyledFieldset>
               ) : null}
               {pageContext === PAGE_TYPES.register ? (
-                <>
-                  <div>
-                    <StyledInput
-                      type="email"
-                      name="email"
-                      placeholder="email"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.email}
-                    />
-                    {errors.email && touched.email ? (
-                      <StyledMessage error>{errors.email}</StyledMessage>
-                    ) : (
-                      <StyledMessage error />
-                    )}
-                  </div>
-                  <div>
-                    <StyledInput
-                      type="text"
-                      name="firstName"
-                      placeholder="firstName"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.firstName}
-                    />
-                    {errors.firstName && touched.firstName ? (
-                      <StyledMessage error>{errors.firstName}</StyledMessage>
-                    ) : (
-                      <StyledMessage error />
-                    )}
-                  </div>
-                  <div>
-                    <StyledInput
-                      type="text"
-                      name="lastName"
-                      placeholder="lastName"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.lastName}
-                    />
-                    {errors.lastName && touched.lastName ? (
-                      <StyledMessage error>{errors.lastName}</StyledMessage>
-                    ) : (
-                      <StyledMessage error />
-                    )}
-                  </div>
-                  <div>
-                    <StyledInput
-                      type="password"
-                      name="password"
-                      placeholder="password"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.password}
-                    />
-                    {errors.password && touched.password ? (
-                      <StyledMessage error>{errors.password}</StyledMessage>
-                    ) : (
-                      <StyledMessage error />
-                    )}
-                  </div>
-                  <div>
-                    <StyledInput
-                      type="password"
-                      name="confirmPassword"
-                      placeholder="confirm password"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.confirmPassword}
-                    />
-                    {errors.confirmPassword && touched.confirmPassword ? (
-                      <StyledMessage error>{errors.confirmPassword}</StyledMessage>
-                    ) : (
-                      <StyledMessage error />
-                    )}
-                  </div>
-                </>
+                <StyledFieldset>
+                  <InputSection
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                    label="Email"
+                    error={errors.email}
+                    touched={touched.email}
+                    ariaDescribedBy="email_error"
+                  />
+                  <InputSection
+                    type="text"
+                    name="firstName"
+                    placeholder="First name"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.firstName}
+                    label="First name"
+                    error={errors.firstName}
+                    touched={touched.firstName}
+                    ariaDescribedBy="firstName_error"
+                  />
+                  <InputSection
+                    type="text"
+                    name="lastName"
+                    placeholder="Last name"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.lastName}
+                    label="Last name"
+                    error={errors.lastName}
+                    touched={touched.lastName}
+                    ariaDescribedBy="lastName_error"
+                  />
+                  <InputSection
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                    label="Password"
+                    error={errors.password}
+                    touched={touched.password}
+                    ariaDescribedBy="password_error"
+                  />
+                  <InputSection
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Confirm password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.confirmPassword}
+                    label="Confirm password"
+                    error={errors.confirmPassword}
+                    touched={touched.confirmPassword}
+                    ariaDescribedBy="confirmPassword_error"
+                  />
+                </StyledFieldset>
               ) : null}
               {pageContext === PAGE_TYPES.login ? (
                 <>

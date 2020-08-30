@@ -118,6 +118,7 @@ const TableTemplate = ({ words, loading }) => {
         <Title>{t('title.words_list')}</Title>
         <StyledParagraph>{t('description.words_list')}.</StyledParagraph>
         <StyledInput
+          type="search"
           search
           placeholder={t('input.search')}
           value={searchWord}
