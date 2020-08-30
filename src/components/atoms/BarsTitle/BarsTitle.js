@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const BarsTitle = styled.h1`
+const BarsTitle = styled.h2`
   color: ${({ theme }) => theme.fontGrey};
 `;
 

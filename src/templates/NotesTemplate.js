@@ -23,7 +23,7 @@ const StyledInfo = styled.h1`
   text-align: center;
 `;
 
-const StyledGrid = styled.article`
+const StyledGrid = styled.section`
   padding-top: 50px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -67,6 +67,7 @@ const NotesTemplate = ({ notes, loading }) => {
         <StyledParagraph>{t('description.notes')}.</StyledParagraph>
         <StyledInput
           search
+          type="search"
           placeholder={t('input.search_by_title')}
           value={searchNote}
           onChange={handleInputChange}

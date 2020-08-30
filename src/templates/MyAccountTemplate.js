@@ -141,7 +141,9 @@ const MyAccountTemplate = ({
         <Title>{t('title.account')}</Title>
         {!profileData.isEmpty ? (
           <>
-            <Avatar alt="avatar" image={avatar} />
+            <picture>
+              <Avatar alt="avatar" image={avatar} />
+            </picture>
             <StyledDetailsList>
               <StyledDetail>
                 <StyledInfoItem>{t('account_info.points')}: </StyledInfoItem>

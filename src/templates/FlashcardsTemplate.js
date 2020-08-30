@@ -25,17 +25,19 @@ const StyledWrapper = styled.section`
   align-items: center;
 `;
 
-const StyledBiggerWord = styled.h1`
+const StyledBiggerWord = styled.p`
   padding-top: 10px;
   text-align: center;
   font-size: ${({ theme }) => theme.fontSize.xl};
+  font-weight: bold;
 `;
 
-const StyledSmallerWord = styled.h2`
+const StyledSmallerWord = styled.p`
   font-size: ${({ theme }) => theme.fontSize.m};
   margin: 0;
   text-align: center;
   opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
+  font-weight: bold;
 `;
 
 const StyledShowButton = styled.button`

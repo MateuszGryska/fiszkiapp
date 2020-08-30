@@ -12,7 +12,7 @@ import polandIcon from 'assets/icons/poland.svg';
 import ukIcon from 'assets/icons/uk.svg';
 import { useTranslation } from 'react-i18next';
 
-const StyledWrapper = styled.section`
+const StyledWrapper = styled.aside`
   height: 100vh;
   width: 400px;
   position: fixed;

@@ -28,7 +28,7 @@ const StyledAccountsDetails = styled.article`
   margin-left: 20px;
 `;
 
-const StyledTitle = styled.aside`
+const StyledTitle = styled.header`
   padding: 0;
   margin: 0;
   font-size: ${({ theme }) => theme.fontSize.l};
@@ -105,7 +105,9 @@ const AccountDetails = ({ profileData, signOut }) => {
 
   return (
     <StyledWrapper>
-      <Avatar alt="avatar" image={avatar} />
+      <picture>
+        <Avatar alt="avatar" image={avatar} />
+      </picture>
       <StyledAccountsDetails>
         <StyledTitle>
           <StyledHello>{t('hello')}</StyledHello> {profileData.firstName}!

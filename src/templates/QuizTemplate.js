@@ -25,10 +25,11 @@ const StyledWrapper = styled.section`
   color: ${({ theme }) => theme.fontColor};
 `;
 
-const StyledMainWord = styled.h1`
+const StyledMainWord = styled.p`
   padding-top: 10px;
   text-align: center;
   font-size: ${({ theme }) => theme.fontSize.xl};
+  font-weight: bold;
 `;
 
 const StyledParagraph = styled.p`
