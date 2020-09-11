@@ -23,21 +23,20 @@ import { PAGE_TYPES, SOCIAL_TYPES } from 'helpers/constants';
 import { routes } from 'routes';
 
 const StyledWrapper = styled.main`
-  min-height: 100vh;
+  /* min-height: 100vh; */
   width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: url(${background});
-  background-size: cover 100vw;
-  background-color: transparent;
-  background-position: 50% 20%;
-  background-repeat: no-repeat;
+  background: url(${background}) no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
 
-  @media (max-width: 1980px) {
-    background-size: cover 100vh;
-  }
+  /* @media (max-width: 1980px) {
+    background-size: cover
+  } */
 `;
 
 const StyledLogo = styled.section`
