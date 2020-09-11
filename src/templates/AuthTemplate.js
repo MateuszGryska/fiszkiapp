@@ -23,7 +23,6 @@ import { PAGE_TYPES, SOCIAL_TYPES } from 'helpers/constants';
 import { routes } from 'routes';
 
 const StyledWrapper = styled.main`
-  /* min-height: 100vh; */
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -33,10 +32,6 @@ const StyledWrapper = styled.main`
   background-size: cover;
   height: 100vh;
   overflow: hidden;
-
-  /* @media (max-width: 1980px) {
-    background-size: cover
-  } */
 `;
 
 const StyledLogo = styled.section`
