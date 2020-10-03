@@ -1,5 +1,41 @@
-import { authTypes } from 'actions/types';
+import { authTypes } from 'actions/actionTypes';
 
+type Error = string | boolean | null;
+type Loading = boolean;
+
+interface AuthState {
+  error: Error;
+  loading: Loading;
+  verifyEmail: {
+    error: Error;
+    loading: Loading;
+  };
+  recoveryPassword: {
+    error: Error;
+    loading: Loading;
+  };
+  profileEdit: {
+    error: Error;
+    loading: Loading;
+  };
+  uploadAvatar: {
+    error: Error;
+    loading: Loading;
+  };
+  deleteUser: {
+    error: Error;
+    loading: Loading;
+  };
+  darkMode: {
+    error: Error;
+    loading: Loading;
+  };
+}
+
+interface Action {
+  type: string;
+  payload: string;
+}
 const initialState = {
   error: null,
   loading: false,
@@ -31,57 +67,57 @@ const initialState = {
 
 // Helper functions
 
-const authStart = (state) => {
+const authStart = (state: AuthState) => {
   return { ...state, loading: true };
 };
 
-const authEnd = (state) => {
+const authEnd = (state: AuthState): AuthState => {
   return {
     ...state,
     loading: false,
   };
 };
 
-const authFail = (state, payload) => {
+const authFail = (state: AuthState, payload: string): AuthState => {
   return {
     ...state,
     error: payload,
   };
 };
 
-const authSuccess = (state) => {
+const authSuccess = (state: AuthState): AuthState => {
   return {
     ...state,
     error: false,
   };
 };
 
-const socialAuthStart = (state) => {
+const socialAuthStart = (state: AuthState): AuthState => {
   return { ...state, loading: true };
 };
 
-const socialAuthEnd = (state) => {
+const socialAuthEnd = (state: AuthState): AuthState => {
   return {
     ...state,
     loading: false,
   };
 };
 
-const socialAuthFail = (state, payload) => {
+const socialAuthFail = (state: AuthState, payload: string): AuthState => {
   return {
     ...state,
     error: payload,
   };
 };
 
-const socialAuthSuccess = (state) => {
+const socialAuthSuccess = (state: AuthState): AuthState => {
   return {
     ...state,
     error: false,
   };
 };
 
-const verifyStart = (state) => {
+const verifyStart = (state: AuthState): AuthState => {
   return {
     ...state,
     verifyEmail: {
@@ -91,7 +127,7 @@ const verifyStart = (state) => {
   };
 };
 
-const verifySuccess = (state) => {
+const verifySuccess = (state: AuthState): AuthState => {
   return {
     ...state,
     verifyEmail: {
@@ -102,7 +138,7 @@ const verifySuccess = (state) => {
   };
 };
 
-const verifyFail = (state, payload) => {
+const verifyFail = (state: AuthState, payload: string): AuthState => {
   return {
     ...state,
     verifyEmail: {
@@ -113,7 +149,7 @@ const verifyFail = (state, payload) => {
   };
 };
 
-const recoveryStart = (state) => {
+const recoveryStart = (state: AuthState): AuthState => {
   return {
     ...state,
     recoveryPassword: {
@@ -123,7 +159,7 @@ const recoveryStart = (state) => {
   };
 };
 
-const recoverySuccess = (state) => {
+const recoverySuccess = (state: AuthState): AuthState => {
   return {
     ...state,
     recoveryPassword: {
@@ -134,7 +170,7 @@ const recoverySuccess = (state) => {
   };
 };
 
-const recoveryFail = (state, payload) => {
+const recoveryFail = (state: AuthState, payload: string): AuthState => {
   return {
     ...state,
     recoveryPassword: {
@@ -145,7 +181,7 @@ const recoveryFail = (state, payload) => {
   };
 };
 
-const profileEditStart = (state) => {
+const profileEditStart = (state: AuthState): AuthState => {
   return {
     ...state,
     profileEdit: {
@@ -155,7 +191,7 @@ const profileEditStart = (state) => {
   };
 };
 
-const profileEditSuccess = (state) => {
+const profileEditSuccess = (state: AuthState): AuthState => {
   return {
     ...state,
     profileEdit: {
@@ -166,7 +202,7 @@ const profileEditSuccess = (state) => {
   };
 };
 
-const profileEditFail = (state, payload) => {
+const profileEditFail = (state: AuthState, payload: string): AuthState => {
   return {
     ...state,
     profileEdit: {
@@ -177,7 +213,7 @@ const profileEditFail = (state, payload) => {
   };
 };
 
-const deleteStart = (state) => {
+const deleteStart = (state: AuthState): AuthState => {
   return {
     ...state,
     deleteUser: {
@@ -187,7 +223,7 @@ const deleteStart = (state) => {
   };
 };
 
-const deleteFail = (state, payload) => {
+const deleteFail = (state: AuthState, payload: string): AuthState => {
   return {
     ...state,
     deleteUser: {
@@ -198,7 +234,7 @@ const deleteFail = (state, payload) => {
   };
 };
 
-const uploadAvatarStart = (state) => {
+const uploadAvatarStart = (state: AuthState): AuthState => {
   return {
     ...state,
     uploadAvatar: {
@@ -208,7 +244,7 @@ const uploadAvatarStart = (state) => {
   };
 };
 
-const uploadAvatarSuccess = (state) => {
+const uploadAvatarSuccess = (state: AuthState): AuthState => {
   return {
     ...state,
     uploadAvatar: {
@@ -219,7 +255,7 @@ const uploadAvatarSuccess = (state) => {
   };
 };
 
-const uploadAvatarFail = (state, payload) => {
+const uploadAvatarFail = (state: AuthState, payload: string): AuthState => {
   return {
     ...state,
     uploadAvatar: {
@@ -230,7 +266,7 @@ const uploadAvatarFail = (state, payload) => {
   };
 };
 
-const darkModeStart = (state) => {
+const darkModeStart = (state: AuthState): AuthState => {
   return {
     ...state,
     darkMode: {
@@ -240,7 +276,7 @@ const darkModeStart = (state) => {
   };
 };
 
-const darkModeSuccess = (state) => {
+const darkModeSuccess = (state: AuthState): AuthState => {
   return {
     ...state,
     darkMode: {
@@ -251,7 +287,7 @@ const darkModeSuccess = (state) => {
   };
 };
 
-const darkModeFail = (state, payload) => {
+const darkModeFail = (state: AuthState, payload: string): AuthState => {
   return {
     ...state,
     darkMode: {
@@ -262,7 +298,7 @@ const darkModeFail = (state, payload) => {
   };
 };
 
-const cleanUp = (state) => {
+const cleanUp = (state: AuthState): AuthState => {
   return {
     ...state,
     error: null,
@@ -277,8 +313,8 @@ const cleanUp = (state) => {
       loading: false,
       error: null,
     },
-    editProfile: {
-      ...state.editProfile,
+    profileEdit: {
+      ...state.profileEdit,
       loading: false,
       error: null,
     },
@@ -299,7 +335,7 @@ const cleanUp = (state) => {
     },
   };
 };
-export default (state = initialState, { type, payload }) => {
+export default (state = initialState, { type, payload }: Action): AuthState => {
   switch (type) {
     case authTypes.AUTH_START:
       return authStart(state);
@@ -349,7 +385,7 @@ export default (state = initialState, { type, payload }) => {
     case authTypes.PROFILE_EDIT_START:
       return profileEditStart(state);
 
-    case authTypes.PROFILE_EDIT_SUCCCESS:
+    case authTypes.PROFILE_EDIT_SUCCESS:
       return profileEditSuccess(state);
 
     case authTypes.PROFILE_EDIT_FAIL:
@@ -358,7 +394,7 @@ export default (state = initialState, { type, payload }) => {
     case authTypes.UPLOAD_AVATAR_START:
       return uploadAvatarStart(state);
 
-    case authTypes.UPLOAD_AVATAR_SUCCCESS:
+    case authTypes.UPLOAD_AVATAR_SUCCESS:
       return uploadAvatarSuccess(state);
 
     case authTypes.UPLOAD_AVATAR_FAIL:
@@ -367,7 +403,7 @@ export default (state = initialState, { type, payload }) => {
     case authTypes.SET_DARK_MODE_START:
       return darkModeStart(state);
 
-    case authTypes.SET_DARK_MODE_SUCCCESS:
+    case authTypes.SET_DARK_MODE_SUCCESS:
       return darkModeSuccess(state);
 
     case authTypes.SET_DARK_MODE_FAIL:

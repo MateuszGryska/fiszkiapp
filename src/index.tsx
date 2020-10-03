@@ -10,9 +10,9 @@ import store from 'store';
 import LoadingTemplate from 'templates/LoadingTemplate';
 import * as serviceWorker from './serviceWorker';
 
-function AuthIsLoaded({ children }) {
-  const auth = useSelector((state) => state.firebase.auth);
-  if (!isLoaded(auth)) return <LoadingTemplate>Loading...</LoadingTemplate>;
+function AuthIsLoaded({ children }: { children: any }) {
+  const auth = useSelector((state: any) => state.firebase.auth);
+  if (!isLoaded(auth)) return <LoadingTemplate></LoadingTemplate>;
   return children;
 }
 

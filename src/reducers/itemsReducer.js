@@ -1,4 +1,4 @@
-import { itemTypes } from 'actions/types';
+import { itemTypes } from 'actions/actionTypes';
 
 const initialState = {
   error: null,

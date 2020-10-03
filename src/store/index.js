@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import rootReducer from 'reducers/rootReducer';
+import rootReducer from 'reducers/rootReducer.tsx';
 import thunk from 'redux-thunk';
 import { getFirebase } from 'react-redux-firebase';
 import { getFirestore, reduxFirestore } from 'redux-firestore';

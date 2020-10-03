@@ -8,7 +8,7 @@ import Input from 'components/atoms/Input/Input';
 import Toggle from 'components/atoms/Toggle/Toggle';
 import Tooltip from 'components/atoms/Tooltip/Tooltip';
 import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
-import { pickNewWord } from 'utils/pick-new-word';
+import { pickNewWord } from 'utils/pick-new-word.tsx';
 import { COLLECTION_TYPES } from 'helpers/constants';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { Formik, Form } from 'formik';

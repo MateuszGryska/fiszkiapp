@@ -1,4 +1,4 @@
-export const pickNewWord = (length, prevPosition) => {
+export const pickNewWord = (length: number, prevPosition: number) => {
   let random;
   if (length === 1) {
     random = prevPosition;

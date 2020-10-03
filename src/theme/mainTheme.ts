@@ -1,4 +1,6 @@
-export const theme = {
+import { DefaultTheme } from 'styled-components';
+
+export const theme: DefaultTheme = {
   main: 'rgb(104, 163, 86)',
   background: 'rgb(255, 255, 255)',
   input: 'rgb(255, 255, 255)',
@@ -21,7 +23,7 @@ export const theme = {
   },
 };
 
-export const darkTheme = {
+export const darkTheme: DefaultTheme = {
   main: 'rgb(72,113,60)',
   background: 'rgb(21,22,25)',
   input: 'rgb(28,30,34)',

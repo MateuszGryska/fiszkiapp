@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import PageContext from 'context';
 import GlobalStyle from 'theme/GlobalStyle';
 import { ThemeProvider } from 'styled-components';
-import { theme, darkTheme } from 'theme/mainTheme';
+import { theme, darkTheme } from 'theme/mainTheme.ts';
 
 class MainTemplate extends Component {
   state = {

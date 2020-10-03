@@ -1,4 +1,4 @@
-import { itemTypes } from 'actions/types';
+import { itemTypes } from 'actions/actionTypes';
 import { COLLECTION_TYPES } from 'helpers/constants';
 
 // add item

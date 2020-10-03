@@ -1,4 +1,4 @@
-import { authTypes } from 'actions/types';
+import { authTypes } from 'actions/actionTypes';
 import { SOCIAL_TYPES, COLLECTION_TYPES } from 'helpers/constants';
 
 // signUp action

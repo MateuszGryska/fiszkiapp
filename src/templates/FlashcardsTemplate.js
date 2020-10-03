@@ -8,7 +8,7 @@ import Toggle from 'components/atoms/Toggle/Toggle';
 import Tooltip from 'components/atoms/Tooltip/Tooltip';
 import LoadingSpinner from 'components/atoms/LoadingSpinner/LoadingSpinner';
 import { useFirestoreConnect } from 'react-redux-firebase';
-import { pickNewWord } from 'utils/pick-new-word';
+import { pickNewWord } from 'utils/pick-new-word.tsx';
 import { COLLECTION_TYPES } from 'helpers/constants';
 import { useTranslation } from 'react-i18next';
 

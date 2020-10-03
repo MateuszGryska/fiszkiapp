@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { routes } from 'routes';
 import { connect } from 'react-redux';
-import LoadingTemplate from 'templates/LoadingTemplate';
+import LoadingTemplate from 'templates/LoadingTemplate.tsx';
 import MainTemplate from 'templates/MainTemplate';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
@@ -32,7 +32,7 @@ const Root = ({ loggedIn, emailVerified }) => {
     );
   } else if (loggedIn && emailVerified) {
     routesWhenLoggedIn = (
-      <Suspense fallback={<LoadingTemplate>Loading...</LoadingTemplate>}>
+      <Suspense fallback={<LoadingTemplate />}>
         <Switch>
           <Route exact path={routes.home} render={() => <Redirect to="/flashcards" />} />
           <Route path={routes.flashcards} component={FlashcardsPage} />
