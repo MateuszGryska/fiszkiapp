@@ -2,7 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
-const StyledWrapper = styled.button`
+interface ButtonPropsI {
+  disabled: boolean;
+  children: string;
+  loading: boolean;
+  loginButton: string | null;
+  recoverButton: string | null;
+  deleteButton: string | null;
+}
+interface StyledWrapperI {
+  deleteButton: string | null;
+  recoverButton: string | null;
+  loginButton: string | null;
+}
+
+const StyledWrapper = styled.button<StyledWrapperI>`
   min-height: 50px;
   width: 270px;
   border-radius: 10px;
@@ -56,7 +70,7 @@ const Button = ({
   recoverButton,
   deleteButton,
   ...rest
-}) => (
+}: ButtonPropsI) => (
   <StyledWrapper
     disabled={disabled}
     loginButton={loginButton ? 'loginButton' : null}

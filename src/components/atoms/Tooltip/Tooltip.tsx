@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import infoIcon from 'assets/icons/info.svg';
 
-const Tooltip = styled.div`
+const Tooltip = styled.div<{ description: string }>`
   position: relative;
   background-image: url(${infoIcon});
   background-repeat: no-repeat;

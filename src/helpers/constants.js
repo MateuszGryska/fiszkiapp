@@ -4,6 +4,12 @@ export const SOCIAL_TYPES = {
   google: 'google',
 };
 
+export const BUTTON_TYPES = {
+  loginButton: 'loginButton',
+  recoverButton: 'recoverButton',
+  deleteButton: 'deleteButton',
+};
+
 export const COLLECTION_TYPES = {
   words: 'words',
   notes: 'notes',

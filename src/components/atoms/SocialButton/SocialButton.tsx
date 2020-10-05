@@ -6,7 +6,21 @@ import facebookLogo from 'assets/icons/facebook-logo.svg';
 import twitterLogo from 'assets/icons/twitter-logo.svg';
 import { SOCIAL_TYPES } from 'helpers/constants';
 
-const StyledWrapper = styled.button`
+interface SocialButtonI {
+  children: string;
+  loading: boolean;
+  facebook: boolean | null;
+  google: boolean | null;
+  twitter: boolean | null;
+}
+
+interface StyledSocialButtonI {
+  facebook: string | null;
+  google: string | null;
+  twitter: string | null;
+}
+
+const StyledWrapper = styled.button<StyledSocialButtonI>`
     position: relative;
     width: 270px;
     min-height: 50px;
@@ -39,7 +53,7 @@ const StyledWrapper = styled.button`
       `}
 `;
 
-const StyledIcon = styled.a`
+const StyledIcon = styled.a<StyledSocialButtonI>`
   width: 50px;
   height: 50px;
   position: absolute;
@@ -75,7 +89,7 @@ const StyledIcon = styled.a`
       `}
 `;
 
-const SocialButton = ({ children, loading, facebook, google, twitter, ...rest }) => (
+const SocialButton = ({ children, loading, facebook, google, twitter, ...rest }: SocialButtonI) => (
   <StyledWrapper
     facebook={facebook ? SOCIAL_TYPES.facebook : null}
     google={google ? SOCIAL_TYPES.google : null}

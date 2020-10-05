@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-const Message = styled.p`
+const Message = styled.p<{ error: boolean }>`
   height: 10px;
   color: green;
   font-weight: ${({ theme }) => theme.light};

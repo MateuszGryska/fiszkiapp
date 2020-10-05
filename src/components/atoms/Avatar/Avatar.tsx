@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import userIcon from 'assets/icons/user.svg';
 
-const Avatar = styled.div`
+const Avatar = styled.div<{ image: string | null }>`
   margin-top: 10px;
   width: 100px;
   height: 100px;

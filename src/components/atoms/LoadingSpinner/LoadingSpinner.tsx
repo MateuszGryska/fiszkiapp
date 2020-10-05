@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const StyledWrapper = styled.div`
+type GreyType = boolean;
+
+const StyledWrapper = styled.div<{ grey: GreyType }>`
   .lds-ring {
     display: inline-block;
     position: relative;
@@ -40,7 +42,7 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const LoadingSpinner = ({ grey }) => (
+const LoadingSpinner = ({ grey }: { grey: GreyType }) => (
   <StyledWrapper grey={grey}>
     <div className="lds-ring">
       <div />

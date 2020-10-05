@@ -8,8 +8,27 @@ import editIcon from 'assets/icons/edit-icon.svg';
 import deleteIcon from 'assets/icons/delete-icon.svg';
 import { deleteItem as deleteItemAction, clean as cleanAction } from 'actions';
 import Tooltip from 'components/atoms/Tooltip/Tooltip';
+import { COLLECTION_TYPES } from 'helpers/constants';
 
-const words = 'words';
+type IsDarkMode = boolean;
+type DeleteItem = (arg1: string, arg2: string) => void;
+type CleanUp = () => void;
+
+interface TableItemI {
+  polish: string;
+  english: string;
+  description: string;
+  id: string;
+  deleteItem: DeleteItem;
+  deleteError: string;
+  cleanUp: CleanUp;
+  isDarkMode: IsDarkMode;
+}
+
+interface DispatchI {
+  deleteItem: DeleteItem;
+  cleanUp: CleanUp;
+}
 
 const StyledContainer = styled.tr`
   /* mobile */
@@ -22,7 +41,7 @@ const StyledContainer = styled.tr`
   }
 `;
 
-const StyledActions = styled.td`
+const StyledActions = styled.td<{ isDarkMode: IsDarkMode }>`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -30,7 +49,7 @@ const StyledActions = styled.td`
   ${({ isDarkMode }) => (isDarkMode ? 'filter: brightness(4);' : null)}
 `;
 
-const StyledButton = styled.button`
+const StyledButton = styled.button<{ secondary?: boolean }>`
   display: block;
   width: 35px;
   height: 35px;
@@ -65,7 +84,7 @@ const TableItem = ({
   deleteError,
   cleanUp,
   isDarkMode,
-}) => {
+}: TableItemI) => {
   const [isEditItemBarVisible, setEditItemBarVisible] = useState(false);
   const [isDeleteWarningVisible, setDeleteWarningVisible] = useState(false);
 
@@ -87,14 +106,14 @@ const TableItem = ({
             english={english}
             description={description}
             isVisible={isEditItemBarVisible}
-            handleClose={() => setEditItemBarVisible()}
+            handleClose={() => setEditItemBarVisible(false)}
           />
           <WarningModal
             item
             isVisible={isDeleteWarningVisible}
-            handleClose={() => setDeleteWarningVisible()}
+            handleClose={() => setDeleteWarningVisible(false)}
             id={id}
-            deleteAction={() => deleteItem(words, id)}
+            deleteAction={() => deleteItem(COLLECTION_TYPES.words, id)}
             error={deleteError}
             cleanUp={cleanUp}
           />
@@ -125,7 +144,7 @@ const mapStateToProps = ({ firebase, auth }) => ({
   isDarkMode: firebase.profile.isDarkMode,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch: (arg1?: () => void) => void): DispatchI => ({
   deleteItem: (itemType, id) => dispatch(deleteItemAction(itemType, id)),
   cleanUp: () => dispatch(cleanAction()),
 });

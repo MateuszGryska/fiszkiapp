@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { firebaseReducer } from 'react-redux-firebase';
+import { firebaseReducer, FirebaseReducer } from 'react-redux-firebase';
 import { firestoreReducer } from 'redux-firestore';
 import authReducer from './authReducer';
 import itemsReducer from './itemsReducer';
@@ -11,6 +11,25 @@ interface Profile {
   socialLogIn: boolean;
   points: number;
   isDarkMode: boolean;
+}
+
+interface Created {
+  seconds: number;
+  nanoseconds: number;
+}
+interface Data {
+  description: string;
+  title: string;
+  polish: string;
+  english: string;
+  id: string;
+  content: string;
+  created: Created;
+}
+
+interface Schema {
+  words: Data[];
+  notes: Data[];
 }
 
 // type Error = string | boolean | null;
@@ -45,11 +64,11 @@ interface Profile {
 //   };
 // }
 
-// interface RootState {
-//   firebase: FirebaseReducer.Reducer<Profile>;
-// }
+interface RootState {
+  firebase: FirebaseReducer.Reducer<Profile, Schema>;
+}
 
-const rootReducer = combineReducers({
+const rootReducer = combineReducers<RootState>({
   auth: authReducer,
   items: itemsReducer,
   firebase: firebaseReducer,

@@ -5,6 +5,13 @@ import styled from 'styled-components';
 import menuIcon from 'assets/icons/menu.svg';
 import logo from 'assets/icons/logo.svg';
 
+type EmailVerified = boolean;
+
+interface TopBarPropsI {
+  handleOpen: () => void;
+  emailVerified: EmailVerified;
+}
+
 const StyledWrapper = styled.header`
   height: 80px;
   width: 100vw;
@@ -47,7 +54,7 @@ const StyledMenu = styled.button`
   cursor: pointer;
 `;
 
-const StyledVerifiedInfo = styled.details`
+const StyledVerifiedInfo = styled.details<{ emailVerified: EmailVerified }>`
   position: fixed;
   top: 80px;
   left: 0;
@@ -62,7 +69,7 @@ const StyledVerifiedInfo = styled.details`
   align-items: center;
 `;
 
-const Topbar = ({ handleOpen, emailVerified }) => (
+const Topbar = ({ handleOpen, emailVerified }: TopBarPropsI) => (
   <>
     <StyledWrapper>
       <StyledNav>

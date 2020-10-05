@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+interface TogglePropsI {
+  isChecked: boolean;
+  setCheckbox: () => void;
+}
 const StyledWrapper = styled.input`
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -41,7 +45,7 @@ const StyledWrapper = styled.input`
     }
   }
 `;
-const Toggle = ({ isChecked, setCheckbox }) => {
+const Toggle = ({ isChecked, setCheckbox }: TogglePropsI) => {
   return <StyledWrapper type="checkbox" readOnly checked={isChecked} onClick={setCheckbox} />;
 };
 

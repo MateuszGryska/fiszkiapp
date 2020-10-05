@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-const ActionButton = styled.button`
+const ActionButton = styled.button<{ secondary?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;

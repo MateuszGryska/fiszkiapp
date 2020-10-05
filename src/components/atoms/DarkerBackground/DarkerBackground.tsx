@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const DarkerBackground = styled.div`
+const DarkerBackground = styled.div<{ isVisible: boolean }>`
   position: fixed;
   top: 0;
   left: 0;

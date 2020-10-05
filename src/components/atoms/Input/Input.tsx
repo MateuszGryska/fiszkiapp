@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import magnifierIcon from 'assets/icons/magnifier.svg';
 
-const Input = styled.input`
+const Input = styled.input<{ search: boolean }>`
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
