@@ -64,7 +64,7 @@ const InputSection = ({
   const { t } = useTranslation();
   return (
     <StyledInputSection role="group">
-      <StyledLabel>{t(label)}</StyledLabel>
+      <StyledLabel id={name}>{t(label)}</StyledLabel>
       {as === 'textarea' ? (
         <StyledTextArea
           autoComplete="off"
@@ -77,6 +77,7 @@ const InputSection = ({
           as={as}
           aria-invalid="true"
           aria-describedby={ariaDescribedBy}
+          aria-labelledby={name}
         />
       ) : (
         <StyledInput
@@ -90,6 +91,7 @@ const InputSection = ({
           as={as}
           aria-invalid="true"
           aria-describedby={ariaDescribedBy}
+          aria-labelledby={name}
         />
       )}
       {error && touched ? (
