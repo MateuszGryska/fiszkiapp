@@ -119,6 +119,7 @@ const EditItemBar = React.memo(
                       error={errors.title}
                       touched={touched.title}
                       ariaDescribedBy="title_error"
+                      dataCy="edit-note-title"
                     />
                     <InputSection
                       type="text"
@@ -132,6 +133,7 @@ const EditItemBar = React.memo(
                       error={errors.content}
                       touched={touched.content}
                       ariaDescribedBy="content_error"
+                      dataCy="edit-note-content"
                     />
                   </StyledFieldset>
                 ) : null}
@@ -163,6 +165,7 @@ const EditItemBar = React.memo(
                       ariaDescribedBy="english_error"
                     />
                     <InputSection
+                      dataCy="edit-description"
                       type="text"
                       name="description"
                       as="textarea"

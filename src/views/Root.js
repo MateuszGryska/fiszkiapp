@@ -47,7 +47,6 @@ const Root = ({ loggedIn, emailVerified }) => {
           <Route path={routes.about} component={AboutPage} />
           <Redirect to={routes.home} />
         </Switch>
-        <Route path={routes.note} component={DetailsPage} />
       </Suspense>
     );
   } else {

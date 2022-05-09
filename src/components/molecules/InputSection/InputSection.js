@@ -60,6 +60,7 @@ const InputSection = ({
   touched,
   ariaDescribedBy,
   as,
+  dataCy,
 }) => {
   const { t } = useTranslation();
   return (
@@ -77,6 +78,7 @@ const InputSection = ({
           as={as}
           aria-invalid="true"
           aria-describedby={ariaDescribedBy}
+          data-cy={dataCy}
         />
       ) : (
         <StyledInput
@@ -90,6 +92,7 @@ const InputSection = ({
           as={as}
           aria-invalid="true"
           aria-describedby={ariaDescribedBy}
+          data-cy={dataCy}
         />
       )}
       {error && touched ? (
@@ -115,6 +118,7 @@ InputSection.propTypes = {
   touched: PropTypes.bool,
   ariaDescribedBy: PropTypes.string.isRequired,
   as: PropTypes.string,
+  dataCy: PropTypes.string.isRequired,
 };
 
 InputSection.defaultProps = {

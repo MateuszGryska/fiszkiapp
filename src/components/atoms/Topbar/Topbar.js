@@ -67,7 +67,7 @@ const Topbar = ({ handleOpen, emailVerified }) => (
     <StyledWrapper>
       <StyledNav>
         <StyledLogo rel="index" to="/" />
-        <StyledMenu onClick={() => handleOpen()} />
+        <StyledMenu data-cy="hamburger-menu" onClick={() => handleOpen()} />
       </StyledNav>
     </StyledWrapper>
     <StyledVerifiedInfo emailVerified={emailVerified}>

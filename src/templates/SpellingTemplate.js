@@ -95,14 +95,18 @@ const SpellingTemplate = ({ userId, requested, requesting, addNewPoint }) => {
           <>
             <StyledToggleSection>
               <p>{t('switch')}:</p>
-              <Toggle isChecked={isChecked} setCheckbox={() => setCheckbox(!isChecked)} />
+              <Toggle
+                dataCy="switch-language-btn"
+                isChecked={isChecked}
+                setCheckbox={() => setCheckbox(!isChecked)}
+              />
             </StyledToggleSection>
             {isChecked ? (
-              <StyledMainWord>
+              <StyledMainWord data-cy="main-word">
                 {wordsList.length > 0 ? wordsList[wordPosition].english : 'No words, add new ones!'}
               </StyledMainWord>
             ) : (
-              <StyledMainWord>
+              <StyledMainWord data-cy="main-word">
                 {wordsList.length > 0 ? wordsList[wordPosition].polish : 'Brak słówek, dodaj nowe!'}
               </StyledMainWord>
             )}

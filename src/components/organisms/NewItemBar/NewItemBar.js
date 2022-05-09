@@ -103,10 +103,12 @@ const NewItemBar = React.memo(
                       error={errors.title}
                       touched={touched.title}
                       ariaDescribedBy="title_error"
+                      dataCy="new-note-title"
                     />
                     <InputSection
                       type="text"
                       name="content"
+                      dataCy="content"
                       as="textarea"
                       placeholder="input.content"
                       onChange={handleChange}
@@ -145,6 +147,7 @@ const NewItemBar = React.memo(
                       ariaDescribedBy="english_error"
                     />
                     <InputSection
+                      dataCy="add-description"
                       type="text"
                       name="description"
                       as="textarea"
