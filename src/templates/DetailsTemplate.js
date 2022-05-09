@@ -47,8 +47,8 @@ const DetailsTemplate = ({ title, content, created, loading, isVisible }) => (
         <StyledWrapper isVisible={isVisible}>
           <StyledTitle>{title}</StyledTitle>
           <DataInfo>{created}</DataInfo>
-          <StyledContent>{content}</StyledContent>
-          <ActionButton as={Link} to={routes.notes}>
+          <StyledContent data-cy="details-content">{content}</StyledContent>
+          <ActionButton as={Link} to={routes.notes} data-cy="details-close-button">
             Close
           </ActionButton>
         </StyledWrapper>

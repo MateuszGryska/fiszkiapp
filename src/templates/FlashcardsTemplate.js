@@ -112,12 +112,12 @@ const FlashcardsTemplate = ({ userId, requested, requesting, addNewPoint }) => {
             </StyledToggleSection>
             {isChecked ? (
               <>
-                <StyledBiggerWord>
+                <StyledBiggerWord data-cy="big-word">
                   {wordsList.length > 0
                     ? wordsList[flashcardPosition].english
                     : 'No words, add new ones!'}
                 </StyledBiggerWord>
-                <StyledSmallerWord isVisible={isSmallerWordVisible}>
+                <StyledSmallerWord data-cy="small-word" isVisible={isSmallerWordVisible}>
                   {wordsList.length > 0
                     ? wordsList[flashcardPosition].polish
                     : 'Brak słówek, dodaj nowe!'}
@@ -125,12 +125,12 @@ const FlashcardsTemplate = ({ userId, requested, requesting, addNewPoint }) => {
               </>
             ) : (
               <>
-                <StyledBiggerWord>
+                <StyledBiggerWord data-cy="big-word">
                   {wordsList.length > 0
                     ? wordsList[flashcardPosition].polish
                     : 'Brak słówek, dodaj nowe!'}
                 </StyledBiggerWord>
-                <StyledSmallerWord isVisible={isSmallerWordVisible}>
+                <StyledSmallerWord data-cy="small-word" isVisible={isSmallerWordVisible}>
                   {wordsList.length > 0
                     ? wordsList[flashcardPosition].english
                     : 'No words, add new ones!'}

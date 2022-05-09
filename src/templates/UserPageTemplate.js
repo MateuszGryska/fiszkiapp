@@ -58,6 +58,7 @@ const UserPageTemplate = ({ children, loggedIn, profileData, emailVerified, page
           />
           {children}
           <AddButton
+            data-cy="add-item-button"
             loggedIn={loggedIn}
             isButtonVisible={pageContext === PAGE_TYPES.account || pageContext === PAGE_TYPES.about}
             onClick={() => setNewItemBarVisibility(!newItemBarVisible)}

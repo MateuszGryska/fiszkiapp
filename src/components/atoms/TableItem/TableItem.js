@@ -71,13 +71,20 @@ const TableItem = ({
 
   return (
     <>
-      <StyledContainer>
+      <StyledContainer data-cy="table-row">
         <td>{polish}</td>
         <td>{english}</td>
         <StyledActions isDarkMode={isDarkMode}>
-          <Tooltip description={description} />
-          <StyledButton secondary onClick={() => setEditItemBarVisible(true)} />
-          <StyledButton onClick={() => setDeleteWarningVisible(true)} />
+          <Tooltip data-cy="info-box" description={description} />
+          <StyledButton
+            data-cy="edit-word-button"
+            secondary
+            onClick={() => setEditItemBarVisible(true)}
+          />
+          <StyledButton
+            data-cy="delete-word-button"
+            onClick={() => setDeleteWarningVisible(true)}
+          />
         </StyledActions>
 
         <ModalsSection>

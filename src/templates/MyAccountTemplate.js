@@ -161,7 +161,11 @@ const MyAccountTemplate = ({
               <StyledDetail>
                 <StyledInfoItem>{t('account_info.dark_mode')}: </StyledInfoItem>
                 <StyledInfoItem>
-                  <Toggle isChecked={isDarkMode} setCheckbox={() => handleClick()} />
+                  <Toggle
+                    dataCy="change-darkmode-btn"
+                    isChecked={isDarkMode}
+                    setCheckbox={() => handleClick()}
+                  />
                 </StyledInfoItem>
               </StyledDetail>
               <StyledDetail>
